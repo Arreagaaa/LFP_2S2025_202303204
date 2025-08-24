@@ -17,7 +17,7 @@ class FileManager {
         nombreOperador.trim()
       );
       const cliente = new Cliente(parseInt(idCliente), nombreCliente.trim());
-      const estrellasNum = estrellas.split("x").length - 1;
+      const estrellasNum = estrellas.split(";").filter((s) => s === "x").length;
       llamadas.push(new Llamada(operador, cliente, estrellasNum));
     }
 

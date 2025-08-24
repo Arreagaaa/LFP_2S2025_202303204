@@ -1,6 +1,7 @@
 const FileManager = require("./src/services/FileManeger");
 const CallCenter = require("./src/services/CallCenter");
 const mostrarMenu = require("./src/utils/menu");
+const HtmlExporter = require("./src/services/HtmlExporter");
 
 const callCenter = new CallCenter();
 
@@ -23,7 +24,9 @@ function main() {
         console.log("Registros cargados exitosamente.");
         break;
       case 2:
-        console.table(callCenter.listarHistorial());
+        const historial = callCenter.listarHistorial();
+        console.table(historial);
+        HtmlExporter.exportarHistorial(historial);
         break;
       case 3:
         console.table(callCenter.contarValoraciones());
@@ -32,10 +35,14 @@ function main() {
         console.table(callCenter.llamadasPorEstrellas());
         break;
       case 5:
-        console.table(callCenter.listadoOperadores());
+        const operadores = callCenter.listadoOperadores();
+        console.table(operadores);
+        HtmlExporter.exportarOperadores(operadores);
         break;
       case 6:
-        console.table(callCenter.listadoClientes());
+        const clientes = callCenter.listadoClientes();
+        console.table(clientes);
+        HtmlExporter.exportarClientes(clientes);
         break;
       case 7:
         mostrarMenu(
@@ -45,7 +52,9 @@ function main() {
           const operadores = callCenter.listadoOperadores();
           const operador = operadores[indice - 1];
           if (operador) {
-            console.log(callCenter.rendimientoOperador(operador));
+            const rendimiento = callCenter.rendimientoOperador(operador);
+            console.log(rendimiento);
+            HtmlExporter.exportarRendimiento([rendimiento]);
           } else {
             console.log("Operador no encontrado.");
           }
