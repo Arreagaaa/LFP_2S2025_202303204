@@ -46,13 +46,13 @@ function main() {
         break;
       case 7:
         mostrarMenu(
-          callCenter.listadoOperadores().map((op, i) => `${op}`),
+          callCenter.listadoOperadores().map((op) => `${op.nombre}`),
           "=== SELECCIONE UN OPERADOR ==="
         ).then((indice) => {
           const operadores = callCenter.listadoOperadores();
           const operador = operadores[indice - 1];
           if (operador) {
-            const rendimiento = callCenter.rendimientoOperador(operador);
+            const rendimiento = callCenter.rendimientoOperador(operador.nombre);
             console.log(rendimiento);
             HtmlExporter.exportarRendimiento([rendimiento]);
           } else {

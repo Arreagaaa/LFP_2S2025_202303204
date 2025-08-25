@@ -36,7 +36,7 @@ class HtmlExporter {
     </html>
         `;
 
-    const outputDir = path.join(__dirname, "../../output");
+    const outputDir = path.join(__dirname, "../output");
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir);
     }
@@ -55,9 +55,8 @@ class HtmlExporter {
   }
 
   static exportarOperadores(operadores) {
-    const datos = operadores.map((op, i) => ({ id: i + 1, nombre: op }));
     this.generarTabla(
-      datos,
+      operadores,
       ["id", "nombre"],
       "Listado de Operadores",
       "operadores.html"
@@ -65,9 +64,8 @@ class HtmlExporter {
   }
 
   static exportarClientes(clientes) {
-    const datos = clientes.map((cl, i) => ({ id: i + 1, nombre: cl }));
     this.generarTabla(
-      datos,
+      clientes,
       ["id", "nombre"],
       "Listado de Clientes",
       "clientes.html"

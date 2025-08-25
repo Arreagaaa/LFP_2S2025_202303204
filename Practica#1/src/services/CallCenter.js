@@ -41,15 +41,25 @@ class CallCenter {
   }
 
   listadoOperadores() {
-    const operadoresSet = new Set();
-    this.llamadas.forEach((l) => operadoresSet.add(l.operador.nombre));
-    return Array.from(operadoresSet);
+    const operadoresMap = new Map();
+    this.llamadas.forEach((l) => {
+      operadoresMap.set(l.operador.id, {
+        id: l.operador.id,
+        nombre: l.operador.nombre,
+      });
+    });
+    return Array.from(operadoresMap.values());
   }
 
   listadoClientes() {
-    const clientesSet = new Set();
-    this.llamadas.forEach((l) => clientesSet.add(l.cliente.nombre));
-    return Array.from(clientesSet);
+    const clientesMap = new Map();
+    this.llamadas.forEach((l) => {
+      clientesMap.set(l.cliente.id, {
+        id: l.cliente.id,
+        nombre: l.cliente.nombre,
+      });
+    });
+    return Array.from(clientesMap.values());
   }
 
   rendimientoOperador(nombreOperador) {
