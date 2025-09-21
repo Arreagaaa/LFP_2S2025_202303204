@@ -6,16 +6,15 @@ class Token {
     this.columna = columna;
   }
 
-  // Método útil para depuración y logging
+  // Metodo util para depuracion y logging
   toString() {
     return `Token(${this.tipo}, "${this.valor}", ${this.linea}:${this.columna})`;
   }
 }
 
 /**
- * Lexer optimizado para TourneyJS
- * Implementa AFD para reconocer tokens específicos de torneos deportivos
- * Código reutilizable y escalable para futuras extensiones
+ * Lexer para TourneyJS
+ * Analisis lexico de archivos de torneos deportivos
  */
 class Lexer {
   constructor(entrada) {
@@ -31,25 +30,24 @@ class Lexer {
   }
 
   /**
-   * Configuración centralizada de todos los tokens y patrones
-   * Facilita mantenimiento y extensión del analizador
+   * Configuracion de tokens y patrones
    */
   configurarTokensYPatrones() {
-    // Tipos de tokens específicos para TourneyJS
+    // Tipos de tokens para TourneyJS
     this.TIPOS_TOKEN = {
-      // Secciones principales del archivo de torneo
+      // Secciones principales
       SECCION_PRINCIPAL: "SECCION_PRINCIPAL",
-
-      // Palabras reservadas del dominio deportivo
+      
+      // Palabras reservadas
       PALABRA_RESERVADA: "PALABRA_RESERVADA",
       POSICION_JUGADOR: "POSICION_JUGADOR",
-
-      // Identificadores y valores literales
+      
+      // Identificadores y valores
       IDENTIFICADOR: "IDENTIFICADOR",
       CADENA: "CADENA",
       NUMERO: "NUMERO",
-
-      // Operadores y delimitadores estructurales
+      
+      // Operadores y delimitadores
       DOS_PUNTOS: "DOS_PUNTOS",
       LLAVE_ABIERTA: "LLAVE_ABIERTA",
       LLAVE_CERRADA: "LLAVE_CERRADA",
@@ -58,42 +56,25 @@ class Lexer {
       COMA: "COMA",
       GUION: "GUION",
       VS: "VS",
-
-      // Tokens especiales del sistema
+      
+      // Tokens especiales
       COMENTARIO: "COMENTARIO",
       EOF: "EOF",
       ERROR: "ERROR",
     };
 
-    // Palabras reservadas específicas para TourneyJS
+    // Palabras reservadas para TourneyJS
     this.palabrasReservadas = new Set([
-      "TORNEO",
-      "EQUIPOS",
-      "ELIMINACION",
-      "equipo",
-      "jugador",
-      "partido",
-      "goleador",
-      "nombre",
-      "equipos",
-      "posicion",
-      "numero",
-      "edad",
-      "resultado",
-      "goleadores",
-      "minuto",
-      "cuartos",
-      "semifinal",
-      "final",
-      "vs",
+      "TORNEO", "EQUIPOS", "ELIMINACION",
+      "equipo", "jugador", "partido", "goleador",
+      "nombre", "equipos", "posicion", "numero", "edad",
+      "resultado", "goleadores", "minuto",
+      "cuartos", "semifinal", "final", "vs",
     ]);
 
-    // Posiciones válidas de jugadores
+    // Posiciones validas de jugadores
     this.posicionesValidas = new Set([
-      "PORTERO",
-      "DEFENSA",
-      "MEDIOCAMPO",
-      "DELANTERO",
+      "PORTERO", "DEFENSA", "MEDIOCAMPO", "DELANTERO",
     ]);
   }
 
@@ -125,9 +106,6 @@ class Lexer {
 
   omitirEspacios() {
     while (this.caracterActual() && /\s/.test(this.caracterActual())) {
-      if (this.caracterActual() === "\n") {
-        this.agregarToken(this.TIPOS_TOKEN.SALTO_LINEA, "\\n");
-      }
       this.avanzar();
     }
   }
@@ -142,24 +120,17 @@ class Lexer {
       this.avanzar();
     }
 
-    // Manejar números decimales
-    if (
-      this.caracterActual() === "." &&
-      this.siguienteCaracter() &&
-      /\d/.test(this.siguienteCaracter())
-    ) {
+    // Manejar numeros decimales
+    if (this.caracterActual() === "." && this.siguienteCaracter() && /\d/.test(this.siguienteCaracter())) {
       numero += this.caracterActual();
       this.avanzar();
-
       while (this.caracterActual() && /\d/.test(this.caracterActual())) {
         numero += this.caracterActual();
         this.avanzar();
       }
     }
 
-    this.tokens.push(
-      new Token(this.TIPOS_TOKEN.NUMERO, numero, lineaInicio, columnaInicio)
-    );
+    this.tokens.push(new Token(this.TIPOS_TOKEN.NUMERO, numero, lineaInicio, columnaInicio));
   }
 
   leerCadena(delimitador) {
@@ -184,18 +155,11 @@ class Lexer {
 
     if (this.caracterActual() === delimitador) {
       this.avanzar(); // Saltar el delimitador final
-      this.tokens.push(
-        new Token(
-          this.TIPOS_TOKEN.CADENA,
-          `${delimitador}${cadena}${delimitador}`,
-          lineaInicio,
-          columnaInicio
-        )
-      );
+      this.tokens.push(new Token(this.TIPOS_TOKEN.CADENA, `${delimitador}${cadena}${delimitador}`, lineaInicio, columnaInicio));
     } else {
       this.errores.push({
         tipo: "ERROR_LEXICO",
-        mensaje: `Cadena no cerrada que inicia en línea ${lineaInicio}, columna ${columnaInicio}`,
+        mensaje: `Cadena no cerrada que inicia en linea ${lineaInicio}, columna ${columnaInicio}`,
         linea: lineaInicio,
         columna: columnaInicio,
       });
@@ -207,18 +171,15 @@ class Lexer {
     let lineaInicio = this.linea;
     let columnaInicio = this.columna;
 
-    while (
-      this.caracterActual() &&
-      /[a-zA-Z0-9_$]/.test(this.caracterActual())
-    ) {
+    while (this.caracterActual() && /[a-zA-Z0-9_$]/.test(this.caracterActual())) {
       identificador += this.caracterActual();
       this.avanzar();
     }
 
-    // Determinar el tipo específico de token
+    // Determinar el tipo especifico de token
     let tipo;
     if (this.palabrasReservadas.has(identificador)) {
-      // Verificar si es una sección principal
+      // Verificar si es una seccion principal
       if (["TORNEO", "EQUIPOS", "ELIMINACION"].includes(identificador)) {
         tipo = this.TIPOS_TOKEN.SECCION_PRINCIPAL;
       } else {
@@ -230,9 +191,7 @@ class Lexer {
       tipo = this.TIPOS_TOKEN.IDENTIFICADOR;
     }
 
-    this.tokens.push(
-      new Token(tipo, identificador, lineaInicio, columnaInicio)
-    );
+    this.tokens.push(new Token(tipo, identificador, lineaInicio, columnaInicio));
   }
 
   leerComentario() {
@@ -241,15 +200,12 @@ class Lexer {
     let columnaInicio = this.columna;
 
     if (this.caracterActual() === "/" && this.siguienteCaracter() === "/") {
-      // Comentario de línea
+      // Comentario de linea
       while (this.caracterActual() && this.caracterActual() !== "\n") {
         comentario += this.caracterActual();
         this.avanzar();
       }
-    } else if (
-      this.caracterActual() === "/" &&
-      this.siguienteCaracter() === "*"
-    ) {
+    } else if (this.caracterActual() === "/" && this.siguienteCaracter() === "*") {
       // Comentario de bloque
       comentario += this.caracterActual();
       this.avanzar();
@@ -269,14 +225,7 @@ class Lexer {
       }
     }
 
-    this.tokens.push(
-      new Token(
-        this.TIPOS_TOKEN.COMENTARIO,
-        comentario,
-        lineaInicio,
-        columnaInicio
-      )
-    );
+    this.tokens.push(new Token(this.TIPOS_TOKEN.COMENTARIO, comentario, lineaInicio, columnaInicio));
   }
 
   agregarToken(tipo, valor) {
@@ -314,15 +263,12 @@ class Lexer {
       }
 
       // Comentarios
-      if (
-        char === "/" &&
-        (this.siguienteCaracter() === "/" || this.siguienteCaracter() === "*")
-      ) {
+      if (char === "/" && (this.siguienteCaracter() === "/" || this.siguienteCaracter() === "*")) {
         this.leerComentario();
         continue;
       }
 
-      // Operadores específicos para torneos
+      // Operador vs
       if (char === "v" && this.siguienteCaracter() === "s") {
         this.agregarToken(this.TIPOS_TOKEN.VS, "vs");
         this.avanzar();
@@ -354,10 +300,10 @@ class Lexer {
           this.agregarToken(this.TIPOS_TOKEN.GUION, char);
           break;
         default:
-          // Carácter no reconocido - error léxico
+          // Caracter no reconocido - error lexico
           this.errores.push({
-            tipo: "Token inválido",
-            mensaje: `Carácter no reconocido: '${char}'`,
+            tipo: "Token invalido",
+            mensaje: `Caracter no reconocido: '${char}'`,
             lexema: char,
             linea: lineaActual,
             columna: columnaActual,
@@ -374,18 +320,12 @@ class Lexer {
     return this.tokens;
   }
 
-  // Método para obtener estadísticas de los tokens
+  // Metodo para obtener estadisticas de los tokens
   obtenerEstadisticas() {
     const estadisticas = {};
-
     this.tokens.forEach((token) => {
-      if (estadisticas[token.tipo]) {
-        estadisticas[token.tipo]++;
-      } else {
-        estadisticas[token.tipo] = 1;
-      }
+      estadisticas[token.tipo] = (estadisticas[token.tipo] || 0) + 1;
     });
-
     return estadisticas;
   }
 }
