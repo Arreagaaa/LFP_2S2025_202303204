@@ -157,7 +157,7 @@ class AnalizadorTourneyJS {
     
     try {
       this.parser = new Parser(this.tokens);
-      const resultado = this.parser.parse();
+      const resultado = this.parser.parsePublic();
       
       this.arbolSintactico = resultado.arbol;
       this.errores = [...this.errores, ...this.parser.errores];
@@ -204,7 +204,7 @@ class AnalizadorTourneyJS {
     // Ejecutar parser
     try {
       this.parser = new Parser(this.tokens);
-      const resultado = this.parser.parse();
+      const resultado = this.parser.parsePublic();
       this.arbolSintactico = resultado.arbol;
       this.errores = [...this.lexer.errores, ...this.parser.errores];
       
