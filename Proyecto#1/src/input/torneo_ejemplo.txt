@@ -1,0 +1,48 @@
+TORNEO {
+    nombre: "Copa Mundial Universitaria",
+    equipos: 8
+}
+
+EQUIPOS {
+    equipo: "Leones FC" [
+        jugador: "Carlos Ruiz" [posicion: "PORTERO", numero: 1, edad: 23],
+        jugador: "Ana Méndez" [posicion: "DEFENSA", numero: 2, edad: 21]
+    ],
+    equipo: "Águilas United" [
+        jugador: "Juan Pérez" [posicion: "PORTERO", numero: 1, edad: 24],
+        jugador: "Ana María" [posicion: "DEFENSA", numero: 2, edad: 19]
+    ],
+    equipo: "Tigres Academy" [
+        jugador: "Roberto Gómez" [posicion: "PORTERO", numero: 1, edad: 21],
+        jugador: "Carmen Vargas" [posicion: "DEFENSA", numero: 2, edad: 20]
+    ],
+    equipo: "Cóndores FC" [
+        jugador: "Fernando Díaz" [posicion: "PORTERO", numero: 1, edad: 22],
+        jugador: "Patricia Luna" [posicion: "DEFENSA", numero: 2, edad: 21]
+    ]
+}
+
+ELIMINACION {
+    cuartos: [
+        partido: "Leones FC" vs "Cóndores FC" [
+            resultado: "3-1",
+            goleadores: [
+                goleador: "Pedro Martínez" [minuto: 15]
+            ]
+        ],
+        partido: "Águilas United" vs "Tigres Academy" [
+            resultado: "2-0",
+            goleadores: [
+                goleador: "Diego Ramírez" [minuto: 22]
+            ]
+        ]
+    ],
+    semifinal: [
+        partido: "Leones FC" vs "Águilas United" [
+            resultado: "1-0",
+            goleadores: [
+                goleador: "Pedro Martínez" [minuto: 45]
+            ]
+        ]
+    ]
+}
