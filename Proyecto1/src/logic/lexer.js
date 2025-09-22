@@ -37,16 +37,16 @@ class Lexer {
     this.TIPOS_TOKEN = {
       // Secciones principales
       SECCION_PRINCIPAL: "SECCION_PRINCIPAL",
-      
+
       // Palabras reservadas
       PALABRA_RESERVADA: "PALABRA_RESERVADA",
       POSICION_JUGADOR: "POSICION_JUGADOR",
-      
+
       // Identificadores y valores
       IDENTIFICADOR: "IDENTIFICADOR",
       CADENA: "CADENA",
       NUMERO: "NUMERO",
-      
+
       // Operadores y delimitadores
       DOS_PUNTOS: "DOS_PUNTOS",
       LLAVE_ABIERTA: "LLAVE_ABIERTA",
@@ -56,7 +56,7 @@ class Lexer {
       COMA: "COMA",
       GUION: "GUION",
       VS: "VS",
-      
+
       // Tokens especiales
       COMENTARIO: "COMENTARIO",
       EOF: "EOF",
@@ -65,16 +65,33 @@ class Lexer {
 
     // Palabras reservadas para TourneyJS
     this.palabrasReservadas = new Set([
-      "TORNEO", "EQUIPOS", "ELIMINACION",
-      "equipo", "jugador", "partido", "goleador",
-      "nombre", "equipos", "posicion", "numero", "edad",
-      "resultado", "goleadores", "minuto",
-      "cuartos", "semifinal", "final", "vs",
+      "TORNEO",
+      "EQUIPOS",
+      "ELIMINACION",
+      "equipo",
+      "jugador",
+      "partido",
+      "goleador",
+      "nombre",
+      "equipos",
+      "posicion",
+      "numero",
+      "edad",
+      "resultado",
+      "goleadores",
+      "minuto",
+      "cuartos",
+      "semifinal",
+      "final",
+      "vs",
     ]);
 
     // Posiciones validas de jugadores
     this.posicionesValidas = new Set([
-      "PORTERO", "DEFENSA", "MEDIOCAMPO", "DELANTERO",
+      "PORTERO",
+      "DEFENSA",
+      "MEDIOCAMPO",
+      "DELANTERO",
     ]);
   }
 
@@ -121,7 +138,11 @@ class Lexer {
     }
 
     // Manejar numeros decimales
-    if (this.caracterActual() === "." && this.siguienteCaracter() && /\d/.test(this.siguienteCaracter())) {
+    if (
+      this.caracterActual() === "." &&
+      this.siguienteCaracter() &&
+      /\d/.test(this.siguienteCaracter())
+    ) {
       numero += this.caracterActual();
       this.avanzar();
       while (this.caracterActual() && /\d/.test(this.caracterActual())) {
@@ -130,7 +151,9 @@ class Lexer {
       }
     }
 
-    this.tokens.push(new Token(this.TIPOS_TOKEN.NUMERO, numero, lineaInicio, columnaInicio));
+    this.tokens.push(
+      new Token(this.TIPOS_TOKEN.NUMERO, numero, lineaInicio, columnaInicio)
+    );
   }
 
   leerCadena(delimitador) {
@@ -155,7 +178,14 @@ class Lexer {
 
     if (this.caracterActual() === delimitador) {
       this.avanzar(); // Saltar el delimitador final
-      this.tokens.push(new Token(this.TIPOS_TOKEN.CADENA, `${delimitador}${cadena}${delimitador}`, lineaInicio, columnaInicio));
+      this.tokens.push(
+        new Token(
+          this.TIPOS_TOKEN.CADENA,
+          `${delimitador}${cadena}${delimitador}`,
+          lineaInicio,
+          columnaInicio
+        )
+      );
     } else {
       this.errores.push({
         tipo: "ERROR_LEXICO",
@@ -171,14 +201,20 @@ class Lexer {
     let lineaInicio = this.linea;
     let columnaInicio = this.columna;
 
-    while (this.caracterActual() && /[a-zA-Z0-9_$]/.test(this.caracterActual())) {
+    while (
+      this.caracterActual() &&
+      /[a-zA-Z0-9_$]/.test(this.caracterActual())
+    ) {
       identificador += this.caracterActual();
       this.avanzar();
     }
 
     // Determinar el tipo especifico de token
     let tipo;
-    if (this.palabrasReservadas.has(identificador)) {
+    // Priorizar reconocimiento de 'vs' como token VS (puede venir en minúsculas)
+    if (identificador && identificador.toLowerCase() === "vs") {
+      tipo = this.TIPOS_TOKEN.VS;
+    } else if (this.palabrasReservadas.has(identificador)) {
       // Verificar si es una seccion principal
       if (["TORNEO", "EQUIPOS", "ELIMINACION"].includes(identificador)) {
         tipo = this.TIPOS_TOKEN.SECCION_PRINCIPAL;
@@ -191,7 +227,9 @@ class Lexer {
       tipo = this.TIPOS_TOKEN.IDENTIFICADOR;
     }
 
-    this.tokens.push(new Token(tipo, identificador, lineaInicio, columnaInicio));
+    this.tokens.push(
+      new Token(tipo, identificador, lineaInicio, columnaInicio)
+    );
   }
 
   leerComentario() {
@@ -205,7 +243,10 @@ class Lexer {
         comentario += this.caracterActual();
         this.avanzar();
       }
-    } else if (this.caracterActual() === "/" && this.siguienteCaracter() === "*") {
+    } else if (
+      this.caracterActual() === "/" &&
+      this.siguienteCaracter() === "*"
+    ) {
       // Comentario de bloque
       comentario += this.caracterActual();
       this.avanzar();
@@ -225,7 +266,14 @@ class Lexer {
       }
     }
 
-    this.tokens.push(new Token(this.TIPOS_TOKEN.COMENTARIO, comentario, lineaInicio, columnaInicio));
+    this.tokens.push(
+      new Token(
+        this.TIPOS_TOKEN.COMENTARIO,
+        comentario,
+        lineaInicio,
+        columnaInicio
+      )
+    );
   }
 
   agregarToken(tipo, valor) {
@@ -263,7 +311,10 @@ class Lexer {
       }
 
       // Comentarios
-      if (char === "/" && (this.siguienteCaracter() === "/" || this.siguienteCaracter() === "*")) {
+      if (
+        char === "/" &&
+        (this.siguienteCaracter() === "/" || this.siguienteCaracter() === "*")
+      ) {
         this.leerComentario();
         continue;
       }

@@ -1,0 +1,3640 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Tokens - TourneyJS</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #1e3a8a; border-bottom: 3px solid #1e3a8a; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #d1d5db; padding: 8px; text-align: left; font-size: 0.9em; }
+        th { background: #1e3a8a; color: white; }
+        tr:nth-child(even) { background: #f9fafb; }
+        .token-type { font-weight: bold; }
+        .SECCION_PRINCIPAL { color: #dc2626; }
+        .PALABRA_RESERVADA { color: #7c2d12; }
+        .CADENA { color: #065f46; }
+        .NUMERO { color: #1d4ed8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Reporte de Tokens</h1>
+        <p><strong>Total de tokens extraídos:</strong> 449</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Línea</th>
+                    <th>Columna</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    <tr>
+                        <td>1</td>
+                        <td class="token-type SECCION_PRINCIPAL">SECCION_PRINCIPAL</td>
+                        <td>TORNEO</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                
+                    <tr>
+                        <td>2</td>
+                        <td class="token-type LLAVE_ABIERTA">LLAVE_ABIERTA</td>
+                        <td>{</td>
+                        <td>1</td>
+                        <td>8</td>
+                    </tr>
+                
+                    <tr>
+                        <td>3</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>nombre</td>
+                        <td>2</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>4</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>2</td>
+                        <td>11</td>
+                    </tr>
+                
+                    <tr>
+                        <td>5</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Serie A Coppa Italia</td>
+                        <td>2</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>6</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>2</td>
+                        <td>35</td>
+                    </tr>
+                
+                    <tr>
+                        <td>7</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>equipos</td>
+                        <td>3</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>8</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>3</td>
+                        <td>12</td>
+                    </tr>
+                
+                    <tr>
+                        <td>9</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>5</td>
+                        <td>3</td>
+                        <td>14</td>
+                    </tr>
+                
+                    <tr>
+                        <td>10</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>3</td>
+                        <td>15</td>
+                    </tr>
+                
+                    <tr>
+                        <td>11</td>
+                        <td class="token-type IDENTIFICADOR">IDENTIFICADOR</td>
+                        <td>sede</td>
+                        <td>4</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>12</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>4</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>13</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Italia</td>
+                        <td>4</td>
+                        <td>11</td>
+                    </tr>
+                
+                    <tr>
+                        <td>14</td>
+                        <td class="token-type LLAVE_CERRADA">LLAVE_CERRADA</td>
+                        <td>}</td>
+                        <td>5</td>
+                        <td>1</td>
+                    </tr>
+                
+                    <tr>
+                        <td>15</td>
+                        <td class="token-type SECCION_PRINCIPAL">SECCION_PRINCIPAL</td>
+                        <td>EQUIPOS</td>
+                        <td>7</td>
+                        <td>1</td>
+                    </tr>
+                
+                    <tr>
+                        <td>16</td>
+                        <td class="token-type LLAVE_ABIERTA">LLAVE_ABIERTA</td>
+                        <td>{</td>
+                        <td>7</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>17</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>equipo</td>
+                        <td>8</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>18</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>8</td>
+                        <td>11</td>
+                    </tr>
+                
+                    <tr>
+                        <td>19</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Juventus</td>
+                        <td>8</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>20</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>8</td>
+                        <td>24</td>
+                    </tr>
+                
+                    <tr>
+                        <td>21</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>9</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>22</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>9</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>23</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Wojciech Szczesny</td>
+                        <td>9</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>24</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>9</td>
+                        <td>38</td>
+                    </tr>
+                
+                    <tr>
+                        <td>25</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>9</td>
+                        <td>39</td>
+                    </tr>
+                
+                    <tr>
+                        <td>26</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>9</td>
+                        <td>47</td>
+                    </tr>
+                
+                    <tr>
+                        <td>27</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>PORTERO</td>
+                        <td>9</td>
+                        <td>49</td>
+                    </tr>
+                
+                    <tr>
+                        <td>28</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>9</td>
+                        <td>58</td>
+                    </tr>
+                
+                    <tr>
+                        <td>29</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>9</td>
+                        <td>60</td>
+                    </tr>
+                
+                    <tr>
+                        <td>30</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>9</td>
+                        <td>66</td>
+                    </tr>
+                
+                    <tr>
+                        <td>31</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>1</td>
+                        <td>9</td>
+                        <td>68</td>
+                    </tr>
+                
+                    <tr>
+                        <td>32</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>9</td>
+                        <td>69</td>
+                    </tr>
+                
+                    <tr>
+                        <td>33</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>9</td>
+                        <td>71</td>
+                    </tr>
+                
+                    <tr>
+                        <td>34</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>9</td>
+                        <td>75</td>
+                    </tr>
+                
+                    <tr>
+                        <td>35</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>35</td>
+                        <td>9</td>
+                        <td>77</td>
+                    </tr>
+                
+                    <tr>
+                        <td>36</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>9</td>
+                        <td>79</td>
+                    </tr>
+                
+                    <tr>
+                        <td>37</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>9</td>
+                        <td>80</td>
+                    </tr>
+                
+                    <tr>
+                        <td>38</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>10</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>39</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>10</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>40</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Danilo</td>
+                        <td>10</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>41</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>10</td>
+                        <td>27</td>
+                    </tr>
+                
+                    <tr>
+                        <td>42</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>10</td>
+                        <td>28</td>
+                    </tr>
+                
+                    <tr>
+                        <td>43</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>10</td>
+                        <td>36</td>
+                    </tr>
+                
+                    <tr>
+                        <td>44</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>DEFENSA</td>
+                        <td>10</td>
+                        <td>38</td>
+                    </tr>
+                
+                    <tr>
+                        <td>45</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>10</td>
+                        <td>47</td>
+                    </tr>
+                
+                    <tr>
+                        <td>46</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>10</td>
+                        <td>49</td>
+                    </tr>
+                
+                    <tr>
+                        <td>47</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>10</td>
+                        <td>55</td>
+                    </tr>
+                
+                    <tr>
+                        <td>48</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>6</td>
+                        <td>10</td>
+                        <td>57</td>
+                    </tr>
+                
+                    <tr>
+                        <td>49</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>10</td>
+                        <td>58</td>
+                    </tr>
+                
+                    <tr>
+                        <td>50</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>10</td>
+                        <td>60</td>
+                    </tr>
+                
+                    <tr>
+                        <td>51</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>10</td>
+                        <td>64</td>
+                    </tr>
+                
+                    <tr>
+                        <td>52</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>34</td>
+                        <td>10</td>
+                        <td>66</td>
+                    </tr>
+                
+                    <tr>
+                        <td>53</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>10</td>
+                        <td>68</td>
+                    </tr>
+                
+                    <tr>
+                        <td>54</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>10</td>
+                        <td>69</td>
+                    </tr>
+                
+                    <tr>
+                        <td>55</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>11</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>56</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>11</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>57</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Adrien Rabiot</td>
+                        <td>11</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>58</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>11</td>
+                        <td>34</td>
+                    </tr>
+                
+                    <tr>
+                        <td>59</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>11</td>
+                        <td>35</td>
+                    </tr>
+                
+                    <tr>
+                        <td>60</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>11</td>
+                        <td>43</td>
+                    </tr>
+                
+                    <tr>
+                        <td>61</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>MEDIOCAMPO</td>
+                        <td>11</td>
+                        <td>45</td>
+                    </tr>
+                
+                    <tr>
+                        <td>62</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>11</td>
+                        <td>57</td>
+                    </tr>
+                
+                    <tr>
+                        <td>63</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>11</td>
+                        <td>59</td>
+                    </tr>
+                
+                    <tr>
+                        <td>64</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>11</td>
+                        <td>65</td>
+                    </tr>
+                
+                    <tr>
+                        <td>65</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>25</td>
+                        <td>11</td>
+                        <td>67</td>
+                    </tr>
+                
+                    <tr>
+                        <td>66</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>11</td>
+                        <td>69</td>
+                    </tr>
+                
+                    <tr>
+                        <td>67</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>11</td>
+                        <td>71</td>
+                    </tr>
+                
+                    <tr>
+                        <td>68</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>11</td>
+                        <td>75</td>
+                    </tr>
+                
+                    <tr>
+                        <td>69</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>30</td>
+                        <td>11</td>
+                        <td>77</td>
+                    </tr>
+                
+                    <tr>
+                        <td>70</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>11</td>
+                        <td>79</td>
+                    </tr>
+                
+                    <tr>
+                        <td>71</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>11</td>
+                        <td>80</td>
+                    </tr>
+                
+                    <tr>
+                        <td>72</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>12</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>73</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>12</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>74</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Dusan Vlahovic</td>
+                        <td>12</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>75</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>12</td>
+                        <td>35</td>
+                    </tr>
+                
+                    <tr>
+                        <td>76</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>12</td>
+                        <td>36</td>
+                    </tr>
+                
+                    <tr>
+                        <td>77</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>12</td>
+                        <td>44</td>
+                    </tr>
+                
+                    <tr>
+                        <td>78</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>DELANTERO</td>
+                        <td>12</td>
+                        <td>46</td>
+                    </tr>
+                
+                    <tr>
+                        <td>79</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>12</td>
+                        <td>57</td>
+                    </tr>
+                
+                    <tr>
+                        <td>80</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>12</td>
+                        <td>59</td>
+                    </tr>
+                
+                    <tr>
+                        <td>81</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>12</td>
+                        <td>65</td>
+                    </tr>
+                
+                    <tr>
+                        <td>82</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>9</td>
+                        <td>12</td>
+                        <td>67</td>
+                    </tr>
+                
+                    <tr>
+                        <td>83</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>12</td>
+                        <td>68</td>
+                    </tr>
+                
+                    <tr>
+                        <td>84</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>12</td>
+                        <td>70</td>
+                    </tr>
+                
+                    <tr>
+                        <td>85</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>12</td>
+                        <td>74</td>
+                    </tr>
+                
+                    <tr>
+                        <td>86</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>27</td>
+                        <td>12</td>
+                        <td>76</td>
+                    </tr>
+                
+                    <tr>
+                        <td>87</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>12</td>
+                        <td>78</td>
+                    </tr>
+                
+                    <tr>
+                        <td>88</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>13</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>89</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>13</td>
+                        <td>6</td>
+                    </tr>
+                
+                    <tr>
+                        <td>90</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>equipo</td>
+                        <td>14</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>91</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>14</td>
+                        <td>11</td>
+                    </tr>
+                
+                    <tr>
+                        <td>92</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>AC Milan</td>
+                        <td>14</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>93</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>14</td>
+                        <td>24</td>
+                    </tr>
+                
+                    <tr>
+                        <td>94</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>15</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>95</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>15</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>96</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Mike Maignan</td>
+                        <td>15</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>97</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>15</td>
+                        <td>33</td>
+                    </tr>
+                
+                    <tr>
+                        <td>98</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>15</td>
+                        <td>34</td>
+                    </tr>
+                
+                    <tr>
+                        <td>99</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>15</td>
+                        <td>42</td>
+                    </tr>
+                
+                    <tr>
+                        <td>100</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>PORTERO</td>
+                        <td>15</td>
+                        <td>44</td>
+                    </tr>
+                
+                    <tr>
+                        <td>101</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>15</td>
+                        <td>53</td>
+                    </tr>
+                
+                    <tr>
+                        <td>102</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>15</td>
+                        <td>55</td>
+                    </tr>
+                
+                    <tr>
+                        <td>103</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>15</td>
+                        <td>61</td>
+                    </tr>
+                
+                    <tr>
+                        <td>104</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>16</td>
+                        <td>15</td>
+                        <td>63</td>
+                    </tr>
+                
+                    <tr>
+                        <td>105</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>15</td>
+                        <td>65</td>
+                    </tr>
+                
+                    <tr>
+                        <td>106</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>15</td>
+                        <td>67</td>
+                    </tr>
+                
+                    <tr>
+                        <td>107</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>15</td>
+                        <td>71</td>
+                    </tr>
+                
+                    <tr>
+                        <td>108</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>30</td>
+                        <td>15</td>
+                        <td>73</td>
+                    </tr>
+                
+                    <tr>
+                        <td>109</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>15</td>
+                        <td>75</td>
+                    </tr>
+                
+                    <tr>
+                        <td>110</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>15</td>
+                        <td>76</td>
+                    </tr>
+                
+                    <tr>
+                        <td>111</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>16</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>112</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>16</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>113</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Fikayo Tomori</td>
+                        <td>16</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>114</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>16</td>
+                        <td>34</td>
+                    </tr>
+                
+                    <tr>
+                        <td>115</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>16</td>
+                        <td>35</td>
+                    </tr>
+                
+                    <tr>
+                        <td>116</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>16</td>
+                        <td>43</td>
+                    </tr>
+                
+                    <tr>
+                        <td>117</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>DEFENSA</td>
+                        <td>16</td>
+                        <td>45</td>
+                    </tr>
+                
+                    <tr>
+                        <td>118</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>16</td>
+                        <td>54</td>
+                    </tr>
+                
+                    <tr>
+                        <td>119</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>16</td>
+                        <td>56</td>
+                    </tr>
+                
+                    <tr>
+                        <td>120</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>16</td>
+                        <td>62</td>
+                    </tr>
+                
+                    <tr>
+                        <td>121</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>23</td>
+                        <td>16</td>
+                        <td>64</td>
+                    </tr>
+                
+                    <tr>
+                        <td>122</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>16</td>
+                        <td>66</td>
+                    </tr>
+                
+                    <tr>
+                        <td>123</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>16</td>
+                        <td>68</td>
+                    </tr>
+                
+                    <tr>
+                        <td>124</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>16</td>
+                        <td>72</td>
+                    </tr>
+                
+                    <tr>
+                        <td>125</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>27</td>
+                        <td>16</td>
+                        <td>74</td>
+                    </tr>
+                
+                    <tr>
+                        <td>126</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>16</td>
+                        <td>76</td>
+                    </tr>
+                
+                    <tr>
+                        <td>127</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>16</td>
+                        <td>77</td>
+                    </tr>
+                
+                    <tr>
+                        <td>128</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>17</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>129</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>17</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>130</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Ismael Bennacer</td>
+                        <td>17</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>131</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>17</td>
+                        <td>36</td>
+                    </tr>
+                
+                    <tr>
+                        <td>132</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>17</td>
+                        <td>37</td>
+                    </tr>
+                
+                    <tr>
+                        <td>133</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>17</td>
+                        <td>45</td>
+                    </tr>
+                
+                    <tr>
+                        <td>134</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>MEDIOCAMPO</td>
+                        <td>17</td>
+                        <td>47</td>
+                    </tr>
+                
+                    <tr>
+                        <td>135</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>17</td>
+                        <td>59</td>
+                    </tr>
+                
+                    <tr>
+                        <td>136</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>17</td>
+                        <td>61</td>
+                    </tr>
+                
+                    <tr>
+                        <td>137</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>17</td>
+                        <td>67</td>
+                    </tr>
+                
+                    <tr>
+                        <td>138</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>4</td>
+                        <td>17</td>
+                        <td>69</td>
+                    </tr>
+                
+                    <tr>
+                        <td>139</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>17</td>
+                        <td>70</td>
+                    </tr>
+                
+                    <tr>
+                        <td>140</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>17</td>
+                        <td>72</td>
+                    </tr>
+                
+                    <tr>
+                        <td>141</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>17</td>
+                        <td>76</td>
+                    </tr>
+                
+                    <tr>
+                        <td>142</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>28</td>
+                        <td>17</td>
+                        <td>78</td>
+                    </tr>
+                
+                    <tr>
+                        <td>143</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>17</td>
+                        <td>80</td>
+                    </tr>
+                
+                    <tr>
+                        <td>144</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>17</td>
+                        <td>81</td>
+                    </tr>
+                
+                    <tr>
+                        <td>145</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>18</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>146</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>18</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>147</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Rafael Leão</td>
+                        <td>18</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>148</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>18</td>
+                        <td>32</td>
+                    </tr>
+                
+                    <tr>
+                        <td>149</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>18</td>
+                        <td>33</td>
+                    </tr>
+                
+                    <tr>
+                        <td>150</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>18</td>
+                        <td>41</td>
+                    </tr>
+                
+                    <tr>
+                        <td>151</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>DELANTERO</td>
+                        <td>18</td>
+                        <td>43</td>
+                    </tr>
+                
+                    <tr>
+                        <td>152</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>18</td>
+                        <td>54</td>
+                    </tr>
+                
+                    <tr>
+                        <td>153</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>18</td>
+                        <td>56</td>
+                    </tr>
+                
+                    <tr>
+                        <td>154</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>18</td>
+                        <td>62</td>
+                    </tr>
+                
+                    <tr>
+                        <td>155</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>10</td>
+                        <td>18</td>
+                        <td>64</td>
+                    </tr>
+                
+                    <tr>
+                        <td>156</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>18</td>
+                        <td>66</td>
+                    </tr>
+                
+                    <tr>
+                        <td>157</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>18</td>
+                        <td>68</td>
+                    </tr>
+                
+                    <tr>
+                        <td>158</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>18</td>
+                        <td>72</td>
+                    </tr>
+                
+                    <tr>
+                        <td>159</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>26</td>
+                        <td>18</td>
+                        <td>74</td>
+                    </tr>
+                
+                    <tr>
+                        <td>160</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>18</td>
+                        <td>76</td>
+                    </tr>
+                
+                    <tr>
+                        <td>161</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>19</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>162</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>19</td>
+                        <td>6</td>
+                    </tr>
+                
+                    <tr>
+                        <td>163</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>equipo</td>
+                        <td>20</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>164</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>20</td>
+                        <td>11</td>
+                    </tr>
+                
+                    <tr>
+                        <td>165</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Inter de Milán</td>
+                        <td>20</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>166</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>20</td>
+                        <td>30</td>
+                    </tr>
+                
+                    <tr>
+                        <td>167</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>21</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>168</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>21</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>169</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Yann Sommer</td>
+                        <td>21</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>170</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>21</td>
+                        <td>32</td>
+                    </tr>
+                
+                    <tr>
+                        <td>171</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>21</td>
+                        <td>33</td>
+                    </tr>
+                
+                    <tr>
+                        <td>172</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>21</td>
+                        <td>41</td>
+                    </tr>
+                
+                    <tr>
+                        <td>173</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>PORTERO</td>
+                        <td>21</td>
+                        <td>43</td>
+                    </tr>
+                
+                    <tr>
+                        <td>174</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>21</td>
+                        <td>52</td>
+                    </tr>
+                
+                    <tr>
+                        <td>175</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>21</td>
+                        <td>54</td>
+                    </tr>
+                
+                    <tr>
+                        <td>176</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>21</td>
+                        <td>60</td>
+                    </tr>
+                
+                    <tr>
+                        <td>177</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>1</td>
+                        <td>21</td>
+                        <td>62</td>
+                    </tr>
+                
+                    <tr>
+                        <td>178</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>21</td>
+                        <td>63</td>
+                    </tr>
+                
+                    <tr>
+                        <td>179</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>21</td>
+                        <td>65</td>
+                    </tr>
+                
+                    <tr>
+                        <td>180</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>21</td>
+                        <td>69</td>
+                    </tr>
+                
+                    <tr>
+                        <td>181</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>36</td>
+                        <td>21</td>
+                        <td>71</td>
+                    </tr>
+                
+                    <tr>
+                        <td>182</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>21</td>
+                        <td>73</td>
+                    </tr>
+                
+                    <tr>
+                        <td>183</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>21</td>
+                        <td>74</td>
+                    </tr>
+                
+                    <tr>
+                        <td>184</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>22</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>185</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>22</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>186</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Alessandro Bastoni</td>
+                        <td>22</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>187</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>22</td>
+                        <td>39</td>
+                    </tr>
+                
+                    <tr>
+                        <td>188</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>22</td>
+                        <td>40</td>
+                    </tr>
+                
+                    <tr>
+                        <td>189</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>22</td>
+                        <td>48</td>
+                    </tr>
+                
+                    <tr>
+                        <td>190</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>DEFENSA</td>
+                        <td>22</td>
+                        <td>50</td>
+                    </tr>
+                
+                    <tr>
+                        <td>191</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>22</td>
+                        <td>59</td>
+                    </tr>
+                
+                    <tr>
+                        <td>192</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>22</td>
+                        <td>61</td>
+                    </tr>
+                
+                    <tr>
+                        <td>193</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>22</td>
+                        <td>67</td>
+                    </tr>
+                
+                    <tr>
+                        <td>194</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>95</td>
+                        <td>22</td>
+                        <td>69</td>
+                    </tr>
+                
+                    <tr>
+                        <td>195</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>22</td>
+                        <td>71</td>
+                    </tr>
+                
+                    <tr>
+                        <td>196</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>22</td>
+                        <td>73</td>
+                    </tr>
+                
+                    <tr>
+                        <td>197</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>22</td>
+                        <td>77</td>
+                    </tr>
+                
+                    <tr>
+                        <td>198</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>26</td>
+                        <td>22</td>
+                        <td>79</td>
+                    </tr>
+                
+                    <tr>
+                        <td>199</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>22</td>
+                        <td>81</td>
+                    </tr>
+                
+                    <tr>
+                        <td>200</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>22</td>
+                        <td>82</td>
+                    </tr>
+                
+                    <tr>
+                        <td>201</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>23</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>202</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>23</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>203</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Nicolò Barella</td>
+                        <td>23</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>204</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>23</td>
+                        <td>35</td>
+                    </tr>
+                
+                    <tr>
+                        <td>205</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>23</td>
+                        <td>36</td>
+                    </tr>
+                
+                    <tr>
+                        <td>206</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>23</td>
+                        <td>44</td>
+                    </tr>
+                
+                    <tr>
+                        <td>207</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>MEDIOCAMPO</td>
+                        <td>23</td>
+                        <td>46</td>
+                    </tr>
+                
+                    <tr>
+                        <td>208</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>23</td>
+                        <td>58</td>
+                    </tr>
+                
+                    <tr>
+                        <td>209</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>23</td>
+                        <td>60</td>
+                    </tr>
+                
+                    <tr>
+                        <td>210</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>23</td>
+                        <td>66</td>
+                    </tr>
+                
+                    <tr>
+                        <td>211</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>23</td>
+                        <td>23</td>
+                        <td>68</td>
+                    </tr>
+                
+                    <tr>
+                        <td>212</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>23</td>
+                        <td>70</td>
+                    </tr>
+                
+                    <tr>
+                        <td>213</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>23</td>
+                        <td>72</td>
+                    </tr>
+                
+                    <tr>
+                        <td>214</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>23</td>
+                        <td>76</td>
+                    </tr>
+                
+                    <tr>
+                        <td>215</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>28</td>
+                        <td>23</td>
+                        <td>78</td>
+                    </tr>
+                
+                    <tr>
+                        <td>216</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>23</td>
+                        <td>80</td>
+                    </tr>
+                
+                    <tr>
+                        <td>217</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>23</td>
+                        <td>81</td>
+                    </tr>
+                
+                    <tr>
+                        <td>218</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>24</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>219</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>24</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>220</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Lautaro Martínez</td>
+                        <td>24</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>221</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>24</td>
+                        <td>37</td>
+                    </tr>
+                
+                    <tr>
+                        <td>222</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>24</td>
+                        <td>38</td>
+                    </tr>
+                
+                    <tr>
+                        <td>223</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>24</td>
+                        <td>46</td>
+                    </tr>
+                
+                    <tr>
+                        <td>224</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>DELANTERO</td>
+                        <td>24</td>
+                        <td>48</td>
+                    </tr>
+                
+                    <tr>
+                        <td>225</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>24</td>
+                        <td>59</td>
+                    </tr>
+                
+                    <tr>
+                        <td>226</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>24</td>
+                        <td>61</td>
+                    </tr>
+                
+                    <tr>
+                        <td>227</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>24</td>
+                        <td>67</td>
+                    </tr>
+                
+                    <tr>
+                        <td>228</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>10</td>
+                        <td>24</td>
+                        <td>69</td>
+                    </tr>
+                
+                    <tr>
+                        <td>229</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>24</td>
+                        <td>71</td>
+                    </tr>
+                
+                    <tr>
+                        <td>230</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>24</td>
+                        <td>73</td>
+                    </tr>
+                
+                    <tr>
+                        <td>231</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>24</td>
+                        <td>77</td>
+                    </tr>
+                
+                    <tr>
+                        <td>232</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>28</td>
+                        <td>24</td>
+                        <td>79</td>
+                    </tr>
+                
+                    <tr>
+                        <td>233</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>24</td>
+                        <td>81</td>
+                    </tr>
+                
+                    <tr>
+                        <td>234</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>25</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>235</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>25</td>
+                        <td>6</td>
+                    </tr>
+                
+                    <tr>
+                        <td>236</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>equipo</td>
+                        <td>26</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>237</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>26</td>
+                        <td>11</td>
+                    </tr>
+                
+                    <tr>
+                        <td>238</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>AS Roma</td>
+                        <td>26</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>239</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>26</td>
+                        <td>23</td>
+                    </tr>
+                
+                    <tr>
+                        <td>240</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>27</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>241</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>27</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>242</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Rui Patrício</td>
+                        <td>27</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>243</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>27</td>
+                        <td>33</td>
+                    </tr>
+                
+                    <tr>
+                        <td>244</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>27</td>
+                        <td>34</td>
+                    </tr>
+                
+                    <tr>
+                        <td>245</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>27</td>
+                        <td>42</td>
+                    </tr>
+                
+                    <tr>
+                        <td>246</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>PORTERO</td>
+                        <td>27</td>
+                        <td>44</td>
+                    </tr>
+                
+                    <tr>
+                        <td>247</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>27</td>
+                        <td>53</td>
+                    </tr>
+                
+                    <tr>
+                        <td>248</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>27</td>
+                        <td>55</td>
+                    </tr>
+                
+                    <tr>
+                        <td>249</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>27</td>
+                        <td>61</td>
+                    </tr>
+                
+                    <tr>
+                        <td>250</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>1</td>
+                        <td>27</td>
+                        <td>63</td>
+                    </tr>
+                
+                    <tr>
+                        <td>251</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>27</td>
+                        <td>64</td>
+                    </tr>
+                
+                    <tr>
+                        <td>252</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>27</td>
+                        <td>66</td>
+                    </tr>
+                
+                    <tr>
+                        <td>253</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>27</td>
+                        <td>70</td>
+                    </tr>
+                
+                    <tr>
+                        <td>254</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>37</td>
+                        <td>27</td>
+                        <td>72</td>
+                    </tr>
+                
+                    <tr>
+                        <td>255</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>27</td>
+                        <td>74</td>
+                    </tr>
+                
+                    <tr>
+                        <td>256</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>27</td>
+                        <td>75</td>
+                    </tr>
+                
+                    <tr>
+                        <td>257</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>28</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>258</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>28</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>259</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Gianluca Mancini</td>
+                        <td>28</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>260</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>28</td>
+                        <td>37</td>
+                    </tr>
+                
+                    <tr>
+                        <td>261</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>28</td>
+                        <td>38</td>
+                    </tr>
+                
+                    <tr>
+                        <td>262</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>28</td>
+                        <td>46</td>
+                    </tr>
+                
+                    <tr>
+                        <td>263</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>DEFENSA</td>
+                        <td>28</td>
+                        <td>48</td>
+                    </tr>
+                
+                    <tr>
+                        <td>264</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>28</td>
+                        <td>57</td>
+                    </tr>
+                
+                    <tr>
+                        <td>265</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>28</td>
+                        <td>59</td>
+                    </tr>
+                
+                    <tr>
+                        <td>266</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>28</td>
+                        <td>65</td>
+                    </tr>
+                
+                    <tr>
+                        <td>267</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>23</td>
+                        <td>28</td>
+                        <td>67</td>
+                    </tr>
+                
+                    <tr>
+                        <td>268</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>28</td>
+                        <td>69</td>
+                    </tr>
+                
+                    <tr>
+                        <td>269</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>28</td>
+                        <td>71</td>
+                    </tr>
+                
+                    <tr>
+                        <td>270</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>28</td>
+                        <td>75</td>
+                    </tr>
+                
+                    <tr>
+                        <td>271</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>29</td>
+                        <td>28</td>
+                        <td>77</td>
+                    </tr>
+                
+                    <tr>
+                        <td>272</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>28</td>
+                        <td>79</td>
+                    </tr>
+                
+                    <tr>
+                        <td>273</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>28</td>
+                        <td>80</td>
+                    </tr>
+                
+                    <tr>
+                        <td>274</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>29</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>275</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>29</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>276</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Lorenzo Pellegrini</td>
+                        <td>29</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>277</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>29</td>
+                        <td>39</td>
+                    </tr>
+                
+                    <tr>
+                        <td>278</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>29</td>
+                        <td>40</td>
+                    </tr>
+                
+                    <tr>
+                        <td>279</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>29</td>
+                        <td>48</td>
+                    </tr>
+                
+                    <tr>
+                        <td>280</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>MEDIOCAMPO</td>
+                        <td>29</td>
+                        <td>50</td>
+                    </tr>
+                
+                    <tr>
+                        <td>281</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>29</td>
+                        <td>62</td>
+                    </tr>
+                
+                    <tr>
+                        <td>282</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>29</td>
+                        <td>64</td>
+                    </tr>
+                
+                    <tr>
+                        <td>283</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>29</td>
+                        <td>70</td>
+                    </tr>
+                
+                    <tr>
+                        <td>284</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>7</td>
+                        <td>29</td>
+                        <td>72</td>
+                    </tr>
+                
+                    <tr>
+                        <td>285</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>29</td>
+                        <td>73</td>
+                    </tr>
+                
+                    <tr>
+                        <td>286</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>29</td>
+                        <td>75</td>
+                    </tr>
+                
+                    <tr>
+                        <td>287</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>29</td>
+                        <td>79</td>
+                    </tr>
+                
+                    <tr>
+                        <td>288</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>29</td>
+                        <td>29</td>
+                        <td>81</td>
+                    </tr>
+                
+                    <tr>
+                        <td>289</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>29</td>
+                        <td>83</td>
+                    </tr>
+                
+                    <tr>
+                        <td>290</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>29</td>
+                        <td>84</td>
+                    </tr>
+                
+                    <tr>
+                        <td>291</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>30</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>292</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>30</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>293</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Paulo Dybala</td>
+                        <td>30</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>294</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>30</td>
+                        <td>33</td>
+                    </tr>
+                
+                    <tr>
+                        <td>295</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>30</td>
+                        <td>34</td>
+                    </tr>
+                
+                    <tr>
+                        <td>296</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>30</td>
+                        <td>42</td>
+                    </tr>
+                
+                    <tr>
+                        <td>297</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>DELANTERO</td>
+                        <td>30</td>
+                        <td>44</td>
+                    </tr>
+                
+                    <tr>
+                        <td>298</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>30</td>
+                        <td>55</td>
+                    </tr>
+                
+                    <tr>
+                        <td>299</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>30</td>
+                        <td>57</td>
+                    </tr>
+                
+                    <tr>
+                        <td>300</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>30</td>
+                        <td>63</td>
+                    </tr>
+                
+                    <tr>
+                        <td>301</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>21</td>
+                        <td>30</td>
+                        <td>65</td>
+                    </tr>
+                
+                    <tr>
+                        <td>302</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>30</td>
+                        <td>67</td>
+                    </tr>
+                
+                    <tr>
+                        <td>303</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>30</td>
+                        <td>69</td>
+                    </tr>
+                
+                    <tr>
+                        <td>304</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>30</td>
+                        <td>73</td>
+                    </tr>
+                
+                    <tr>
+                        <td>305</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>31</td>
+                        <td>30</td>
+                        <td>75</td>
+                    </tr>
+                
+                    <tr>
+                        <td>306</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>30</td>
+                        <td>77</td>
+                    </tr>
+                
+                    <tr>
+                        <td>307</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>31</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>308</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>31</td>
+                        <td>6</td>
+                    </tr>
+                
+                    <tr>
+                        <td>309</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>equipo</td>
+                        <td>32</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>310</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>32</td>
+                        <td>11</td>
+                    </tr>
+                
+                    <tr>
+                        <td>311</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Napoli</td>
+                        <td>32</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>312</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>32</td>
+                        <td>22</td>
+                    </tr>
+                
+                    <tr>
+                        <td>313</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>33</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>314</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>33</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>315</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Alex Meret</td>
+                        <td>33</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>316</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>33</td>
+                        <td>31</td>
+                    </tr>
+                
+                    <tr>
+                        <td>317</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>33</td>
+                        <td>32</td>
+                    </tr>
+                
+                    <tr>
+                        <td>318</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>33</td>
+                        <td>40</td>
+                    </tr>
+                
+                    <tr>
+                        <td>319</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>PORTERO</td>
+                        <td>33</td>
+                        <td>42</td>
+                    </tr>
+                
+                    <tr>
+                        <td>320</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>33</td>
+                        <td>51</td>
+                    </tr>
+                
+                    <tr>
+                        <td>321</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>33</td>
+                        <td>53</td>
+                    </tr>
+                
+                    <tr>
+                        <td>322</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>33</td>
+                        <td>59</td>
+                    </tr>
+                
+                    <tr>
+                        <td>323</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>1</td>
+                        <td>33</td>
+                        <td>61</td>
+                    </tr>
+                
+                    <tr>
+                        <td>324</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>33</td>
+                        <td>62</td>
+                    </tr>
+                
+                    <tr>
+                        <td>325</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>33</td>
+                        <td>64</td>
+                    </tr>
+                
+                    <tr>
+                        <td>326</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>33</td>
+                        <td>68</td>
+                    </tr>
+                
+                    <tr>
+                        <td>327</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>28</td>
+                        <td>33</td>
+                        <td>70</td>
+                    </tr>
+                
+                    <tr>
+                        <td>328</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>33</td>
+                        <td>72</td>
+                    </tr>
+                
+                    <tr>
+                        <td>329</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>33</td>
+                        <td>73</td>
+                    </tr>
+                
+                    <tr>
+                        <td>330</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>34</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>331</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>34</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>332</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Giovanni Di Lorenzo</td>
+                        <td>34</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>333</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>34</td>
+                        <td>40</td>
+                    </tr>
+                
+                    <tr>
+                        <td>334</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>34</td>
+                        <td>41</td>
+                    </tr>
+                
+                    <tr>
+                        <td>335</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>34</td>
+                        <td>49</td>
+                    </tr>
+                
+                    <tr>
+                        <td>336</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>DEFENSA</td>
+                        <td>34</td>
+                        <td>51</td>
+                    </tr>
+                
+                    <tr>
+                        <td>337</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>34</td>
+                        <td>60</td>
+                    </tr>
+                
+                    <tr>
+                        <td>338</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>34</td>
+                        <td>62</td>
+                    </tr>
+                
+                    <tr>
+                        <td>339</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>34</td>
+                        <td>68</td>
+                    </tr>
+                
+                    <tr>
+                        <td>340</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>22</td>
+                        <td>34</td>
+                        <td>70</td>
+                    </tr>
+                
+                    <tr>
+                        <td>341</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>34</td>
+                        <td>72</td>
+                    </tr>
+                
+                    <tr>
+                        <td>342</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>34</td>
+                        <td>74</td>
+                    </tr>
+                
+                    <tr>
+                        <td>343</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>34</td>
+                        <td>78</td>
+                    </tr>
+                
+                    <tr>
+                        <td>344</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>32</td>
+                        <td>34</td>
+                        <td>80</td>
+                    </tr>
+                
+                    <tr>
+                        <td>345</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>34</td>
+                        <td>82</td>
+                    </tr>
+                
+                    <tr>
+                        <td>346</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>34</td>
+                        <td>83</td>
+                    </tr>
+                
+                    <tr>
+                        <td>347</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>35</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>348</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>35</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>349</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Stanislav Lobotka</td>
+                        <td>35</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>350</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>35</td>
+                        <td>38</td>
+                    </tr>
+                
+                    <tr>
+                        <td>351</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>35</td>
+                        <td>39</td>
+                    </tr>
+                
+                    <tr>
+                        <td>352</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>35</td>
+                        <td>47</td>
+                    </tr>
+                
+                    <tr>
+                        <td>353</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>MEDIOCAMPO</td>
+                        <td>35</td>
+                        <td>49</td>
+                    </tr>
+                
+                    <tr>
+                        <td>354</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>35</td>
+                        <td>61</td>
+                    </tr>
+                
+                    <tr>
+                        <td>355</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>35</td>
+                        <td>63</td>
+                    </tr>
+                
+                    <tr>
+                        <td>356</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>35</td>
+                        <td>69</td>
+                    </tr>
+                
+                    <tr>
+                        <td>357</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>68</td>
+                        <td>35</td>
+                        <td>71</td>
+                    </tr>
+                
+                    <tr>
+                        <td>358</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>35</td>
+                        <td>73</td>
+                    </tr>
+                
+                    <tr>
+                        <td>359</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>35</td>
+                        <td>75</td>
+                    </tr>
+                
+                    <tr>
+                        <td>360</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>35</td>
+                        <td>79</td>
+                    </tr>
+                
+                    <tr>
+                        <td>361</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>30</td>
+                        <td>35</td>
+                        <td>81</td>
+                    </tr>
+                
+                    <tr>
+                        <td>362</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>35</td>
+                        <td>83</td>
+                    </tr>
+                
+                    <tr>
+                        <td>363</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>35</td>
+                        <td>84</td>
+                    </tr>
+                
+                    <tr>
+                        <td>364</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>jugador</td>
+                        <td>36</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>365</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>36</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>366</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Victor Osimhen</td>
+                        <td>36</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>367</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>36</td>
+                        <td>35</td>
+                    </tr>
+                
+                    <tr>
+                        <td>368</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>posicion</td>
+                        <td>36</td>
+                        <td>36</td>
+                    </tr>
+                
+                    <tr>
+                        <td>369</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>36</td>
+                        <td>44</td>
+                    </tr>
+                
+                    <tr>
+                        <td>370</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>DELANTERO</td>
+                        <td>36</td>
+                        <td>46</td>
+                    </tr>
+                
+                    <tr>
+                        <td>371</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>36</td>
+                        <td>57</td>
+                    </tr>
+                
+                    <tr>
+                        <td>372</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>numero</td>
+                        <td>36</td>
+                        <td>59</td>
+                    </tr>
+                
+                    <tr>
+                        <td>373</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>36</td>
+                        <td>65</td>
+                    </tr>
+                
+                    <tr>
+                        <td>374</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>9</td>
+                        <td>36</td>
+                        <td>67</td>
+                    </tr>
+                
+                    <tr>
+                        <td>375</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>36</td>
+                        <td>68</td>
+                    </tr>
+                
+                    <tr>
+                        <td>376</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>edad</td>
+                        <td>36</td>
+                        <td>70</td>
+                    </tr>
+                
+                    <tr>
+                        <td>377</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>36</td>
+                        <td>74</td>
+                    </tr>
+                
+                    <tr>
+                        <td>378</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>27</td>
+                        <td>36</td>
+                        <td>76</td>
+                    </tr>
+                
+                    <tr>
+                        <td>379</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>36</td>
+                        <td>78</td>
+                    </tr>
+                
+                    <tr>
+                        <td>380</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>37</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>381</td>
+                        <td class="token-type LLAVE_CERRADA">LLAVE_CERRADA</td>
+                        <td>}</td>
+                        <td>38</td>
+                        <td>1</td>
+                    </tr>
+                
+                    <tr>
+                        <td>382</td>
+                        <td class="token-type SECCION_PRINCIPAL">SECCION_PRINCIPAL</td>
+                        <td>ELIMINACION</td>
+                        <td>40</td>
+                        <td>1</td>
+                    </tr>
+                
+                    <tr>
+                        <td>383</td>
+                        <td class="token-type LLAVE_ABIERTA">LLAVE_ABIERTA</td>
+                        <td>{</td>
+                        <td>40</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>384</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>semifinal</td>
+                        <td>41</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>385</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>41</td>
+                        <td>14</td>
+                    </tr>
+                
+                    <tr>
+                        <td>386</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>41</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>387</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>partido</td>
+                        <td>42</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>388</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>42</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>389</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Juventus</td>
+                        <td>42</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>390</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>vs</td>
+                        <td>42</td>
+                        <td>29</td>
+                    </tr>
+                
+                    <tr>
+                        <td>391</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>AC Milan</td>
+                        <td>42</td>
+                        <td>32</td>
+                    </tr>
+                
+                    <tr>
+                        <td>392</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>42</td>
+                        <td>43</td>
+                    </tr>
+                
+                    <tr>
+                        <td>393</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>resultado</td>
+                        <td>43</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>394</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>43</td>
+                        <td>22</td>
+                    </tr>
+                
+                    <tr>
+                        <td>395</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>1-0</td>
+                        <td>43</td>
+                        <td>24</td>
+                    </tr>
+                
+                    <tr>
+                        <td>396</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>43</td>
+                        <td>29</td>
+                    </tr>
+                
+                    <tr>
+                        <td>397</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>goleadores</td>
+                        <td>44</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>398</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>44</td>
+                        <td>23</td>
+                    </tr>
+                
+                    <tr>
+                        <td>399</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>44</td>
+                        <td>25</td>
+                    </tr>
+                
+                    <tr>
+                        <td>400</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>goleador</td>
+                        <td>45</td>
+                        <td>17</td>
+                    </tr>
+                
+                    <tr>
+                        <td>401</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>45</td>
+                        <td>25</td>
+                    </tr>
+                
+                    <tr>
+                        <td>402</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Dusan Vlahovic</td>
+                        <td>45</td>
+                        <td>27</td>
+                    </tr>
+                
+                    <tr>
+                        <td>403</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>45</td>
+                        <td>44</td>
+                    </tr>
+                
+                    <tr>
+                        <td>404</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>minuto</td>
+                        <td>45</td>
+                        <td>45</td>
+                    </tr>
+                
+                    <tr>
+                        <td>405</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>45</td>
+                        <td>51</td>
+                    </tr>
+                
+                    <tr>
+                        <td>406</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>18</td>
+                        <td>45</td>
+                        <td>53</td>
+                    </tr>
+                
+                    <tr>
+                        <td>407</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>45</td>
+                        <td>55</td>
+                    </tr>
+                
+                    <tr>
+                        <td>408</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>46</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>409</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>47</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>410</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>48</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>411</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>48</td>
+                        <td>6</td>
+                    </tr>
+                
+                    <tr>
+                        <td>412</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>final</td>
+                        <td>49</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>413</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>49</td>
+                        <td>10</td>
+                    </tr>
+                
+                    <tr>
+                        <td>414</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>49</td>
+                        <td>12</td>
+                    </tr>
+                
+                    <tr>
+                        <td>415</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>partido</td>
+                        <td>50</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>416</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>50</td>
+                        <td>16</td>
+                    </tr>
+                
+                    <tr>
+                        <td>417</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Juventus</td>
+                        <td>50</td>
+                        <td>18</td>
+                    </tr>
+                
+                    <tr>
+                        <td>418</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>vs</td>
+                        <td>50</td>
+                        <td>29</td>
+                    </tr>
+                
+                    <tr>
+                        <td>419</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Inter de Milán</td>
+                        <td>50</td>
+                        <td>32</td>
+                    </tr>
+                
+                    <tr>
+                        <td>420</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>50</td>
+                        <td>49</td>
+                    </tr>
+                
+                    <tr>
+                        <td>421</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>resultado</td>
+                        <td>51</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>422</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>51</td>
+                        <td>22</td>
+                    </tr>
+                
+                    <tr>
+                        <td>423</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>2-1</td>
+                        <td>51</td>
+                        <td>24</td>
+                    </tr>
+                
+                    <tr>
+                        <td>424</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>51</td>
+                        <td>29</td>
+                    </tr>
+                
+                    <tr>
+                        <td>425</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>goleadores</td>
+                        <td>52</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>426</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>52</td>
+                        <td>23</td>
+                    </tr>
+                
+                    <tr>
+                        <td>427</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>52</td>
+                        <td>25</td>
+                    </tr>
+                
+                    <tr>
+                        <td>428</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>goleador</td>
+                        <td>53</td>
+                        <td>17</td>
+                    </tr>
+                
+                    <tr>
+                        <td>429</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>53</td>
+                        <td>25</td>
+                    </tr>
+                
+                    <tr>
+                        <td>430</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Dusan Vlahovic</td>
+                        <td>53</td>
+                        <td>27</td>
+                    </tr>
+                
+                    <tr>
+                        <td>431</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>53</td>
+                        <td>44</td>
+                    </tr>
+                
+                    <tr>
+                        <td>432</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>minuto</td>
+                        <td>53</td>
+                        <td>45</td>
+                    </tr>
+                
+                    <tr>
+                        <td>433</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>53</td>
+                        <td>51</td>
+                    </tr>
+                
+                    <tr>
+                        <td>434</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>10</td>
+                        <td>53</td>
+                        <td>53</td>
+                    </tr>
+                
+                    <tr>
+                        <td>435</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>53</td>
+                        <td>55</td>
+                    </tr>
+                
+                    <tr>
+                        <td>436</td>
+                        <td class="token-type COMA">COMA</td>
+                        <td>,</td>
+                        <td>53</td>
+                        <td>56</td>
+                    </tr>
+                
+                    <tr>
+                        <td>437</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>goleador</td>
+                        <td>54</td>
+                        <td>17</td>
+                    </tr>
+                
+                    <tr>
+                        <td>438</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>54</td>
+                        <td>25</td>
+                    </tr>
+                
+                    <tr>
+                        <td>439</td>
+                        <td class="token-type CADENA">CADENA</td>
+                        <td>Lautaro Martínez</td>
+                        <td>54</td>
+                        <td>27</td>
+                    </tr>
+                
+                    <tr>
+                        <td>440</td>
+                        <td class="token-type CORCHETE_ABIERTO">CORCHETE_ABIERTO</td>
+                        <td>[</td>
+                        <td>54</td>
+                        <td>46</td>
+                    </tr>
+                
+                    <tr>
+                        <td>441</td>
+                        <td class="token-type PALABRA_RESERVADA">PALABRA_RESERVADA</td>
+                        <td>minuto</td>
+                        <td>54</td>
+                        <td>47</td>
+                    </tr>
+                
+                    <tr>
+                        <td>442</td>
+                        <td class="token-type DOS_PUNTOS">DOS_PUNTOS</td>
+                        <td>:</td>
+                        <td>54</td>
+                        <td>53</td>
+                    </tr>
+                
+                    <tr>
+                        <td>443</td>
+                        <td class="token-type NUMERO">NUMERO</td>
+                        <td>30</td>
+                        <td>54</td>
+                        <td>55</td>
+                    </tr>
+                
+                    <tr>
+                        <td>444</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>54</td>
+                        <td>57</td>
+                    </tr>
+                
+                    <tr>
+                        <td>445</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>55</td>
+                        <td>13</td>
+                    </tr>
+                
+                    <tr>
+                        <td>446</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>56</td>
+                        <td>9</td>
+                    </tr>
+                
+                    <tr>
+                        <td>447</td>
+                        <td class="token-type CORCHETE_CERRADO">CORCHETE_CERRADO</td>
+                        <td>]</td>
+                        <td>57</td>
+                        <td>5</td>
+                    </tr>
+                
+                    <tr>
+                        <td>448</td>
+                        <td class="token-type LLAVE_CERRADA">LLAVE_CERRADA</td>
+                        <td>}</td>
+                        <td>58</td>
+                        <td>1</td>
+                    </tr>
+                
+                    <tr>
+                        <td>449</td>
+                        <td class="token-type EOF">EOF</td>
+                        <td></td>
+                        <td>59</td>
+                        <td>2</td>
+                    </tr>
+                
+            </tbody>
+        </table>
+        
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; text-align: center;">
+            Generado por TourneyJS - 21/9/2025, 11:07:21 p. m.
+        </div>
+    </div>
+</body>
+</html>

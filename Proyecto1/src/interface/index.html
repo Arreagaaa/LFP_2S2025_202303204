@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TourneyJS - Analizador de Torneos</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        background-color: #ffffff;
+        color: #1e3a8a;
+        line-height: 1.6;
+      }
+
+      .navbar {
+        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+        color: white;
+        padding: 1rem 0;
+        box-shadow: 0 2px 10px rgba(30, 58, 138, 0.1);
+      }
+
+      .navbar .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 3rem 0;
+        border-bottom: 1px solid #e5e7eb;
+        margin-bottom: 3rem;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #1e3a8a;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        color: #64748b;
+        margin-bottom: 2rem;
+      }
+
+      .file-upload-section {
+        background: #f8fafc;
+        border: 2px dashed #cbd5e1;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        margin-bottom: 3rem;
+        transition: all 0.2s ease;
+      }
+
+      .file-upload-section:hover {
+        border-color: #1e40af;
+        background: #f1f5f9;
+      }
+
+      .file-upload-section.dragover {
+        border-color: #1e40af;
+        background: #dbeafe;
+      }
+
+      .upload-icon {
+        width: 48px;
+        height: 48px;
+        background: #1e40af;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        font-size: 1.5rem;
+      }
+
+      .file-input {
+        display: none;
+      }
+
+      .upload-btn {
+        background: #1e40af;
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .upload-btn:hover {
+        background: #1e3a8a;
+      }
+
+      .upload-btn:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+      }
+
+      .action-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .action-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+      }
+
+      .action-card:hover {
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.1);
+        border-color: #1e40af;
+      }
+
+      .action-card h3 {
+        color: #1e3a8a;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+
+      .action-card p {
+        color: #64748b;
+        margin-bottom: 1.5rem;
+      }
+
+      .btn {
+        background: #1e40af;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+      }
+
+      .btn:hover {
+        background: #1e3a8a;
+      }
+
+      .btn:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+      }
+
+      .btn-secondary {
+        background: #f8fafc;
+        color: #1e40af;
+        border: 1px solid #e5e7eb;
+      }
+
+      .btn-secondary:hover {
+        background: #f1f5f9;
+        border-color: #1e40af;
+      }
+
+      .results-section {
+        display: none;
+        margin-top: 3rem;
+      }
+
+      .results-header {
+        background: #1e40af;
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px 12px 0 0;
+      }
+
+      .results-content {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-top: none;
+        border-radius: 0 0 12px 12px;
+        padding: 2rem;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .status-message {
+        display: none;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+      }
+
+      .status-success {
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #bbf7d0;
+      }
+
+      .status-error {
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+      }
+
+      .status-info {
+        background: #dbeafe;
+        color: #1e40af;
+        border: 1px solid #bfdbfe;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 8px;
+        border-left: 4px solid #1e40af;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1e3a8a;
+        display: block;
+      }
+
+      .stat-label {
+        color: #64748b;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+      }
+
+      .report-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .report-link {
+        display: block;
+        padding: 1rem;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #1e40af;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+
+      .report-link:hover {
+        background: #f1f5f9;
+        border-color: #1e40af;
+      }
+
+      .footer {
+        margin-top: 4rem;
+        padding: 2rem 0;
+        border-top: 1px solid #e5e7eb;
+        text-align: center;
+        color: #64748b;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+
+      th,
+      td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      th {
+        background: #1e40af;
+        color: white;
+        font-weight: 600;
+      }
+
+      tr:hover {
+        background-color: #f8fafc;
+      }
+
+      .ast-display {
+        background: #f8fafc;
+        padding: 1rem;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        white-space: pre-wrap;
+        overflow-x: auto;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      @media (max-width: 768px) {
+        .main-container {
+          padding: 1rem;
+        }
+
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .action-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="container">
+        <div class="logo">TourneyJS</div>
+      </div>
+    </nav>
+
+    <div class="main-container">
+      <div class="hero">
+        <h1>Analizador TourneyJS</h1>
+        <p>
+          Herramienta profesional para análisis léxico y sintáctico de archivos
+          de torneos deportivos
+        </p>
+      </div>
+
+      <div class="file-upload-section" id="uploadSection">
+        <div class="upload-icon">FILE</div>
+        <h3>Cargar Archivo de Torneo</h3>
+        <p>Selecciona tu archivo .txt para analizar</p>
+        <input
+          type="file"
+          id="fileInput"
+          class="file-input"
+          accept=".tourney,.txt"
+        />
+        <button class="upload-btn" id="uploadBtn">Seleccionar Archivo</button>
+        <div id="fileName" style="margin-top: 1rem; color: #64748b"></div>
+      </div>
+
+      <div id="statusMessage" class="status-message"></div>
+
+      <div class="action-grid">
+        <div class="action-card">
+          <h3>Análisis Léxico</h3>
+          <p>
+            Ejecuta el análisis léxico para extraer y clasificar todos los
+            tokens del archivo.
+          </p>
+          <button class="btn" id="btnLexer" disabled>Ejecutar Lexer</button>
+        </div>
+
+        <div class="action-card">
+          <h3>Análisis Sintáctico</h3>
+          <p>
+            Realiza el análisis sintáctico para generar el árbol sintáctico
+            abstracto.
+          </p>
+          <button class="btn" id="btnParser" disabled>Ejecutar Parser</button>
+        </div>
+
+        <div class="action-card">
+          <h3>Análisis Completo</h3>
+          <p>
+            Ejecuta ambos análisis de forma secuencial para obtener resultados
+            completos.
+          </p>
+          <button class="btn" id="btnComplete" disabled>
+            Análisis Completo
+          </button>
+        </div>
+
+        <div class="action-card">
+          <h3>Ver Tokens</h3>
+          <p>
+            Visualiza todos los tokens extraídos durante el análisis léxico.
+          </p>
+          <button class="btn btn-secondary" id="btnTokens" disabled>
+            Mostrar Tokens
+          </button>
+        </div>
+
+        <div class="action-card">
+          <h3>Ver Árbol Sintáctico</h3>
+          <p>
+            Explora la estructura del árbol sintáctico generado por el parser.
+          </p>
+          <button class="btn btn-secondary" id="btnAst" disabled>
+            Mostrar AST
+          </button>
+        </div>
+
+        <div class="action-card">
+          <h3>Ver Errores</h3>
+          <p>Revisa todos los errores léxicos y sintácticos encontrados.</p>
+          <button class="btn btn-secondary" id="btnErrors" disabled>
+            Mostrar Errores
+          </button>
+        </div>
+      </div>
+
+      <div class="results-section" id="resultsSection">
+        <div class="results-header">
+          <h2>Resultados del Análisis</h2>
+        </div>
+        <div class="results-content" id="resultsContent">
+          <!-- Los resultados se mostrarán aquí -->
+        </div>
+      </div>
+
+      <div class="report-links" id="reportLinksSection" style="display: none">
+        <h2 style="grid-column: 1 / -1; color: #1e3a8a; margin-bottom: 1rem">
+          Reportes Disponibles
+        </h2>
+
+        <a href="#" class="report-link" id="reportErrores">
+          <strong>Reporte de Errores Léxicos</strong><br />
+          <small>Lista detallada de errores encontrados</small>
+        </a>
+
+        <a href="#" class="report-link" id="reportTokens">
+          <strong>Reporte de Tokens</strong><br />
+          <small>Tabla completa de tokens extraídos</small>
+        </a>
+
+        <a href="#" class="report-link" id="reportBracket">
+          <strong>Bracket de Eliminación</strong><br />
+          <small>Visualización del torneo</small>
+        </a>
+
+        <a href="#" class="report-link" id="reportEquipos">
+          <strong>Estadísticas por Equipo</strong><br />
+          <small>Análisis detallado de equipos</small>
+        </a>
+
+        <a href="#" class="report-link" id="reportGoleadores">
+          <strong>Ranking de Goleadores</strong><br />
+          <small>Lista de máximos anotadores</small>
+        </a>
+
+        <a href="#" class="report-link" id="reportGeneral">
+          <strong>Información General</strong><br />
+          <small>Resumen completo del torneo</small>
+        </a>
+
+        <a href="#" class="report-link" id="reportGraphviz">
+          <strong>Diagrama Graphviz</strong><br />
+          <small>Representación gráfica del torneo</small>
+        </a>
+
+        <a href="#" class="report-link" id="reportTodos">
+          <strong>Generar Todos los Reportes</strong><br />
+          <small>Crear todos los reportes de una vez</small>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>TourneyJS - Analizador de Torneos Deportivos | Proyecto LFP 2S2025</p>
+    </div>
+
+    <script src="interface.js"></script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+TORNEO {
+    nombre: "Serie A Coppa Italia",
+    equipos: 5,
+    sede: "Italia"
+}
+
+EQUIPOS {
+    equipo: "Juventus" [
+        jugador: "Wojciech Szczesny" [posicion: "PORTERO", numero: 1, edad: 35],
+        jugador: "Danilo" [posicion: "DEFENSA", numero: 6, edad: 34],
+        jugador: "Adrien Rabiot" [posicion: "MEDIOCAMPO", numero: 25, edad: 30],
+        jugador: "Dusan Vlahovic" [posicion: "DELANTERO", numero: 9, edad: 27]
+    ],
+    equipo: "AC Milan" [
+        jugador: "Mike Maignan" [posicion: "PORTERO", numero: 16, edad: 30],
+        jugador: "Fikayo Tomori" [posicion: "DEFENSA", numero: 23, edad: 27],
+        jugador: "Ismael Bennacer" [posicion: "MEDIOCAMPO", numero: 4, edad: 28],
+        jugador: "Rafael Leão" [posicion: "DELANTERO", numero: 10, edad: 26]
+    ],
+    equipo: "Inter de Milán" [
+        jugador: "Yann Sommer" [posicion: "PORTERO", numero: 1, edad: 36],
+        jugador: "Alessandro Bastoni" [posicion: "DEFENSA", numero: 95, edad: 26],
+        jugador: "Nicolò Barella" [posicion: "MEDIOCAMPO", numero: 23, edad: 28],
+        jugador: "Lautaro Martínez" [posicion: "DELANTERO", numero: 10, edad: 28]
+    ],
+    equipo: "AS Roma" [
+        jugador: "Rui Patrício" [posicion: "PORTERO", numero: 1, edad: 37],
+        jugador: "Gianluca Mancini" [posicion: "DEFENSA", numero: 23, edad: 29],
+        jugador: "Lorenzo Pellegrini" [posicion: "MEDIOCAMPO", numero: 7, edad: 29],
+        jugador: "Paulo Dybala" [posicion: "DELANTERO", numero: 21, edad: 31]
+    ],
+    equipo: "Napoli" [
+        jugador: "Alex Meret" [posicion: "PORTERO", numero: 1, edad: 28],
+        jugador: "Giovanni Di Lorenzo" [posicion: "DEFENSA", numero: 22, edad: 32],
+        jugador: "Stanislav Lobotka" [posicion: "MEDIOCAMPO", numero: 68, edad: 30],
+        jugador: "Victor Osimhen" [posicion: "DELANTERO", numero: 9, edad: 27]
+    ]
+}
+
+ELIMINACION {
+    semifinal: [
+        partido: "Juventus" vs "AC Milan" [
+            resultado: "1-0",
+            goleadores: [
+                goleador: "Dusan Vlahovic" [minuto: 18]
+            ]
+        ]
+    ],
+    final: [
+        partido: "Juventus" vs "Inter de Milán" [
+            resultado: "2-1",
+            goleadores: [
+                goleador: "Dusan Vlahovic" [minuto: 10],
+                goleador: "Lautaro Martínez" [minuto: 30]
+            ]
+        ]
+    ]
+}
+#

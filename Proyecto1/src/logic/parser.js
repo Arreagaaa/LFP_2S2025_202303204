@@ -12,14 +12,14 @@ class Parser {
       equipos: 0,
       jugadores: 0,
       partidos: 0,
-      goleadores: 0
+      goleadores: 0,
     };
 
     // Tipos de nodos del AST
     this.TIPOS_NODO = {
       PROGRAMA: "PROGRAMA",
       TORNEO: "TORNEO",
-      EQUIPOS: "EQUIPOS", 
+      EQUIPOS: "EQUIPOS",
       ELIMINACION: "ELIMINACION",
       EQUIPO: "EQUIPO",
       JUGADOR: "JUGADOR",
@@ -30,13 +30,15 @@ class Parser {
       LISTA: "LISTA",
       SECCION: "SECCION",
       PROPIEDAD: "PROPIEDAD",
-      FASE: "FASE"
+      FASE: "FASE",
     };
   }
 
   // Metodos utilitarios basicos
   tokenActual() {
-    return this.posicion < this.tokens.length ? this.tokens[this.posicion] : null;
+    return this.posicion < this.tokens.length
+      ? this.tokens[this.posicion]
+      : null;
   }
 
   avanzar() {
@@ -52,17 +54,17 @@ class Parser {
         tipo: "ERROR_SINTACTICO",
         mensaje: `Se esperaba ${tipoEsperado} pero llegó al final`,
         linea: 0,
-        columna: 0
+        columna: 0,
       });
       return null;
     }
 
     if (token.tipo !== tipoEsperado) {
       this.errores.push({
-        tipo: "ERROR_SINTACTICO", 
+        tipo: "ERROR_SINTACTICO",
         mensaje: `Se esperaba ${tipoEsperado} pero se encontró ${token.tipo}: '${token.valor}'`,
         linea: token.linea,
-        columna: token.columna
+        columna: token.columna,
       });
       return null;
     }
@@ -78,17 +80,19 @@ class Parser {
       valor,
       hijos: Array.isArray(hijos) ? hijos : [],
       linea: token?.linea || 0,
-      columna: token?.columna || 0
+      columna: token?.columna || 0,
     };
   }
 
   omitirEspacios() {
     let iteraciones = 0;
-    while (this.tokenActual() && 
-           (this.tokenActual().tipo === "ESPACIO_BLANCO" || 
-            this.tokenActual().tipo === "SALTO_LINEA" ||
-            this.tokenActual().tipo === "COMENTARIO") &&
-           iteraciones < 50) {
+    while (
+      this.tokenActual() &&
+      (this.tokenActual().tipo === "ESPACIO_BLANCO" ||
+        this.tokenActual().tipo === "SALTO_LINEA" ||
+        this.tokenActual().tipo === "COMENTARIO") &&
+      iteraciones < 50
+    ) {
       iteraciones++;
       this.avanzar();
     }
@@ -100,20 +104,24 @@ class Parser {
     if (!this.esperarToken("DOS_PUNTOS")) return null;
     if (!this.esperarToken("LLAVE_ABIERTA")) return null;
 
-    const nodoSeccion = this.crearNodo(this.TIPOS_NODO[tipoSeccion], tipoSeccion);
+    const nodoSeccion = this.crearNodo(
+      this.TIPOS_NODO[tipoSeccion],
+      tipoSeccion
+    );
     let elementosLeidos = 0;
 
-    while (this.tokenActual() && 
-           this.tokenActual().tipo !== "LLAVE_CERRADA" && 
-           elementosLeidos < 50) {
-      
+    while (
+      this.tokenActual() &&
+      this.tokenActual().tipo !== "LLAVE_CERRADA" &&
+      elementosLeidos < 50
+    ) {
       this.omitirEspacios();
       if (this.tokenActual() && this.tokenActual().tipo === "LLAVE_CERRADA") {
         break;
       }
 
       let elemento = null;
-      
+
       // Manejar diferentes tipos de contenido segun la seccion
       if (tipoSeccion === "TORNEO") {
         elemento = this.analizarAtributoSimple();
@@ -124,7 +132,7 @@ class Parser {
       } else {
         elemento = this.analizarAtributoSimple();
       }
-      
+
       if (elemento) {
         nodoSeccion.hijos.push(elemento);
         elementosLeidos++;
@@ -142,18 +150,19 @@ class Parser {
   parse() {
     console.log("Iniciando analisis del torneo...");
     this.omitirEspacios();
-    
+
     const programa = this.crearNodo(this.TIPOS_NODO.PROGRAMA, "TourneyJS");
     let seccionesEncontradas = 0;
     const MAX_SECCIONES = 10;
 
-    while (this.tokenActual() && 
-           this.tokenActual().tipo !== "EOF" && 
-           seccionesEncontradas < MAX_SECCIONES) {
-      
+    while (
+      this.tokenActual() &&
+      this.tokenActual().tipo !== "EOF" &&
+      seccionesEncontradas < MAX_SECCIONES
+    ) {
       this.omitirEspacios();
       const token = this.tokenActual();
-      
+
       if (!token || token.tipo === "EOF") {
         break;
       }
@@ -166,7 +175,7 @@ class Parser {
           case "TORNEO":
             seccion = this.analizarSeccionTorneo();
             break;
-          case "EQUIPOS": 
+          case "EQUIPOS":
             seccion = this.analizarSeccionEquipos();
             break;
           case "ELIMINACION":
@@ -177,7 +186,7 @@ class Parser {
               tipo: "ERROR_SINTACTICO",
               mensaje: `Seccion no valida: ${token.valor}`,
               linea: token.linea,
-              columna: token.columna
+              columna: token.columna,
             });
             this.avanzar();
         }
@@ -191,13 +200,15 @@ class Parser {
           tipo: "ERROR_SINTACTICO",
           mensaje: `Token inesperado: ${token.valor}`,
           linea: token.linea,
-          columna: token.columna
+          columna: token.columna,
         });
         this.avanzar();
       }
     }
 
-    console.log(`Analisis completado. Total secciones: ${seccionesEncontradas}`);
+    console.log(
+      `Analisis completado. Total secciones: ${seccionesEncontradas}`
+    );
     return programa;
   }
 
@@ -205,23 +216,26 @@ class Parser {
   analizarSeccionTorneo() {
     console.log("Analizando seccion TORNEO");
     this.avanzar(); // Saltar el token TORNEO
-    
+
     if (!this.esperarToken("LLAVE_ABIERTA")) {
       return null;
     }
 
     const seccion = this.crearNodo(this.TIPOS_NODO.TORNEO, "TORNEO");
-    
+
     while (this.tokenActual() && this.tokenActual().tipo !== "LLAVE_CERRADA") {
       this.omitirEspacios();
-      
+
       const token = this.tokenActual();
       if (!token) break;
-      
+
       if (token.tipo === "LLAVE_CERRADA") break;
-      
+
       // Parsear propiedades simples como nombre: "valor", equipos: 8
-      if (token.tipo === "IDENTIFICADOR" || token.tipo === "PALABRA_RESERVADA") {
+      if (
+        token.tipo === "IDENTIFICADOR" ||
+        token.tipo === "PALABRA_RESERVADA"
+      ) {
         const propiedad = this.analizarPropiedad();
         if (propiedad) {
           seccion.hijos.push(propiedad);
@@ -230,7 +244,7 @@ class Parser {
         this.avanzar();
       }
     }
-    
+
     this.esperarToken("LLAVE_CERRADA");
     return seccion;
   }
@@ -238,19 +252,19 @@ class Parser {
   analizarSeccionEquipos() {
     console.log("Analizando seccion EQUIPOS");
     this.avanzar(); // Saltar el token EQUIPOS
-    
+
     if (!this.esperarToken("LLAVE_ABIERTA")) {
       return null;
     }
 
     const seccion = this.crearNodo(this.TIPOS_NODO.EQUIPOS, "EQUIPOS");
-    
+
     while (this.tokenActual() && this.tokenActual().tipo !== "LLAVE_CERRADA") {
       this.omitirEspacios();
-      
+
       const token = this.tokenActual();
       if (!token || token.tipo === "LLAVE_CERRADA") break;
-      
+
       // Buscar equipos
       if (token.tipo === "PALABRA_RESERVADA" && token.valor === "equipo") {
         const equipo = this.analizarEquipo();
@@ -261,7 +275,7 @@ class Parser {
         this.avanzar();
       }
     }
-    
+
     this.esperarToken("LLAVE_CERRADA");
     return seccion;
   }
@@ -269,19 +283,19 @@ class Parser {
   analizarSeccionEliminacion() {
     console.log("Analizando seccion ELIMINACION");
     this.avanzar(); // Saltar el token ELIMINACION
-    
+
     if (!this.esperarToken("LLAVE_ABIERTA")) {
       return null;
     }
 
     const seccion = this.crearNodo(this.TIPOS_NODO.ELIMINACION, "ELIMINACION");
-    
+
     while (this.tokenActual() && this.tokenActual().tipo !== "LLAVE_CERRADA") {
       this.omitirEspacios();
-      
+
       const token = this.tokenActual();
       if (!token || token.tipo === "LLAVE_CERRADA") break;
-      
+
       // Buscar fases (cuartos, semifinal, final)
       if (token.tipo === "PALABRA_RESERVADA") {
         const fase = this.analizarFase();
@@ -292,7 +306,7 @@ class Parser {
         this.avanzar();
       }
     }
-    
+
     this.esperarToken("LLAVE_CERRADA");
     return seccion;
   }
@@ -301,26 +315,26 @@ class Parser {
   analizarPropiedad() {
     const token = this.tokenActual();
     if (!token) return null;
-    
+
     const nombre = token.valor;
     this.avanzar();
-    
+
     if (!this.esperarToken("DOS_PUNTOS")) return null;
-    
+
     const valorToken = this.tokenActual();
     if (!valorToken) return null;
-    
+
     const propiedad = this.crearNodo(this.TIPOS_NODO.ATRIBUTO, nombre);
     const valor = this.crearNodo(this.TIPOS_NODO.VALOR, valorToken.valor);
     propiedad.hijos.push(valor);
-    
+
     this.avanzar();
-    
+
     // Opcional: saltar coma
     if (this.tokenActual() && this.tokenActual().tipo === "COMA") {
       this.avanzar();
     }
-    
+
     return propiedad;
   }
 
@@ -328,14 +342,20 @@ class Parser {
   analizarAtributoSimple() {
     this.omitirEspacios();
     const nombreToken = this.tokenActual();
-    
-    if (!nombreToken || 
-        (nombreToken.tipo !== "PALABRA_RESERVADA" && nombreToken.tipo !== "IDENTIFICADOR")) {
+
+    if (
+      !nombreToken ||
+      (nombreToken.tipo !== "PALABRA_RESERVADA" &&
+        nombreToken.tipo !== "IDENTIFICADOR")
+    ) {
       return null;
     }
 
     this.avanzar();
-    const nodoAtributo = this.crearNodo(this.TIPOS_NODO.ATRIBUTO, nombreToken.valor);
+    const nodoAtributo = this.crearNodo(
+      this.TIPOS_NODO.ATRIBUTO,
+      nombreToken.valor
+    );
 
     if (!this.esperarToken("DOS_PUNTOS")) return null;
 
@@ -356,14 +376,14 @@ class Parser {
   analizarEquipo() {
     this.omitirEspacios();
     const token = this.tokenActual();
-    
+
     if (!token || token.valor !== "equipo") {
       return null;
     }
-    
+
     this.avanzar(); // consumir "equipo"
     if (!this.esperarToken("DOS_PUNTOS")) return null;
-    
+
     // Leer nombre del equipo
     const nombreToken = this.tokenActual();
     if (!nombreToken || nombreToken.tipo !== "CADENA") {
@@ -371,14 +391,17 @@ class Parser {
         tipo: "ERROR_SINTACTICO",
         mensaje: "Se esperaba nombre del equipo",
         linea: nombreToken?.linea || 0,
-        columna: nombreToken?.columna || 0
+        columna: nombreToken?.columna || 0,
       });
       return null;
     }
     this.avanzar();
-    
-    const nodoEquipo = this.crearNodo(this.TIPOS_NODO.EQUIPO, nombreToken.valor);
-    
+
+    const nodoEquipo = this.crearNodo(
+      this.TIPOS_NODO.EQUIPO,
+      nombreToken.valor
+    );
+
     // Leer lista de jugadores [...]
     if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_ABIERTO") {
       const listaJugadores = this.analizarListaJugadores();
@@ -386,31 +409,35 @@ class Parser {
         nodoEquipo.hijos.push(listaJugadores);
       }
     }
-    
+
     // Coma opcional
     if (this.tokenActual() && this.tokenActual().tipo === "COMA") {
       this.avanzar();
     }
-    
+
     return nodoEquipo;
   }
 
   // Analizar lista de jugadores
   analizarListaJugadores() {
     if (!this.esperarToken("CORCHETE_ABIERTO")) return null;
-    
+
     const nodoLista = this.crearNodo(this.TIPOS_NODO.LISTA, "jugadores");
     let jugadoresLeidos = 0;
-    
-    while (this.tokenActual() && 
-           this.tokenActual().tipo !== "CORCHETE_CERRADO" && 
-           jugadoresLeidos < 30) {
-      
+
+    while (
+      this.tokenActual() &&
+      this.tokenActual().tipo !== "CORCHETE_CERRADO" &&
+      jugadoresLeidos < 30
+    ) {
       this.omitirEspacios();
-      if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_CERRADO") {
+      if (
+        this.tokenActual() &&
+        this.tokenActual().tipo === "CORCHETE_CERRADO"
+      ) {
         break;
       }
-      
+
       const jugador = this.analizarJugador();
       if (jugador) {
         nodoLista.hijos.push(jugador);
@@ -419,13 +446,13 @@ class Parser {
       } else {
         this.avanzar();
       }
-      
+
       // Coma opcional entre jugadores
       if (this.tokenActual() && this.tokenActual().tipo === "COMA") {
         this.avanzar();
       }
     }
-    
+
     if (!this.esperarToken("CORCHETE_CERRADO")) return null;
     return nodoLista;
   }
@@ -434,23 +461,26 @@ class Parser {
   analizarJugador() {
     this.omitirEspacios();
     const token = this.tokenActual();
-    
+
     if (!token || token.valor !== "jugador") {
       return null;
     }
-    
+
     this.avanzar(); // consumir "jugador"
     if (!this.esperarToken("DOS_PUNTOS")) return null;
-    
+
     // Leer nombre del jugador
     const nombreToken = this.tokenActual();
     if (!nombreToken || nombreToken.tipo !== "CADENA") {
       return null;
     }
     this.avanzar();
-    
-    const nodoJugador = this.crearNodo(this.TIPOS_NODO.JUGADOR, nombreToken.valor);
-    
+
+    const nodoJugador = this.crearNodo(
+      this.TIPOS_NODO.JUGADOR,
+      nombreToken.valor
+    );
+
     // Leer atributos del jugador [...]
     if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_ABIERTO") {
       const atributos = this.analizarAtributosJugador();
@@ -458,26 +488,30 @@ class Parser {
         nodoJugador.hijos.push(atributos);
       }
     }
-    
+
     return nodoJugador;
   }
 
   // Analizar atributos de jugador [posicion: "X", numero: Y, edad: Z]
   analizarAtributosJugador() {
     if (!this.esperarToken("CORCHETE_ABIERTO")) return null;
-    
+
     const nodoAtributos = this.crearNodo(this.TIPOS_NODO.LISTA, "atributos");
     let atributosLeidos = 0;
-    
-    while (this.tokenActual() && 
-           this.tokenActual().tipo !== "CORCHETE_CERRADO" && 
-           atributosLeidos < 10) {
-      
+
+    while (
+      this.tokenActual() &&
+      this.tokenActual().tipo !== "CORCHETE_CERRADO" &&
+      atributosLeidos < 10
+    ) {
       this.omitirEspacios();
-      if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_CERRADO") {
+      if (
+        this.tokenActual() &&
+        this.tokenActual().tipo === "CORCHETE_CERRADO"
+      ) {
         break;
       }
-      
+
       const atributo = this.analizarAtributoSimple();
       if (atributo) {
         nodoAtributos.hijos.push(atributo);
@@ -486,7 +520,7 @@ class Parser {
         this.avanzar();
       }
     }
-    
+
     if (!this.esperarToken("CORCHETE_CERRADO")) return null;
     return nodoAtributos;
   }
@@ -495,16 +529,19 @@ class Parser {
   analizarFase() {
     this.omitirEspacios();
     const token = this.tokenActual();
-    
-    if (!token || (token.tipo !== "PALABRA_RESERVADA" && token.tipo !== "IDENTIFICADOR")) {
+
+    if (
+      !token ||
+      (token.tipo !== "PALABRA_RESERVADA" && token.tipo !== "IDENTIFICADOR")
+    ) {
       return null;
     }
-    
+
     this.avanzar(); // consumir nombre de la fase
     if (!this.esperarToken("DOS_PUNTOS")) return null;
-    
+
     const nodoFase = this.crearNodo(this.TIPOS_NODO.FASE, token.valor);
-    
+
     // Leer lista de partidos
     if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_ABIERTO") {
       const partidos = this.analizarListaPartidos();
@@ -513,31 +550,35 @@ class Parser {
         nodoFase.hijos.push(...partidos.hijos);
       }
     }
-    
+
     // Coma opcional
     if (this.tokenActual() && this.tokenActual().tipo === "COMA") {
       this.avanzar();
     }
-    
+
     return nodoFase;
   }
 
   // Analizar lista de partidos
   analizarListaPartidos() {
     if (!this.esperarToken("CORCHETE_ABIERTO")) return null;
-    
+
     const nodoLista = this.crearNodo(this.TIPOS_NODO.LISTA, "partidos");
     let partidosLeidos = 0;
-    
-    while (this.tokenActual() && 
-           this.tokenActual().tipo !== "CORCHETE_CERRADO" && 
-           partidosLeidos < 20) {
-      
+
+    while (
+      this.tokenActual() &&
+      this.tokenActual().tipo !== "CORCHETE_CERRADO" &&
+      partidosLeidos < 20
+    ) {
       this.omitirEspacios();
-      if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_CERRADO") {
+      if (
+        this.tokenActual() &&
+        this.tokenActual().tipo === "CORCHETE_CERRADO"
+      ) {
         break;
       }
-      
+
       const partido = this.analizarPartido();
       if (partido) {
         nodoLista.hijos.push(partido);
@@ -546,13 +587,13 @@ class Parser {
       } else {
         this.avanzar();
       }
-      
+
       // Coma opcional
       if (this.tokenActual() && this.tokenActual().tipo === "COMA") {
         this.avanzar();
       }
     }
-    
+
     if (!this.esperarToken("CORCHETE_CERRADO")) return null;
     return nodoLista;
   }
@@ -561,33 +602,36 @@ class Parser {
   analizarPartido() {
     this.omitirEspacios();
     const token = this.tokenActual();
-    
+
     if (!token || token.valor !== "partido") {
       return null;
     }
-    
+
     this.avanzar(); // consumir "partido"
     if (!this.esperarToken("DOS_PUNTOS")) return null;
-    
+
     // Leer equipo1
     const equipo1Token = this.tokenActual();
     if (!equipo1Token || equipo1Token.tipo !== "CADENA") {
       return null;
     }
     this.avanzar();
-    
+
     // Leer "vs"
     if (!this.esperarToken("VS")) return null;
-    
+
     // Leer equipo2
     const equipo2Token = this.tokenActual();
     if (!equipo2Token || equipo2Token.tipo !== "CADENA") {
       return null;
     }
     this.avanzar();
-    
-    const nodoPartido = this.crearNodo(this.TIPOS_NODO.PARTIDO, `${equipo1Token.valor} vs ${equipo2Token.valor}`);
-    
+
+    const nodoPartido = this.crearNodo(
+      this.TIPOS_NODO.PARTIDO,
+      `${equipo1Token.valor} vs ${equipo2Token.valor}`
+    );
+
     // Leer detalles del partido [...]
     if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_ABIERTO") {
       const detalles = this.analizarDetallesPartido();
@@ -595,26 +639,30 @@ class Parser {
         nodoPartido.hijos.push(detalles);
       }
     }
-    
+
     return nodoPartido;
   }
 
   // Analizar detalles del partido [resultado: "X-Y", goleadores: [...]]
   analizarDetallesPartido() {
     if (!this.esperarToken("CORCHETE_ABIERTO")) return null;
-    
+
     const nodoDetalles = this.crearNodo(this.TIPOS_NODO.LISTA, "detalles");
     let detallesLeidos = 0;
-    
-    while (this.tokenActual() && 
-           this.tokenActual().tipo !== "CORCHETE_CERRADO" && 
-           detallesLeidos < 10) {
-      
+
+    while (
+      this.tokenActual() &&
+      this.tokenActual().tipo !== "CORCHETE_CERRADO" &&
+      detallesLeidos < 10
+    ) {
       this.omitirEspacios();
-      if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_CERRADO") {
+      if (
+        this.tokenActual() &&
+        this.tokenActual().tipo === "CORCHETE_CERRADO"
+      ) {
         break;
       }
-      
+
       const detalle = this.analizarDetallePartido();
       if (detalle) {
         nodoDetalles.hijos.push(detalle);
@@ -623,7 +671,7 @@ class Parser {
         this.avanzar();
       }
     }
-    
+
     if (!this.esperarToken("CORCHETE_CERRADO")) return null;
     return nodoDetalles;
   }
@@ -632,46 +680,56 @@ class Parser {
   analizarDetallePartido() {
     this.omitirEspacios();
     const token = this.tokenActual();
-    
+
     if (!token) return null;
-    
+
     if (token.valor === "resultado") {
       return this.analizarAtributoSimple();
     } else if (token.valor === "goleadores") {
       this.avanzar();
       if (!this.esperarToken("DOS_PUNTOS")) return null;
-      
-      const nodoGoleadores = this.crearNodo(this.TIPOS_NODO.LISTA, "goleadores");
-      
-      if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_ABIERTO") {
+
+      const nodoGoleadores = this.crearNodo(
+        this.TIPOS_NODO.LISTA,
+        "goleadores"
+      );
+
+      if (
+        this.tokenActual() &&
+        this.tokenActual().tipo === "CORCHETE_ABIERTO"
+      ) {
         const listaGoleadores = this.analizarListaGoleadores();
         if (listaGoleadores) {
           nodoGoleadores.hijos.push(listaGoleadores);
         }
       }
-      
+
       return nodoGoleadores;
     }
-    
+
     return this.analizarAtributoSimple();
   }
 
   // Analizar lista de goleadores
   analizarListaGoleadores() {
     if (!this.esperarToken("CORCHETE_ABIERTO")) return null;
-    
+
     const nodoLista = this.crearNodo(this.TIPOS_NODO.LISTA, "lista_goleadores");
     let goleadoresLeidos = 0;
-    
-    while (this.tokenActual() && 
-           this.tokenActual().tipo !== "CORCHETE_CERRADO" && 
-           goleadoresLeidos < 20) {
-      
+
+    while (
+      this.tokenActual() &&
+      this.tokenActual().tipo !== "CORCHETE_CERRADO" &&
+      goleadoresLeidos < 20
+    ) {
       this.omitirEspacios();
-      if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_CERRADO") {
+      if (
+        this.tokenActual() &&
+        this.tokenActual().tipo === "CORCHETE_CERRADO"
+      ) {
         break;
       }
-      
+
       const goleador = this.analizarGoleador();
       if (goleador) {
         nodoLista.hijos.push(goleador);
@@ -680,13 +738,13 @@ class Parser {
       } else {
         this.avanzar();
       }
-      
+
       // Coma opcional
       if (this.tokenActual() && this.tokenActual().tipo === "COMA") {
         this.avanzar();
       }
     }
-    
+
     if (!this.esperarToken("CORCHETE_CERRADO")) return null;
     return nodoLista;
   }
@@ -695,23 +753,26 @@ class Parser {
   analizarGoleador() {
     this.omitirEspacios();
     const token = this.tokenActual();
-    
+
     if (!token || token.valor !== "goleador") {
       return null;
     }
-    
+
     this.avanzar(); // consumir "goleador"
     if (!this.esperarToken("DOS_PUNTOS")) return null;
-    
+
     // Leer nombre del goleador
     const nombreToken = this.tokenActual();
     if (!nombreToken || nombreToken.tipo !== "CADENA") {
       return null;
     }
     this.avanzar();
-    
-    const nodoGoleador = this.crearNodo(this.TIPOS_NODO.GOLEADOR, nombreToken.valor);
-    
+
+    const nodoGoleador = this.crearNodo(
+      this.TIPOS_NODO.GOLEADOR,
+      nombreToken.valor
+    );
+
     // Leer atributos del goleador [minuto: X]
     if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_ABIERTO") {
       const atributos = this.analizarAtributosJugador(); // reutilizar el mismo metodo
@@ -719,7 +780,7 @@ class Parser {
         nodoGoleador.hijos.push(atributos);
       }
     }
-    
+
     return nodoGoleador;
   }
 
@@ -731,7 +792,11 @@ class Parser {
     if (!token) return null;
 
     // Valores directos
-    if (token.tipo === "CADENA" || token.tipo === "NUMERO" || token.tipo === "IDENTIFICADOR") {
+    if (
+      token.tipo === "CADENA" ||
+      token.tipo === "NUMERO" ||
+      token.tipo === "IDENTIFICADOR"
+    ) {
       this.avanzar();
       return this.crearNodo(this.TIPOS_NODO.VALOR, token.valor);
     }
@@ -756,12 +821,16 @@ class Parser {
     const nodoLista = this.crearNodo(this.TIPOS_NODO.LISTA, "[]");
     let elementosLeidos = 0;
 
-    while (this.tokenActual() && 
-           this.tokenActual().tipo !== "CORCHETE_CERRADO" && 
-           elementosLeidos < 50) {
-      
+    while (
+      this.tokenActual() &&
+      this.tokenActual().tipo !== "CORCHETE_CERRADO" &&
+      elementosLeidos < 50
+    ) {
       this.omitirEspacios();
-      if (this.tokenActual() && this.tokenActual().tipo === "CORCHETE_CERRADO") {
+      if (
+        this.tokenActual() &&
+        this.tokenActual().tipo === "CORCHETE_CERRADO"
+      ) {
         break;
       }
 
@@ -789,10 +858,11 @@ class Parser {
     const nodoObjeto = this.crearNodo(this.TIPOS_NODO.EQUIPO, "{}");
     let atributosLeidos = 0;
 
-    while (this.tokenActual() && 
-           this.tokenActual().tipo !== "LLAVE_CERRADA" && 
-           atributosLeidos < 20) {
-      
+    while (
+      this.tokenActual() &&
+      this.tokenActual().tipo !== "LLAVE_CERRADA" &&
+      atributosLeidos < 20
+    ) {
       this.omitirEspacios();
       if (this.tokenActual() && this.tokenActual().tipo === "LLAVE_CERRADA") {
         break;
@@ -814,27 +884,31 @@ class Parser {
   // Metodo parse principal
   parsePublic() {
     console.log("=== INICIANDO ANALISIS SINTACTICO ===");
-    
+
     try {
       const resultado = this.parse();
-      
+
       return {
-        exito: this.errores.filter(e => e.tipo.includes("ERROR")).length === 0,
+        exito:
+          this.errores.filter((e) => e.tipo.includes("ERROR")).length === 0,
         arbol: resultado,
         errores: this.errores,
-        estadisticas: this.obtenerEstadisticas()
+        estadisticas: this.obtenerEstadisticas(),
       };
     } catch (error) {
       console.error("Error critico en parser:", error.message);
       return {
         exito: false,
         arbol: null,
-        errores: [...this.errores, {
-          tipo: "ERROR_CRITICO",
-          mensaje: error.message,
-          linea: 0,
-          columna: 0
-        }]
+        errores: [
+          ...this.errores,
+          {
+            tipo: "ERROR_CRITICO",
+            mensaje: error.message,
+            linea: 0,
+            columna: 0,
+          },
+        ],
       };
     }
   }
@@ -844,27 +918,30 @@ class Parser {
       ...this.estadisticas,
       totalTokens: this.tokens.length,
       errores: this.errores.length,
-      advertencias: this.errores.filter(e => e.tipo.includes("ADVERTENCIA")).length,
-      erroresCriticos: this.errores.filter(e => e.tipo.includes("CRITICO")).length,
-      analisisExitoso: this.errores.filter(e => e.tipo.includes("ERROR")).length === 0
+      advertencias: this.errores.filter((e) => e.tipo.includes("ADVERTENCIA"))
+        .length,
+      erroresCriticos: this.errores.filter((e) => e.tipo.includes("CRITICO"))
+        .length,
+      analisisExitoso:
+        this.errores.filter((e) => e.tipo.includes("ERROR")).length === 0,
     };
   }
 
   obtenerResumenAnalisis() {
     const stats = this.obtenerEstadisticas();
     return {
-      resumen: `Analisis ${stats.analisisExitoso ? 'exitoso' : 'con errores'}`,
+      resumen: `Analisis ${stats.analisisExitoso ? "exitoso" : "con errores"}`,
       detalles: {
         equipos: stats.equipos,
         jugadores: stats.jugadores,
         partidos: stats.partidos,
-        goleadores: stats.goleadores
+        goleadores: stats.goleadores,
       },
       calidad: {
         errores: stats.errores,
         advertencias: stats.advertencias,
-        criticos: stats.erroresCriticos
-      }
+        criticos: stats.erroresCriticos,
+      },
     };
   }
 }
