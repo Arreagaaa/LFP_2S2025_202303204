@@ -2,6 +2,7 @@
 // Single clean implementation
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require('child_process');
 
 class GraphvizGenerator {
   constructor() {
@@ -193,11 +194,34 @@ class GraphvizGenerator {
     const dot = lines.join("\n");
     const outDot = path.join(this.outputDir, nombreArchivo);
     fs.writeFileSync(outDot, dot, "utf8");
-    this._writeHtmlViewer(dot, info);
+    
+    // Intentar generar PNG
+    const pngPath = this._generatePNG(outDot, dot);
+    this._writeHtmlViewer(dot, info, pngPath);
     return outDot;
   }
 
-  _writeHtmlViewer(dotText, info) {
+  _generatePNG(dotPath, dotContent) {
+    try {
+      const pngPath = dotPath.replace('.dot', '.png');
+      // Intentar usar dot command para generar PNG
+      execSync(`dot -Tpng "${dotPath}" -o "${pngPath}"`, { 
+        stdio: 'ignore',
+        timeout: 10000 
+      });
+      
+      if (fs.existsSync(pngPath)) {
+        console.log(`PNG generado exitosamente: ${pngPath}`);
+        return pngPath;
+      }
+    } catch (error) {
+      console.log('Graphviz no está disponible en el sistema. Mostrando solo código DOT.');
+      console.log('Para instalar Graphviz: https://graphviz.org/download/');
+    }
+    return null;
+  }
+
+  _writeHtmlViewer(dotText, info, pngPath = null) {
     const safe = this.escapeHtml(dotText);
     const title = this.escapeHtml(info && info.nombre ? info.nombre : "Torneo");
     const html = [];
@@ -210,17 +234,33 @@ class GraphvizGenerator {
     );
     html.push("<title>Graphviz Viewer</title>");
     html.push(
-      "<style>body{font-family:Segoe UI,Roboto,sans-serif;background:#f5f7ff;margin:0;padding:20px}pre{background:#0f1724;color:#e6eef8;padding:12px;border-radius:6px;overflow:auto}</style>"
+      "<style>body{font-family:Segoe UI,Roboto,sans-serif;background:#f5f7ff;margin:0;padding:20px}pre{background:#0f1724;color:#e6eef8;padding:12px;border-radius:6px;overflow:auto}.diagram-container{background:white;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin:20px 0}.diagram-container img{max-width:100%;height:auto;border:1px solid #ddd}.section{margin:20px 0}</style>"
     );
     html.push("</head>");
     html.push("<body>");
-    html.push("<h2>Visualizador Graphviz</h2>");
-    html.push("<div>Torneo: " + title + "</div>");
-    html.push("<p>DOT:</p>");
+    html.push("<h2>Visualizador Graphviz - " + title + "</h2>");
+    
+    // Si tenemos PNG, mostrarlo
+    if (pngPath && fs.existsSync(pngPath)) {
+      const pngFileName = path.basename(pngPath);
+      html.push('<div class="diagram-container">');
+      html.push('<h3>Diagrama del Torneo</h3>');
+      html.push('<img src="' + pngFileName + '" alt="Diagrama del torneo" />');
+      html.push('</div>');
+    } else {
+      html.push('<div class="section">');
+      html.push('<p><strong>Nota:</strong> Para ver el diagrama visual, instale Graphviz desde <a href="https://graphviz.org/download/" target="_blank">graphviz.org</a></p>');
+      html.push('</div>');
+    }
+    
+    html.push('<div class="section">');
+    html.push("<h3>Código DOT</h3>");
     html.push('<pre id="dot">' + safe + "</pre>");
     html.push(
       '<p><button id="open-online">Abrir en Graphviz Online</button> <button id="copy-dot">Copiar DOT</button></p>'
     );
+    html.push('</div>');
+    
     html.push("<script>");
     html.push(
       'document.getElementById("open-online").addEventListener("click",function(){var d=document.getElementById("dot").textContent||"";var url="https://dreampuf.github.io/GraphvizOnline/#"+encodeURIComponent(d);window.open(url,"_blank");});'

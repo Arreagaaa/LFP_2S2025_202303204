@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 /**
- * Generador de reportes HTML para TourneyJS - Versión corregida
+ * Generador de reportes HTML para TourneyJS
  * Crea tablas y reportes según las especificaciones del proyecto
  */
 class HtmlReporter {
@@ -21,23 +21,381 @@ class HtmlReporter {
   }
 
   /**
-   * Escapa caracteres HTML para evitar problemas de renderizado
+   * Genera el CSS base para todos los reportes
    */
-  escapeHtml(texto) {
-    if (!texto) return "";
-    return texto
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
+  getBaseCSS() {
+    return `
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-  /**
-   * Obtiene la ruta del directorio de salida
-   */
-  getOutputDirectory() {
-    return this.outputDir;
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                padding: 2rem;
+                color: #333;
+                line-height: 1.6;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 16px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+
+            .header {
+                background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+                color: white;
+                padding: 3rem 2rem;
+                text-align: center;
+                position: relative;
+            }
+
+            .header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+                opacity: 0.3;
+            }
+
+            .header > * {
+                position: relative;
+                z-index: 1;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+                letter-spacing: -0.02em;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+                opacity: 0.9;
+                font-weight: 400;
+            }
+
+            .content {
+                padding: 3rem 2rem;
+            }
+
+            h2 {
+                color: #1e40af;
+                font-size: 1.75rem;
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 3px solid #e2e8f0;
+            }
+
+            .info-panel {
+                background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                border-left: 4px solid #3b82f6;
+            }
+
+            .success-panel {
+                background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+                border: 1px solid #bbf7d0;
+                border-radius: 12px;
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                border-left: 4px solid #10b981;
+                color: #064e3b;
+            }
+
+            .info-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .info-item {
+                background: white;
+                padding: 1.5rem;
+                border-radius: 8px;
+                border-left: 4px solid #3b82f6;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            }
+
+            .info-item strong {
+                color: #1e40af;
+                font-weight: 600;
+                display: block;
+                margin-bottom: 0.5rem;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                background: white;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                margin-bottom: 2rem;
+            }
+
+            thead {
+                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+                color: white;
+            }
+
+            th {
+                padding: 1rem 1.5rem;
+                text-align: left;
+                font-weight: 600;
+                font-size: 0.9rem;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+            }
+
+            td {
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid #f1f5f9;
+                vertical-align: top;
+            }
+
+            tbody tr {
+                transition: background-color 0.2s ease;
+            }
+
+            tbody tr:hover {
+                background-color: #f8fafc;
+            }
+
+            tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+            .error-row {
+                background-color: #fef2f2;
+                border-left: 4px solid #ef4444;
+            }
+
+            .error-row:hover {
+                background-color: #fee2e2;
+            }
+
+            .type-badge {
+                display: inline-block;
+                padding: 0.25rem 0.75rem;
+                border-radius: 20px;
+                font-size: 0.75rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            .type-palabra-reservada {
+                background: #dbeafe;
+                color: #1d4ed8;
+            }
+
+            .type-identificador {
+                background: #d1fae5;
+                color: #059669;
+            }
+
+            .type-numero {
+                background: #fef3c7;
+                color: #d97706;
+            }
+
+            .type-simbolo {
+                background: #f3e8ff;
+                color: #7c3aed;
+            }
+
+            .type-cadena {
+                background: #fce7f3;
+                color: #be185d;
+            }
+
+            .tournament-bracket {
+                background: white;
+                border-radius: 12px;
+                padding: 2rem;
+                margin: 1rem 0;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .bracket-round {
+                margin-bottom: 2rem;
+            }
+
+            .bracket-round h3 {
+                color: #1e40af;
+                font-size: 1.25rem;
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid #e2e8f0;
+            }
+
+            .bracket-match {
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 1rem;
+                margin-bottom: 0.5rem;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+
+            .bracket-match:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            }
+
+            .match-teams {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .team {
+                font-weight: 600;
+                color: #1e40af;
+            }
+
+            .score {
+                background: #1e40af;
+                color: white;
+                padding: 0.25rem 0.75rem;
+                border-radius: 20px;
+                font-weight: 600;
+                font-size: 0.9rem;
+            }
+
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .stat-card {
+                background: white;
+                border-radius: 12px;
+                padding: 2rem;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                border-top: 4px solid #3b82f6;
+            }
+
+            .stat-card h3 {
+                color: #1e40af;
+                font-size: 1.25rem;
+                margin-bottom: 1rem;
+            }
+
+            .no-data {
+                text-align: center;
+                padding: 3rem 2rem;
+                color: #64748b;
+                font-style: italic;
+            }
+
+            .footer {
+                background: #f8fafc;
+                padding: 2rem;
+                text-align: center;
+                border-top: 1px solid #e2e8f0;
+                color: #64748b;
+                font-size: 0.9rem;
+            }
+
+            .timestamp {
+                color: #94a3b8;
+                font-size: 0.9em;
+                text-align: center;
+                margin-top: 20px;
+                font-style: italic;
+            }
+
+            @media (max-width: 768px) {
+                body {
+                    padding: 1rem;
+                }
+
+                .header {
+                    padding: 2rem 1rem;
+                }
+
+                h1 {
+                    font-size: 2rem;
+                }
+
+                .content {
+                    padding: 2rem 1rem;
+                }
+
+                .info-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                table {
+                    font-size: 0.9rem;
+                }
+
+                th, td {
+                    padding: 0.75rem 1rem;
+                }
+
+                .match-teams {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Animaciones sutiles */
+            .container {
+                animation: fadeInUp 0.6s ease-out;
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Efectos de scroll */
+            html {
+                scroll-behavior: smooth;
+            }
+
+            /* Mejoras de accesibilidad */
+            :focus {
+                outline: 2px solid #3b82f6;
+                outline-offset: 2px;
+            }
+        </style>
+        `;
   }
 
   /**
@@ -122,6 +480,12 @@ class HtmlReporter {
   generarTablaTokens(tokens, nombreArchivo = "reporte_tokens.html") {
     const timestamp = new Date().toLocaleString();
 
+    // Calcular estadísticas de tokens
+    const tiposTokens = {};
+    tokens.forEach((token) => {
+      tiposTokens[token.tipo] = (tiposTokens[token.tipo] || 0) + 1;
+    });
+
     let contenidoHTML = `
 <!DOCTYPE html>
 <html lang="es">
@@ -186,7 +550,27 @@ class HtmlReporter {
   }
 
   /**
-   * Genera reporte de bracket de eliminación - VERSIÓN CORREGIDA
+   * Escapa caracteres HTML para evitar problemas de renderizado
+   */
+  escapeHtml(texto) {
+    if (!texto) return "";
+    return texto
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  /**
+   * Obtiene la ruta del directorio de salida
+   */
+  getOutputDirectory() {
+    return this.outputDir;
+  }
+
+  /**
+   * Genera reporte de bracket de eliminación
    */
   generarReporteBracket(
     arbolSintactico,
@@ -198,6 +582,11 @@ class HtmlReporter {
     const infoTorneo = this.extraerInformacionTorneo(arbolSintactico);
     const partidos = this.extraerPartidos(arbolSintactico);
     const fases = this.extraerFases(arbolSintactico);
+
+    // Debug: consola log para ver qué estamos extrayendo
+    console.log('DEBUG - Info Torneo:', infoTorneo);
+    console.log('DEBUG - Partidos encontrados:', partidos);
+    console.log('DEBUG - Fases encontradas:', fases);
 
     let contenidoHTML = `
 <!DOCTYPE html>
@@ -283,6 +672,9 @@ class HtmlReporter {
         .stats-table tr:nth-child(even) { background: #f9fafb; }
         .stats-table tr:hover { background: #f3f4f6; }
         .team-name { font-weight: bold; text-align: left !important; }
+        .champion { background: #22c55e !important; color: white; font-weight: bold; }
+        .finalist { background: #fbbf24 !important; color: white; font-weight: bold; }
+        .semifinalist { background: #f97316 !important; color: white; font-weight: bold; }
         .positive { color: #22c55e; font-weight: bold; }
         .negative { color: #ef4444; font-weight: bold; }
         .neutral { color: #6b7280; }
@@ -344,7 +736,7 @@ class HtmlReporter {
   }
 
   /**
-   * Genera reporte de goleadores - VERSIÓN CORREGIDA SIN DUPLICACIONES
+   * Genera reporte de goleadores
    */
   generarReporteGoleadores(
     arbolSintactico,
@@ -482,7 +874,7 @@ class HtmlReporter {
                     <strong>Nombre:</strong> ${estadisticas.nombreTorneo || "Torneo sin nombre"}
                 </div>
                 <div class="info-item">
-                    <strong>Sede:</strong> ${infoTorneo.sede || "No especificada"}
+                    <strong>Sede:</strong> Sede no especificada
                 </div>
                 <div class="info-item">
                     <strong>Equipos Registrados:</strong> ${estadisticas.equiposParticipantes || 0}
@@ -536,10 +928,10 @@ class HtmlReporter {
             <h3>Resumen del Análisis Léxico y Sintáctico</h3>
             <div class="info-grid">
                 <div class="info-item">
-                    <strong>Tokens Procesados:</strong> 449
+                    <strong>Tokens Procesados:</strong> Datos de análisis
                 </div>
                 <div class="info-item">
-                    <strong>Errores Encontrados:</strong> 1
+                    <strong>Errores Encontrados:</strong> Verificar reporte de errores
                 </div>
                 <div class="info-item">
                     <strong>Estado del AST:</strong> Generado correctamente
@@ -566,12 +958,13 @@ class HtmlReporter {
   // ===== MÉTODOS AUXILIARES PARA PROCESAR EL AST =====
 
   extraerInformacionTorneo(ast) {
-    if (!ast || !ast.hijos) return { nombre: "N/A", equipos: 0, sede: "No especificada" };
+    if (!ast || !ast.hijos) return { nombre: "N/A", equipos: 0 };
 
-    let infoTorneo = { nombre: "N/A", equipos: 0, sede: "No especificada" };
+    let infoTorneo = { nombre: "N/A", equipos: 0 };
 
     const buscarTorneo = (nodo) => {
       if (nodo.tipo === "TORNEO") {
+        // Buscar nombre y equipos en los hijos
         if (nodo.hijos) {
           nodo.hijos.forEach((hijo) => {
             if (
@@ -589,14 +982,6 @@ class HtmlReporter {
               hijo.hijos[0]
             ) {
               infoTorneo.equipos = parseInt(hijo.hijos[0].valor) || 0;
-            }
-            if (
-              hijo.tipo === "ATRIBUTO" &&
-              hijo.valor === "sede" &&
-              hijo.hijos &&
-              hijo.hijos[0]
-            ) {
-              infoTorneo.sede = hijo.hijos[0].valor.replace(/"/g, "");
             }
           });
         }
@@ -617,12 +1002,10 @@ class HtmlReporter {
     
     const buscarFases = (nodo) => {
       if (nodo.tipo === "FASE" && nodo.valor) {
-        if (!fases.some(f => f.nombre === nodo.valor)) {
-          fases.push({
-            nombre: nodo.valor,
-            partidos: []
-          });
-        }
+        fases.push({
+          nombre: nodo.valor,
+          partidos: []
+        });
       }
       if (nodo.hijos) {
         nodo.hijos.forEach(buscarFases);
@@ -637,7 +1020,6 @@ class HtmlReporter {
     if (!ast) return [];
 
     let partidos = [];
-    let partidosProcessed = new Set(); // Para evitar duplicados
 
     const buscarPartidos = (nodo, faseActual = "N/A") => {
       if (nodo.tipo === "FASE" && nodo.valor) {
@@ -654,7 +1036,7 @@ class HtmlReporter {
           goleadores: []
         };
 
-        // Extraer equipos del valor del partido
+        // Extraer equipos del valor del partido que tiene formato "equipo1 vs equipo2"
         if (nodo.valor && nodo.valor.includes(" vs ")) {
           const equipos = nodo.valor.split(" vs ");
           if (equipos.length === 2) {
@@ -663,19 +1045,47 @@ class HtmlReporter {
           }
         }
 
-        // Crear un ID único para el partido para evitar duplicados
-        const partidoId = `${partido.fase}-${partido.equipo1}-${partido.equipo2}`;
-        
-        if (!partidosProcessed.has(partidoId)) {
-          partidosProcessed.add(partidoId);
-
-          // Buscar resultado y goleadores SIN recursión múltiple
-          if (nodo.hijos) {
-            this.procesarHijosPartido(nodo.hijos, partido);
-          }
-
-          partidos.push(partido);
+        // Buscar resultado y goleadores en los hijos
+        if (nodo.hijos) {
+          const buscarEnHijos = (hijo) => {
+            if (hijo.tipo === "ATRIBUTO" && hijo.valor === "resultado" && hijo.hijos && hijo.hijos[0]) {
+              partido.resultado = hijo.hijos[0].valor.replace(/"/g, "");
+              partido.ganador = this.determinarGanador(
+                partido.equipo1,
+                partido.equipo2,
+                partido.resultado
+              );
+            } else if (hijo.tipo === "GOLEADOR" && hijo.valor) {
+              let goleador = {
+                nombre: hijo.valor.replace(/"/g, ""),
+                minuto: "N/A"
+              };
+              
+              // Buscar el minuto del gol
+              if (hijo.hijos) {
+                const buscarMinuto = (nieto) => {
+                  if (nieto.tipo === "ATRIBUTO" && nieto.valor === "minuto" && nieto.hijos && nieto.hijos[0]) {
+                    goleador.minuto = nieto.hijos[0].valor;
+                  }
+                  if (nieto.hijos) {
+                    nieto.hijos.forEach(buscarMinuto);
+                  }
+                };
+                hijo.hijos.forEach(buscarMinuto);
+              }
+              
+              partido.goleadores.push(goleador);
+            } else if (hijo.tipo === "LISTA" && hijo.hijos) {
+              hijo.hijos.forEach(buscarEnHijos);
+            }
+            if (hijo.hijos) {
+              hijo.hijos.forEach(buscarEnHijos);
+            }
+          };
+          nodo.hijos.forEach(buscarEnHijos);
         }
+
+        partidos.push(partido);
       }
 
       if (nodo.hijos) {
@@ -685,154 +1095,6 @@ class HtmlReporter {
 
     buscarPartidos(ast);
     return partidos;
-  }
-
-  procesarHijosPartido(hijos, partido) {
-    if (!hijos || !Array.isArray(hijos)) return;
-    
-    hijos.forEach(hijo => {
-      if (hijo.tipo === "LISTA" && hijo.hijos) {
-        // Procesar lista de detalles
-        this.procesarHijosPartido(hijo.hijos, partido);
-      } else if (hijo.tipo === "ATRIBUTO" && hijo.valor === "resultado" && hijo.hijos && hijo.hijos[0]) {
-        partido.resultado = hijo.hijos[0].valor.replace(/"/g, "");
-        partido.ganador = this.determinarGanador(
-          partido.equipo1,
-          partido.equipo2,
-          partido.resultado
-        );
-      } else if (hijo.tipo === "LISTA" && hijo.valor === "goleadores" && hijo.hijos) {
-        // Procesar lista de goleadores
-        this.procesarListaGoleadores(hijo.hijos, partido);
-      } else if (hijo.tipo === "GOLEADOR" && hijo.valor) {
-        // Goleador directo (sin lista padre)
-        let goleador = {
-          nombre: hijo.valor.replace(/"/g, ""),
-          minuto: "N/A"
-        };
-        
-        if (hijo.hijos) {
-          this.buscarMinutoGoleador(hijo.hijos, goleador);
-        }
-        
-        if (goleador.nombre && goleador.nombre !== "N/A" && goleador.nombre.trim()) {
-          partido.goleadores.push(goleador);
-        }
-      }
-    });
-  }
-
-  procesarListaGoleadores(hijosGoleadores, partido) {
-    if (!hijosGoleadores || !Array.isArray(hijosGoleadores)) return;
-    
-    hijosGoleadores.forEach(hijoGoleador => {
-      if (hijoGoleador.tipo === "LISTA" && hijoGoleador.hijos) {
-        // Es una lista interna de goleadores
-        this.procesarListaGoleadores(hijoGoleador.hijos, partido);
-      } else if (hijoGoleador.tipo === "GOLEADOR" && hijoGoleador.valor) {
-        let goleador = {
-          nombre: hijoGoleador.valor.replace(/"/g, ""),
-          minuto: "N/A"
-        };
-        
-        // Buscar minuto en los hijos del goleador
-        if (hijoGoleador.hijos && Array.isArray(hijoGoleador.hijos)) {
-          this.buscarMinutoGoleador(hijoGoleador.hijos, goleador);
-        }
-        
-        // Solo agregar si tiene nombre válido
-        if (goleador.nombre && goleador.nombre !== "N/A" && goleador.nombre.trim()) {
-          partido.goleadores.push(goleador);
-        }
-      }
-    });
-  }
-
-  buscarMinutoGoleador(hijos, goleador) {
-    if (!hijos || !Array.isArray(hijos)) return;
-    
-    hijos.forEach(hijo => {
-      if (hijo.tipo === "LISTA" && hijo.hijos) {
-        this.buscarMinutoGoleador(hijo.hijos, goleador);
-      } else if (hijo.tipo === "ATRIBUTO" && hijo.valor === "minuto" && hijo.hijos && hijo.hijos[0]) {
-        goleador.minuto = hijo.hijos[0].valor;
-      }
-    });
-  }
-
-  extraerGoleadores(ast) {
-    if (!ast) return [];
-
-    let goleadores = new Map(); // Usar Map para evitar duplicados
-    let goleadoresProcessados = new Set(); // Para evitar procesar el mismo goleador múltiples veces
-
-    const buscarGoleadores = (nodo, equipoActual = null, faseActual = null) => {
-      // Identificar contexto actual
-      if (nodo.tipo === "EQUIPO" && nodo.valor) {
-        equipoActual = nodo.valor.replace(/"/g, "");
-      }
-      if (nodo.tipo === "FASE" && nodo.valor) {
-        faseActual = nodo.valor;
-      }
-
-      // Procesar goleadores directamente del AST
-      if (nodo.tipo === "GOLEADOR" && nodo.valor) {
-        const nombreGoleador = nodo.valor.replace(/"/g, "");
-        let minutoGol = "N/A";
-
-        // Buscar minuto en los hijos del goleador
-        if (nodo.hijos) {
-          const buscarMinuto = (hijoGoleador) => {
-            if (hijoGoleador.tipo === "ATRIBUTO" && hijoGoleador.valor === "minuto" && 
-                hijoGoleador.hijos && hijoGoleador.hijos[0]) {
-              minutoGol = hijoGoleador.hijos[0].valor;
-              return true;
-            }
-            if (hijoGoleador.tipo === "LISTA" && hijoGoleador.hijos) {
-              return hijoGoleador.hijos.some(buscarMinuto);
-            }
-            return false;
-          };
-          nodo.hijos.some(buscarMinuto);
-        }
-
-        // Crear ID único para evitar duplicados del mismo gol
-        const goleadorId = `${nombreGoleador}-${minutoGol}-${faseActual}`;
-        
-        if (!goleadoresProcessados.has(goleadorId)) {
-          goleadoresProcessados.add(goleadorId);
-
-          // Determinar equipo del goleador
-          const equipoGoleador = equipoActual || this.determinarEquipoDelGoleador(nombreGoleador, ast) || "Desconocido";
-          
-          if (goleadores.has(nombreGoleador)) {
-            const goleadorExistente = goleadores.get(nombreGoleador);
-            goleadorExistente.goles++;
-            const minutoFormateado = minutoGol + "'";
-            if (!goleadorExistente.minutos.includes(minutoFormateado)) {
-              goleadorExistente.minutos.push(minutoFormateado);
-            }
-          } else {
-            goleadores.set(nombreGoleador, {
-              jugador: nombreGoleador,
-              equipo: equipoGoleador,
-              goles: 1,
-              minutos: [minutoGol + "'"]
-            });
-          }
-        }
-      }
-
-      // Recorrer hijos manteniendo contexto
-      if (nodo.hijos) {
-        nodo.hijos.forEach(hijo => buscarGoleadores(hijo, equipoActual, faseActual));
-      }
-    };
-
-    buscarGoleadores(ast);
-    
-    // Convertir Map a Array y ordenar
-    return Array.from(goleadores.values()).sort((a, b) => b.goles - a.goles);
   }
 
   determinarCampeon(partidos) {
@@ -916,6 +1178,179 @@ class HtmlReporter {
     return html;
   }
 
+  extraerGoleadores(ast) {
+    if (!ast) return [];
+
+    let goleadores = [];
+    let equiposPartidos = new Map(); // Para asociar goleadores con equipos basado en partidos
+
+    const buscarGoleadores = (nodo) => {
+      // Extraer información de partidos para saber qué equipos jugaron
+      if (nodo.tipo === "PARTIDO" && nodo.valor) {
+        let equiposEnPartido = [];
+        if (nodo.valor.includes(" vs ")) {
+          equiposEnPartido = nodo.valor
+            .split(" vs ")
+            .map((e) => e.replace(/"/g, "").trim());
+        }
+
+        // Buscar goleadores en este partido
+        const buscarGoleadoresEnPartido = (partidoNodo) => {
+          if (partidoNodo.tipo === "GOLEADOR") {
+            let goleador = {
+              jugador: "N/A",
+              equipo: "N/A",
+              goles: 1,
+              minutos: [],
+            };
+
+            // Extraer nombre del goleador
+            if (partidoNodo.valor) {
+              goleador.jugador = partidoNodo.valor.replace(/"/g, "");
+            }
+
+            // Buscar minuto en los hijos
+            if (partidoNodo.hijos) {
+              const buscarMinuto = (hijo) => {
+                if (
+                  hijo.tipo === "ATRIBUTO" &&
+                  hijo.valor === "minuto" &&
+                  hijo.hijos &&
+                  hijo.hijos[0]
+                ) {
+                  goleador.minutos.push(hijo.hijos[0].valor + "'");
+                } else if (hijo.tipo === "LISTA" && hijo.hijos) {
+                  hijo.hijos.forEach(buscarMinuto);
+                }
+                if (hijo.hijos) {
+                  hijo.hijos.forEach(buscarMinuto);
+                }
+              };
+              partidoNodo.hijos.forEach(buscarMinuto);
+            }
+
+            // Determinar equipo basado en los jugadores registrados en equipos
+            goleador.equipo =
+              this.determinarEquipoDelGoleador(goleador.jugador, ast) ||
+              "Desconocido";
+
+            // Buscar si ya existe este goleador
+            const existente = goleadores.find(
+              (g) => g.jugador === goleador.jugador
+            );
+            if (existente) {
+              existente.goles++;
+              existente.minutos.push(...goleador.minutos);
+            } else {
+              goleadores.push(goleador);
+            }
+          }
+
+          if (partidoNodo.hijos) {
+            partidoNodo.hijos.forEach(buscarGoleadoresEnPartido);
+          }
+        };
+
+        buscarGoleadoresEnPartido(nodo);
+      }
+
+      if (nodo.hijos) {
+        nodo.hijos.forEach(buscarGoleadores);
+      }
+    };
+
+    buscarGoleadores(ast);
+
+    // Ordenar por número de goles (descendente)
+    return goleadores.sort((a, b) => b.goles - a.goles);
+  }
+
+  calcularEstadisticasEquipos(ast) {
+    const partidos = this.extraerPartidos(ast);
+    const equiposInfo = new Map();
+
+    // Obtener todos los equipos del AST primero
+    const todosLosEquipos = this.obtenerTodosLosEquipos(ast);
+    todosLosEquipos.forEach((equipo) => {
+      equiposInfo.set(equipo, {
+        nombre: equipo,
+        partidosJugados: 0,
+        ganados: 0,
+        perdidos: 0,
+        golesFavor: 0,
+        golesContra: 0,
+        diferencia: 0,
+        faseAlcanzada: "No participó",
+      });
+    });
+
+    // Inicializar estadísticas para equipos que jugaron partidos
+    partidos.forEach((partido) => {
+      [partido.equipo1, partido.equipo2].forEach((equipo) => {
+        if (!equiposInfo.has(equipo)) {
+          equiposInfo.set(equipo, {
+            nombre: equipo,
+            partidosJugados: 0,
+            ganados: 0,
+            perdidos: 0,
+            golesFavor: 0,
+            golesContra: 0,
+            diferencia: 0,
+            faseAlcanzada: "Eliminado",
+          });
+        }
+      });
+    });
+
+    // Calcular estadísticas
+    partidos.forEach((partido) => {
+      if (partido.resultado !== "N/A") {
+        const stats1 = equiposInfo.get(partido.equipo1);
+        const stats2 = equiposInfo.get(partido.equipo2);
+
+        stats1.partidosJugados++;
+        stats2.partidosJugados++;
+
+        // Parsear resultado
+        const resultado = partido.resultado.split("-");
+        if (resultado.length === 2) {
+          const goles1 = parseInt(resultado[0]) || 0;
+          const goles2 = parseInt(resultado[1]) || 0;
+
+          stats1.golesFavor += goles1;
+          stats1.golesContra += goles2;
+          stats2.golesFavor += goles2;
+          stats2.golesContra += goles1;
+
+          if (goles1 > goles2) {
+            stats1.ganados++;
+            stats2.perdidos++;
+            stats1.faseAlcanzada = this.determinarFaseAlcanzada(
+              partido.fase,
+              true
+            );
+          } else if (goles2 > goles1) {
+            stats2.ganados++;
+            stats1.perdidos++;
+            stats2.faseAlcanzada = this.determinarFaseAlcanzada(
+              partido.fase,
+              true
+            );
+          }
+        }
+      }
+    });
+
+    // Calcular diferencia de goles
+    equiposInfo.forEach((stats) => {
+      stats.diferencia = stats.golesFavor - stats.golesContra;
+    });
+
+    return Array.from(equiposInfo.values()).sort(
+      (a, b) => b.ganados - a.ganados
+    );
+  }
+
   calcularEstadisticasGenerales(ast) {
     const infoTorneo = this.extraerInformacionTorneo(ast);
     const partidos = this.extraerPartidos(ast);
@@ -954,96 +1389,6 @@ class HtmlReporter {
     return estadisticas;
   }
 
-  calcularEstadisticasEquipos(ast) {
-    const partidos = this.extraerPartidos(ast);
-    const equiposInfo = new Map();
-
-    // Obtener todos los equipos del AST primero
-    const todosLosEquipos = this.obtenerTodosLosEquipos(ast);
-    todosLosEquipos.forEach((equipo) => {
-      equiposInfo.set(equipo, {
-        nombre: equipo,
-        partidosJugados: 0,
-        ganados: 0,
-        perdidos: 0,
-        golesFavor: 0,
-        golesContra: 0,
-        diferencia: 0,
-        faseAlcanzada: "No participó",
-      });
-    });
-
-    // Calcular estadísticas
-    partidos.forEach((partido) => {
-      if (partido.resultado !== "N/A") {
-        let stats1 = equiposInfo.get(partido.equipo1);
-        let stats2 = equiposInfo.get(partido.equipo2);
-
-        if (!stats1) {
-          stats1 = {
-            nombre: partido.equipo1,
-            partidosJugados: 0,
-            ganados: 0,
-            perdidos: 0,
-            golesFavor: 0,
-            golesContra: 0,
-            diferencia: 0,
-            faseAlcanzada: "Eliminado",
-          };
-          equiposInfo.set(partido.equipo1, stats1);
-        }
-
-        if (!stats2) {
-          stats2 = {
-            nombre: partido.equipo2,
-            partidosJugados: 0,
-            ganados: 0,
-            perdidos: 0,
-            golesFavor: 0,
-            golesContra: 0,
-            diferencia: 0,
-            faseAlcanzada: "Eliminado",
-          };
-          equiposInfo.set(partido.equipo2, stats2);
-        }
-
-        stats1.partidosJugados++;
-        stats2.partidosJugados++;
-
-        // Parsear resultado
-        const resultado = partido.resultado.split("-");
-        if (resultado.length === 2) {
-          const goles1 = parseInt(resultado[0]) || 0;
-          const goles2 = parseInt(resultado[1]) || 0;
-
-          stats1.golesFavor += goles1;
-          stats1.golesContra += goles2;
-          stats2.golesFavor += goles2;
-          stats2.golesContra += goles1;
-
-          if (goles1 > goles2) {
-            stats1.ganados++;
-            stats2.perdidos++;
-            stats1.faseAlcanzada = this.determinarFaseAlcanzada(partido.fase, true);
-          } else if (goles2 > goles1) {
-            stats2.ganados++;
-            stats1.perdidos++;
-            stats2.faseAlcanzada = this.determinarFaseAlcanzada(partido.fase, true);
-          }
-        }
-      }
-    });
-
-    // Calcular diferencia de goles
-    equiposInfo.forEach((stats) => {
-      stats.diferencia = stats.golesFavor - stats.golesContra;
-    });
-
-    return Array.from(equiposInfo.values()).sort((a, b) => b.ganados - a.ganados);
-  }
-
-  // ===== MÉTODOS AUXILIARES ADICIONALES =====
-
   contarFases(ast) {
     return this.extraerFases(ast).length;
   }
@@ -1060,6 +1405,8 @@ class HtmlReporter {
       </div>
     `).join('');
   }
+
+  // ===== MÉTODOS AUXILIARES ADICIONALES =====
 
   determinarGanador(equipo1, equipo2, resultado) {
     const scores = resultado.split("-");
@@ -1154,6 +1501,179 @@ class HtmlReporter {
       : "0.00";
   }
 
+  extraerGoleadores(ast) {
+    if (!ast) return [];
+
+    let goleadores = [];
+
+    const buscarGoleadores = (nodo) => {
+      // Buscar goleadores en partidos
+      if (nodo.tipo === "PARTIDO" && nodo.valor) {
+        // Buscar goleadores en este partido
+        const buscarGoleadoresEnPartido = (partidoNodo) => {
+          if (partidoNodo.tipo === "GOLEADOR") {
+            let goleador = {
+              jugador: "N/A",
+              equipo: "N/A",
+              goles: 1,
+              minutos: [],
+            };
+
+            // Extraer nombre del goleador
+            if (partidoNodo.valor) {
+              goleador.jugador = partidoNodo.valor.replace(/"/g, "");
+            }
+
+            // Buscar minuto en los hijos
+            if (partidoNodo.hijos) {
+              const buscarMinuto = (hijo) => {
+                if (
+                  hijo.tipo === "ATRIBUTO" &&
+                  hijo.valor === "minuto" &&
+                  hijo.hijos &&
+                  hijo.hijos[0]
+                ) {
+                  goleador.minutos.push(hijo.hijos[0].valor + "'");
+                } else if (hijo.tipo === "LISTA" && hijo.hijos) {
+                  hijo.hijos.forEach(buscarMinuto);
+                }
+                if (hijo.hijos) {
+                  hijo.hijos.forEach(buscarMinuto);
+                }
+              };
+              partidoNodo.hijos.forEach(buscarMinuto);
+            }
+
+            // Determinar equipo basado en los jugadores registrados en equipos
+            goleador.equipo =
+              this.determinarEquipoDelGoleador(goleador.jugador, ast) ||
+              "Desconocido";
+
+            // Buscar si ya existe este goleador
+            const existente = goleadores.find(
+              (g) => g.jugador === goleador.jugador
+            );
+            if (existente) {
+              existente.goles++;
+              existente.minutos.push(...goleador.minutos);
+            } else {
+              goleadores.push(goleador);
+            }
+          }
+
+          if (partidoNodo.hijos) {
+            partidoNodo.hijos.forEach(buscarGoleadoresEnPartido);
+          }
+        };
+
+        buscarGoleadoresEnPartido(nodo);
+      }
+
+      if (nodo.hijos) {
+        nodo.hijos.forEach(buscarGoleadores);
+      }
+    };
+
+    buscarGoleadores(ast);
+
+    // Ordenar por número de goles (descendente)
+    return goleadores.sort((a, b) => b.goles - a.goles);
+  }
+
+  calcularEstadisticasEquipos(ast) {
+    const partidos = this.extraerPartidos(ast);
+    const equiposInfo = new Map();
+
+    // Obtener todos los equipos del AST primero
+    const todosLosEquipos = this.obtenerTodosLosEquipos(ast);
+    todosLosEquipos.forEach((equipo) => {
+      equiposInfo.set(equipo, {
+        nombre: equipo,
+        partidosJugados: 0,
+        ganados: 0,
+        perdidos: 0,
+        golesFavor: 0,
+        golesContra: 0,
+        diferencia: 0,
+        faseAlcanzada: "No participó",
+      });
+    });
+
+    // Inicializar estadísticas para equipos que jugaron partidos
+    partidos.forEach((partido) => {
+      [partido.equipo1, partido.equipo2].forEach((equipo) => {
+        if (!equiposInfo.has(equipo)) {
+          equiposInfo.set(equipo, {
+            nombre: equipo,
+            partidosJugados: 0,
+            ganados: 0,
+            perdidos: 0,
+            golesFavor: 0,
+            golesContra: 0,
+            diferencia: 0,
+            faseAlcanzada: "Eliminado",
+          });
+        }
+      });
+    });
+
+    // Calcular estadísticas
+    partidos.forEach((partido) => {
+      if (partido.resultado !== "N/A") {
+        const stats1 = equiposInfo.get(partido.equipo1);
+        const stats2 = equiposInfo.get(partido.equipo2);
+
+        if (stats1) stats1.partidosJugados++;
+        if (stats2) stats2.partidosJugados++;
+
+        // Parsear resultado
+        const resultado = partido.resultado.split("-");
+        if (resultado.length === 2) {
+          const goles1 = parseInt(resultado[0]) || 0;
+          const goles2 = parseInt(resultado[1]) || 0;
+
+          if (stats1) {
+            stats1.golesFavor += goles1;
+            stats1.golesContra += goles2;
+          }
+          if (stats2) {
+            stats2.golesFavor += goles2;
+            stats2.golesContra += goles1;
+          }
+
+          if (goles1 > goles2) {
+            if (stats1) {
+              stats1.ganados++;
+              stats1.faseAlcanzada = this.determinarFaseAlcanzada(
+                partido.fase,
+                true
+              );
+            }
+            if (stats2) stats2.perdidos++;
+          } else if (goles2 > goles1) {
+            if (stats2) {
+              stats2.ganados++;
+              stats2.faseAlcanzada = this.determinarFaseAlcanzada(
+                partido.fase,
+                true
+              );
+            }
+            if (stats1) stats1.perdidos++;
+          }
+        }
+      }
+    });
+
+    // Calcular diferencia de goles
+    equiposInfo.forEach((stats) => {
+      stats.diferencia = stats.golesFavor - stats.golesContra;
+    });
+
+    return Array.from(equiposInfo.values()).sort(
+      (a, b) => b.ganados - a.ganados
+    );
+  }
+
   determinarEquipoDelGoleador(nombreGoleador, ast) {
     if (!ast || !nombreGoleador) return null;
 
@@ -1163,6 +1683,7 @@ class HtmlReporter {
       if (nodo.tipo === "EQUIPO" && nodo.valor) {
         const nombreEquipo = nodo.valor.replace(/"/g, "");
 
+        // Buscar jugadores en este equipo
         const buscarJugadores = (equipoNodo) => {
           if (equipoNodo.tipo === "JUGADOR" && equipoNodo.valor) {
             const nombreJugador = equipoNodo.valor.replace(/"/g, "");
@@ -1206,6 +1727,39 @@ class HtmlReporter {
 
     buscarEquipos(ast);
     return equipos;
+  }
+
+  generarVisualizacionBracket(partidos) {
+    let html = '<div class="bracket-visual">';
+
+    const fases = ["cuartos", "semifinal", "final"];
+    fases.forEach((fase) => {
+      const partidosFase = partidos.filter((p) => p.fase === fase);
+      if (partidosFase.length > 0) {
+        html += `<div class="phase-title">${this.formatearFase(fase)}</div>`;
+        partidosFase.forEach((partido) => {
+          const claseGanador = partido.ganador ? "winner" : "";
+          html += `
+          <div class="match-result ${claseGanador}">
+              <div>
+                  <span class="team-name">${partido.equipo1}</span> vs 
+                  <span class="team-name">${partido.equipo2}</span>
+              </div>
+              <div>
+                  <span class="score">${partido.resultado}</span>
+                  ${
+                    partido.ganador
+                      ? `<br><small>Ganador: <strong>${partido.ganador}</strong></small>`
+                      : ""
+                  }
+              </div>
+          </div>`;
+        });
+      }
+    });
+
+    html += "</div>";
+    return html;
   }
 }
 
