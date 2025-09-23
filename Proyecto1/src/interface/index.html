@@ -12,497 +12,362 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Oxygen, Ubuntu, Cantarell, sans-serif;
-        background-color: #ffffff;
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background: #f5f5f5;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
         color: #1e3a8a;
-        line-height: 1.6;
-      }
-
-      .navbar {
-        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-        color: white;
-        padding: 1rem 0;
-        box-shadow: 0 2px 10px rgba(30, 58, 138, 0.1);
-      }
-
-      .navbar .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 2rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .logo {
-        font-size: 1.8rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-      }
-
-      .main-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem;
-      }
-
-      .hero {
+        border-bottom: 3px solid #1e3a8a;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
         text-align: center;
-        padding: 3rem 0;
-        border-bottom: 1px solid #e5e7eb;
-        margin-bottom: 3rem;
       }
 
-      .hero h1 {
-        font-size: 3rem;
-        font-weight: 700;
-        color: #1e3a8a;
-        margin-bottom: 1rem;
-        letter-spacing: -0.02em;
+      .subtitle {
+        text-align: center;
+        color: #6b7280;
+        margin-bottom: 40px;
+        font-size: 1.1em;
       }
 
-      .hero p {
-        font-size: 1.2rem;
-        color: #64748b;
-        margin-bottom: 2rem;
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
       }
 
-      .file-upload-section {
+      .section {
         background: #f8fafc;
-        border: 2px dashed #cbd5e1;
-        border-radius: 12px;
-        padding: 2rem;
-        text-align: center;
-        margin-bottom: 3rem;
-        transition: all 0.2s ease;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 25px;
       }
 
-      .file-upload-section:hover {
-        border-color: #1e40af;
-        background: #f1f5f9;
+      .section-title {
+        color: #1e3a8a;
+        font-size: 1.3em;
+        margin-bottom: 20px;
+        font-weight: bold;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 10px;
       }
 
-      .file-upload-section.dragover {
-        border-color: #1e40af;
-        background: #dbeafe;
+      .file-input-wrapper {
+        margin-bottom: 20px;
       }
 
-      .upload-icon {
-        width: 48px;
-        height: 48px;
-        background: #1e40af;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 1rem;
-        color: white;
-        font-size: 1.5rem;
-      }
-
-      .file-input {
+      #fileInput {
         display: none;
       }
 
-      .upload-btn {
-        background: #1e40af;
-        color: white;
-        border: none;
-        padding: 0.75rem 2rem;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-      }
-
-      .upload-btn:hover {
+      .file-button {
         background: #1e3a8a;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        width: 100%;
+        transition: background 0.3s ease;
       }
 
-      .upload-btn:disabled {
-        background: #9ca3af;
-        cursor: not-allowed;
+      .file-button:hover {
+        background: #1e40af;
       }
 
-      .action-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        margin-bottom: 3rem;
-      }
-
-      .action-card {
+      #contentArea {
+        width: 100%;
+        height: 300px;
+        border: 1px solid #d1d5db;
+        border-radius: 5px;
+        padding: 15px;
+        font-family: "Courier New", monospace;
+        font-size: 0.9em;
+        resize: vertical;
         background: white;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 2rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        transition: all 0.2s ease;
       }
 
-      .action-card:hover {
-        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.1);
-        border-color: #1e40af;
+      #contentArea:focus {
+        outline: none;
+        border-color: #1e3a8a;
       }
 
-      .action-card h3 {
-        color: #1e3a8a;
-        font-size: 1.25rem;
-        margin-bottom: 1rem;
-        font-weight: 600;
+      .button-group {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 20px;
       }
 
-      .action-card p {
-        color: #64748b;
-        margin-bottom: 1.5rem;
+      .action-buttons {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .report-buttons {
+        grid-template-columns: repeat(3, 1fr);
       }
 
       .btn {
-        background: #1e40af;
-        color: white;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        font-size: 0.9rem;
-        font-weight: 600;
+        padding: 12px 20px;
+        border: 1px solid #d1d5db;
+        border-radius: 5px;
         cursor: pointer;
-        transition: all 0.2s ease;
-        width: 100%;
-      }
-
-      .btn:hover {
-        background: #1e3a8a;
+        font-size: 1em;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        background: white;
+        color: #374151;
       }
 
       .btn:disabled {
-        background: #9ca3af;
+        opacity: 0.5;
         cursor: not-allowed;
+        background: #f9fafb;
+      }
+
+      .btn-primary {
+        background: #1e3a8a;
+        color: white;
+        border-color: #1e3a8a;
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        background: #1e40af;
       }
 
       .btn-secondary {
-        background: #f8fafc;
-        color: #1e40af;
-        border: 1px solid #e5e7eb;
-      }
-
-      .btn-secondary:hover {
-        background: #f1f5f9;
-        border-color: #1e40af;
-      }
-
-      .results-section {
-        display: none;
-        margin-top: 3rem;
-      }
-
-      .results-header {
-        background: #1e40af;
+        background: #6b7280;
         color: white;
-        padding: 1.5rem;
-        border-radius: 12px 12px 0 0;
+        border-color: #6b7280;
       }
 
-      .results-content {
-        background: white;
-        border: 1px solid #e5e7eb;
-        border-top: none;
-        border-radius: 0 0 12px 12px;
-        padding: 2rem;
-        max-height: 400px;
-        overflow-y: auto;
+      .btn-secondary:hover:not(:disabled) {
+        background: #374151;
       }
 
-      .status-message {
-        display: none;
-        padding: 1rem;
-        border-radius: 8px;
-        margin-bottom: 1rem;
+      .btn-success {
+        background: #059669;
+        color: white;
+        border-color: #059669;
+      }
+
+      .btn-success:hover:not(:disabled) {
+        background: #047857;
+      }
+
+      .btn-info {
+        background: #0891b2;
+        color: white;
+        border-color: #0891b2;
+      }
+
+      .btn-info:hover:not(:disabled) {
+        background: #0e7490;
+      }
+
+      .btn-warning {
+        background: #d97706;
+        color: white;
+        border-color: #d97706;
+      }
+
+      .btn-warning:hover:not(:disabled) {
+        background: #b45309;
+      }
+
+      .results-area {
+        grid-column: 1 / -1;
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 25px;
+        margin-top: 20px;
+        min-height: 200px;
+      }
+
+      .results-area h3 {
+        color: #1e3a8a;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+      }
+
+      .status-area {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        max-width: 400px;
+      }
+
+      .status-success,
+      .status-error,
+      .status-info {
+        padding: 15px 20px;
+        border-radius: 5px;
+        margin: 5px 0;
+        font-weight: 500;
+        animation: slideIn 0.3s ease;
       }
 
       .status-success {
-        background: #dcfce7;
-        color: #166534;
-        border: 1px solid #bbf7d0;
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #6ee7b7;
       }
 
       .status-error {
-        background: #fef2f2;
-        color: #dc2626;
-        border: 1px solid #fecaca;
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
       }
 
       .status-info {
         background: #dbeafe;
         color: #1e40af;
-        border: 1px solid #bfdbfe;
+        border: 1px solid #93c5fd;
       }
 
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
       }
 
-      .stat-item {
-        text-align: center;
-        padding: 1.5rem;
-        background: #f8fafc;
-        border-radius: 8px;
-        border-left: 4px solid #1e40af;
-      }
-
-      .stat-number {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #1e3a8a;
-        display: block;
-      }
-
-      .stat-label {
-        color: #64748b;
-        font-size: 0.9rem;
-        margin-top: 0.5rem;
-      }
-
-      .report-links {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
-        margin-top: 2rem;
-      }
-
-      .report-link {
-        display: block;
-        padding: 1rem;
-        background: #f8fafc;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        text-decoration: none;
-        color: #1e40af;
-        font-weight: 500;
-        transition: all 0.2s ease;
-      }
-
-      .report-link:hover {
-        background: #f1f5f9;
-        border-color: #1e40af;
-      }
-
-      .footer {
-        margin-top: 4rem;
-        padding: 2rem 0;
-        border-top: 1px solid #e5e7eb;
-        text-align: center;
-        color: #64748b;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 1rem;
-      }
-
-      th,
-      td {
-        padding: 0.75rem;
-        text-align: left;
-        border-bottom: 1px solid #e5e7eb;
-      }
-
-      th {
-        background: #1e40af;
-        color: white;
-        font-weight: 600;
-      }
-
-      tr:hover {
-        background-color: #f8fafc;
-      }
-
-      .ast-display {
-        background: #f8fafc;
-        padding: 1rem;
-        border-radius: 8px;
-        font-family: "Courier New", monospace;
-        white-space: pre-wrap;
-        overflow-x: auto;
-        max-height: 300px;
-        overflow-y: auto;
+      #fileName {
+        margin-top: 10px;
+        color: #6b7280;
+        font-size: 0.9em;
+        font-style: italic;
       }
 
       @media (max-width: 768px) {
-        .main-container {
-          padding: 1rem;
+        body {
+          margin: 20px;
         }
 
-        .hero h1 {
-          font-size: 2rem;
+        .main-content {
+          grid-template-columns: 1fr;
+          gap: 20px;
         }
 
-        .action-grid {
+        .container {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 1.8em;
+        }
+
+        .report-buttons {
           grid-template-columns: 1fr;
         }
 
-        .stats-grid {
-          grid-template-columns: repeat(2, 1fr);
+        .action-buttons {
+          grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
   <body>
-    <nav class="navbar">
-      <div class="container">
-        <div class="logo">TourneyJS</div>
-      </div>
-    </nav>
+    <div class="container">
+      <h1>TourneyJS</h1>
+      <p class="subtitle">
+        Analizador Léxico y Sintáctico de Torneos de Fútbol
+      </p>
 
-    <div class="main-container">
-      <div class="hero">
-        <h1>Analizador TourneyJS</h1>
-        <p>
-          Herramienta profesional para análisis léxico y sintáctico de archivos
-          de torneos deportivos
-        </p>
-      </div>
+      <div class="main-content">
+        <!-- Sección de entrada -->
+        <div class="section">
+          <h2 class="section-title">Entrada de Datos</h2>
 
-      <div class="file-upload-section" id="uploadSection">
-        <div class="upload-icon">FILE</div>
-        <h3>Cargar Archivo de Torneo</h3>
-        <p>Selecciona tu archivo .txt para analizar</p>
-        <input
-          type="file"
-          id="fileInput"
-          class="file-input"
-          accept=".tourney,.txt"
-        />
-        <button class="upload-btn" id="uploadBtn">Seleccionar Archivo</button>
-        <div id="fileName" style="margin-top: 1rem; color: #64748b"></div>
-      </div>
+          <div class="file-input-wrapper">
+            <input type="file" id="fileInput" accept=".txt,.tourney" />
+            <button
+              class="file-button"
+              onclick="document.getElementById('fileInput').click()"
+            >
+              Seleccionar Archivo
+            </button>
+            <div id="fileName"></div>
+          </div>
 
-      <div id="statusMessage" class="status-message"></div>
-
-      <div class="action-grid">
-        <div class="action-card">
-          <h3>Análisis Léxico</h3>
-          <p>
-            Ejecuta el análisis léxico para extraer y clasificar todos los
-            tokens del archivo.
-          </p>
-          <button class="btn" id="btnLexer" disabled>Ejecutar Lexer</button>
+          <textarea
+            id="contentArea"
+            placeholder="Contenido del archivo aparecerá aquí, o puedes escribir directamente..."
+          ></textarea>
         </div>
 
-        <div class="action-card">
-          <h3>Análisis Sintáctico</h3>
-          <p>
-            Realiza el análisis sintáctico para generar el árbol sintáctico
-            abstracto.
-          </p>
-          <button class="btn" id="btnParser" disabled>Ejecutar Parser</button>
-        </div>
+        <!-- Sección de controles -->
+        <div class="section">
+          <h2 class="section-title">Análisis</h2>
 
-        <div class="action-card">
-          <h3>Análisis Completo</h3>
-          <p>
-            Ejecuta ambos análisis de forma secuencial para obtener resultados
-            completos.
-          </p>
-          <button class="btn" id="btnComplete" disabled>
-            Análisis Completo
-          </button>
-        </div>
+          <div class="button-group action-buttons">
+            <button id="btnAnalyze" class="btn btn-primary">Analizar</button>
+            <button id="btnClear" class="btn btn-secondary">Limpiar</button>
+          </div>
 
-        <div class="action-card">
-          <h3>Ver Tokens</h3>
-          <p>
-            Visualiza todos los tokens extraídos durante el análisis léxico.
-          </p>
-          <button class="btn btn-secondary" id="btnTokens" disabled>
-            Mostrar Tokens
-          </button>
-        </div>
+          <div class="button-group">
+            <button id="btnTokens" class="btn btn-info" disabled>
+              Ver Tokens
+            </button>
+            <button id="btnErrors" class="btn btn-warning" disabled>
+              Ver Errores
+            </button>
+          </div>
 
-        <div class="action-card">
-          <h3>Ver Árbol Sintáctico</h3>
-          <p>
-            Explora la estructura del árbol sintáctico generado por el parser.
-          </p>
-          <button class="btn btn-secondary" id="btnAst" disabled>
-            Mostrar AST
-          </button>
-        </div>
+          <h3 class="section-title">Reportes</h3>
 
-        <div class="action-card">
-          <h3>Ver Errores</h3>
-          <p>Revisa todos los errores léxicos y sintácticos encontrados.</p>
-          <button class="btn btn-secondary" id="btnErrors" disabled>
-            Mostrar Errores
-          </button>
+          <div class="button-group report-buttons">
+            <button id="btnBracket" class="btn btn-success" disabled>
+              Bracket
+            </button>
+            <button id="btnTeams" class="btn btn-success" disabled>
+              Equipos
+            </button>
+            <button id="btnScorers" class="btn btn-success" disabled>
+              Goleadores
+            </button>
+            <button id="btnGeneral" class="btn btn-success" disabled>
+              General
+            </button>
+            <button id="btnGraphviz" class="btn btn-success" disabled>
+              Graphviz
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="results-section" id="resultsSection">
-        <div class="results-header">
-          <h2>Resultados del Análisis</h2>
-        </div>
-        <div class="results-content" id="resultsContent">
-          <!-- Los resultados se mostrarán aquí -->
-        </div>
-      </div>
-
-      <div class="report-links" id="reportLinksSection" style="display: none">
-        <h2 style="grid-column: 1 / -1; color: #1e3a8a; margin-bottom: 1rem">
-          Reportes Disponibles
-        </h2>
-
-        <a href="#" class="report-link" id="reportErrores">
-          <strong>Reporte de Errores Léxicos</strong><br />
-          <small>Lista detallada de errores encontrados</small>
-        </a>
-
-        <a href="#" class="report-link" id="reportTokens">
-          <strong>Reporte de Tokens</strong><br />
-          <small>Tabla completa de tokens extraídos</small>
-        </a>
-
-        <a href="#" class="report-link" id="reportBracket">
-          <strong>Bracket de Eliminación</strong><br />
-          <small>Visualización del torneo</small>
-        </a>
-
-        <a href="#" class="report-link" id="reportEquipos">
-          <strong>Estadísticas por Equipo</strong><br />
-          <small>Análisis detallado de equipos</small>
-        </a>
-
-        <a href="#" class="report-link" id="reportGoleadores">
-          <strong>Ranking de Goleadores</strong><br />
-          <small>Lista de máximos anotadores</small>
-        </a>
-
-        <a href="#" class="report-link" id="reportGeneral">
-          <strong>Información General</strong><br />
-          <small>Resumen completo del torneo</small>
-        </a>
-
-        <a href="#" class="report-link" id="reportGraphviz">
-          <strong>Diagrama Graphviz</strong><br />
-          <small>Representación gráfica del torneo</small>
-        </a>
-
-        <a href="#" class="report-link" id="reportTodos">
-          <strong>Generar Todos los Reportes</strong><br />
-          <small>Crear todos los reportes de una vez</small>
-        </a>
+      <!-- Área de resultados -->
+      <div id="resultsArea" class="results-area">
+        <h3>Resultados</h3>
+        <p>Los resultados del análisis aparecerán aquí...</p>
       </div>
     </div>
 
-    <div class="footer">
-      <p>TourneyJS - Analizador de Torneos Deportivos | Proyecto LFP 2S2025</p>
-    </div>
+    <!-- Área de estado -->
+    <div id="statusArea" class="status-area"></div>
 
+    <!-- Scripts -->
+    <script src="../logic/lexer.js"></script>
+    <script src="../logic/parser.js"></script>
     <script src="interface.js"></script>
   </body>
 </html>

@@ -2,7 +2,7 @@
 // Single clean implementation
 const fs = require("fs");
 const path = require("path");
-const { execSync } = require('child_process');
+const { execSync } = require("child_process");
 
 class GraphvizGenerator {
   constructor() {
@@ -194,7 +194,7 @@ class GraphvizGenerator {
     const dot = lines.join("\n");
     const outDot = path.join(this.outputDir, nombreArchivo);
     fs.writeFileSync(outDot, dot, "utf8");
-    
+
     // Intentar generar PNG
     const pngPath = this._generatePNG(outDot, dot);
     this._writeHtmlViewer(dot, info, pngPath);
@@ -203,20 +203,22 @@ class GraphvizGenerator {
 
   _generatePNG(dotPath, dotContent) {
     try {
-      const pngPath = dotPath.replace('.dot', '.png');
+      const pngPath = dotPath.replace(".dot", ".png");
       // Intentar usar dot command para generar PNG
-      execSync(`dot -Tpng "${dotPath}" -o "${pngPath}"`, { 
-        stdio: 'ignore',
-        timeout: 10000 
+      execSync(`dot -Tpng "${dotPath}" -o "${pngPath}"`, {
+        stdio: "ignore",
+        timeout: 10000,
       });
-      
+
       if (fs.existsSync(pngPath)) {
         console.log(`PNG generado exitosamente: ${pngPath}`);
         return pngPath;
       }
     } catch (error) {
-      console.log('Graphviz no está disponible en el sistema. Mostrando solo código DOT.');
-      console.log('Para instalar Graphviz: https://graphviz.org/download/');
+      console.log(
+        "Graphviz no está disponible en el sistema. Mostrando solo código DOT."
+      );
+      console.log("Para instalar Graphviz: https://graphviz.org/download/");
     }
     return null;
   }
@@ -239,28 +241,30 @@ class GraphvizGenerator {
     html.push("</head>");
     html.push("<body>");
     html.push("<h2>Visualizador Graphviz - " + title + "</h2>");
-    
+
     // Si tenemos PNG, mostrarlo
     if (pngPath && fs.existsSync(pngPath)) {
       const pngFileName = path.basename(pngPath);
       html.push('<div class="diagram-container">');
-      html.push('<h3>Diagrama del Torneo</h3>');
+      html.push("<h3>Diagrama del Torneo</h3>");
       html.push('<img src="' + pngFileName + '" alt="Diagrama del torneo" />');
-      html.push('</div>');
+      html.push("</div>");
     } else {
       html.push('<div class="section">');
-      html.push('<p><strong>Nota:</strong> Para ver el diagrama visual, instale Graphviz desde <a href="https://graphviz.org/download/" target="_blank">graphviz.org</a></p>');
-      html.push('</div>');
+      html.push(
+        '<p><strong>Nota:</strong> Para ver el diagrama visual, instale Graphviz desde <a href="https://graphviz.org/download/" target="_blank">graphviz.org</a></p>'
+      );
+      html.push("</div>");
     }
-    
+
     html.push('<div class="section">');
     html.push("<h3>Código DOT</h3>");
     html.push('<pre id="dot">' + safe + "</pre>");
     html.push(
       '<p><button id="open-online">Abrir en Graphviz Online</button> <button id="copy-dot">Copiar DOT</button></p>'
     );
-    html.push('</div>');
-    
+    html.push("</div>");
+
     html.push("<script>");
     html.push(
       'document.getElementById("open-online").addEventListener("click",function(){var d=document.getElementById("dot").textContent||"";var url="https://dreampuf.github.io/GraphvizOnline/#"+encodeURIComponent(d);window.open(url,"_blank");});'

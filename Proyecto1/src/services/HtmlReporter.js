@@ -72,11 +72,14 @@ class HtmlReporter {
         <h1>Reporte de Errores</h1>
         <p><strong>Total de errores encontrados:</strong> ${errores.length}</p>
         
-        ${errores.length === 0 ? `
+        ${
+          errores.length === 0
+            ? `
         <div class="no-errors">
             <strong>¡Excelente!</strong> No se encontraron errores en el análisis.
         </div>
-        ` : `
+        `
+            : `
         <table>
                 <thead>
                     <tr>
@@ -89,19 +92,28 @@ class HtmlReporter {
                     </tr>
                 </thead>
                 <tbody>
-                    ${errores.map((error, index) => `
+                    ${errores
+                      .map(
+                        (error, index) => `
                         <tr>
                             <td>${index + 1}</td>
                             <td class="error-type">${error.tipo || "ERROR"}</td>
-                            <td>${this.escapeHtml(error.mensaje || "Error no especificado")}</td>
+                            <td>${this.escapeHtml(
+                              error.mensaje || "Error no especificado"
+                            )}</td>
                             <td>${error.linea || 0}</td>
                             <td>${error.columna || 0}</td>
-                            <td>${this.escapeHtml(error.lexema || error.valor || "N/A")}</td>
+                            <td>${this.escapeHtml(
+                              error.lexema || error.valor || "N/A"
+                            )}</td>
                         </tr>
-                    `).join('')}
+                    `
+                      )
+                      .join("")}
                 </tbody>
             </table>
-        `}
+        `
+        }
         
         <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; text-align: center;">
             Generado por TourneyJS - ${timestamp}
@@ -160,15 +172,25 @@ class HtmlReporter {
                 </tr>
             </thead>
             <tbody>
-                ${tokens.map((token, index) => `
+                ${tokens
+                  .map(
+                    (token, index) => `
                     <tr>
                         <td>${index + 1}</td>
-                        <td class="token-type ${token.tipo}">${this.escapeHtml(token.valor.length > 50 ? token.valor.substring(0, 50) + "..." : token.valor)}</td>
-                        <td><span class="${token.tipo}">${token.tipo}</span></td>
+                        <td class="token-type ${token.tipo}">${this.escapeHtml(
+                      token.valor.length > 50
+                        ? token.valor.substring(0, 50) + "..."
+                        : token.valor
+                    )}</td>
+                        <td><span class="${token.tipo}">${
+                      token.tipo
+                    }</span></td>
                         <td>${token.linea}</td>
                         <td>${token.columna}</td>
                     </tr>
-                `).join('')}
+                `
+                  )
+                  .join("")}
             </tbody>
         </table>
         
@@ -313,7 +335,9 @@ class HtmlReporter {
                 </tr>
             </thead>
             <tbody>
-                ${equipos.map(equipo => `
+                ${equipos
+                  .map(
+                    (equipo) => `
                     <tr>
                         <td class="team-name">${equipo.nombre}</td>
                         <td>${equipo.partidosJugados || 0}</td>
@@ -321,12 +345,24 @@ class HtmlReporter {
                         <td class="negative">${equipo.perdidos || 0}</td>
                         <td>${equipo.golesFavor || 0}</td>
                         <td>${equipo.golesContra || 0}</td>
-                        <td class="${(equipo.diferencia || 0) > 0 ? "positive" : (equipo.diferencia || 0) < 0 ? "negative" : "neutral"}">
-                            ${(equipo.diferencia || 0) > 0 ? "+" : ""}${equipo.diferencia || 0}
+                        <td class="${
+                          (equipo.diferencia || 0) > 0
+                            ? "positive"
+                            : (equipo.diferencia || 0) < 0
+                            ? "negative"
+                            : "neutral"
+                        }">
+                            ${(equipo.diferencia || 0) > 0 ? "+" : ""}${
+                      equipo.diferencia || 0
+                    }
                         </td>
-                        <td><strong>${equipo.faseAlcanzada || "No participó"}</strong></td>
+                        <td><strong>${
+                          equipo.faseAlcanzada || "No participó"
+                        }</strong></td>
                     </tr>
-                `).join('')}
+                `
+                  )
+                  .join("")}
             </tbody>
         </table>
         
@@ -390,8 +426,13 @@ class HtmlReporter {
         <div class="summary">
             <h3>Estadísticas Generales</h3>
             <p><strong>Total de goleadores:</strong> ${goleadores.length}</p>
-            <p><strong>Total de goles en el torneo:</strong> ${goleadores.reduce((total, g) => total + g.goles, 0)}</p>
-            <p><strong>Máximo goleador:</strong> ${goleadores.length > 0 ? goleadores[0].jugador : "Ninguno"}</p>
+            <p><strong>Total de goles en el torneo:</strong> ${goleadores.reduce(
+              (total, g) => total + g.goles,
+              0
+            )}</p>
+            <p><strong>Máximo goleador:</strong> ${
+              goleadores.length > 0 ? goleadores[0].jugador : "Ninguno"
+            }</p>
         </div>
         
         <table class="scorers-table">
@@ -405,21 +446,31 @@ class HtmlReporter {
                 </tr>
             </thead>
             <tbody>
-                ${goleadores.length > 0 ? goleadores.map((goleador, index) => `
+                ${
+                  goleadores.length > 0
+                    ? goleadores
+                        .map(
+                          (goleador, index) => `
                     <tr class="${index === 0 ? "top-scorer" : ""}">
                         <td class="position">${index + 1}</td>
                         <td class="player-name">${goleador.jugador}</td>
                         <td class="team-name">${goleador.equipo}</td>
                         <td class="goals-count">${goleador.goles}</td>
-                        <td class="goals-times">${goleador.minutos.join(", ")}</td>
+                        <td class="goals-times">${goleador.minutos.join(
+                          ", "
+                        )}</td>
                     </tr>
-                `).join('') : `
+                `
+                        )
+                        .join("")
+                    : `
                     <tr>
                         <td colspan="5" style="text-align: center; color: #6b7280; font-style: italic; padding: 30px;">
                             No se registraron goles en el torneo
                         </td>
                     </tr>
-                `}
+                `
+                }
             </tbody>
         </table>
         
@@ -445,6 +496,7 @@ class HtmlReporter {
   ) {
     const timestamp = new Date().toLocaleString();
 
+    const infoTorneo = this.extraerInformacionTorneo(arbolSintactico);
     const estadisticas = this.calcularEstadisticasGenerales(arbolSintactico);
 
     let contenidoHTML = `
@@ -479,38 +531,54 @@ class HtmlReporter {
             <h3>Información del Torneo</h3>
             <div class="info-grid">
                 <div class="info-item">
-                    <strong>Nombre:</strong> ${estadisticas.nombreTorneo || "Torneo sin nombre"}
+                    <strong>Nombre:</strong> ${
+                      estadisticas.nombreTorneo || "Torneo sin nombre"
+                    }
                 </div>
                 <div class="info-item">
-                    <strong>Sede:</strong> ${infoTorneo.sede || "No especificada"}
+                    <strong>Sede:</strong> ${
+                      infoTorneo.sede || "No especificada"
+                    }
                 </div>
                 <div class="info-item">
-                    <strong>Equipos Registrados:</strong> ${estadisticas.equiposParticipantes || 0}
+                    <strong>Equipos Registrados:</strong> ${
+                      estadisticas.equiposParticipantes || 0
+                    }
                 </div>
                 <div class="info-item">
                     <strong>Tipo de Torneo:</strong> Eliminación Directa
                 </div>
             </div>
             
-            ${estadisticas.campeon && estadisticas.campeon !== "Por determinar" ? `
+            ${
+              estadisticas.campeon && estadisticas.campeon !== "Por determinar"
+                ? `
             <div class="champion-info">
                 <h3>CAMPEÓN DEL TORNEO</h3>
                 <h2>${estadisticas.campeon}</h2>
             </div>
-            ` : ""}
+            `
+                : ""
+            }
         </div>
         
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number">${estadisticas.equiposParticipantes || 0}</div>
+                <div class="stat-number">${
+                  estadisticas.equiposParticipantes || 0
+                }</div>
                 <div class="stat-label">Equipos Participantes</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">${estadisticas.totalJugadores || 0}</div>
+                <div class="stat-number">${
+                  estadisticas.totalJugadores || 0
+                }</div>
                 <div class="stat-label">Jugadores Registrados</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">${estadisticas.partidosCompletados || 0}</div>
+                <div class="stat-number">${
+                  estadisticas.partidosCompletados || 0
+                }</div>
                 <div class="stat-label">Partidos Jugados</div>
             </div>
             <div class="stat-card">
@@ -518,11 +586,15 @@ class HtmlReporter {
                 <div class="stat-label">Goles Anotados</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">${this.contarFases(arbolSintactico)}</div>
+                <div class="stat-number">${this.contarFases(
+                  arbolSintactico
+                )}</div>
                 <div class="stat-label">Fases del Torneo</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">${estadisticas.promedioGoles || "0.0"}</div>
+                <div class="stat-number">${
+                  estadisticas.promedioGoles || "0.0"
+                }</div>
                 <div class="stat-label">Promedio Goles/Partido</div>
             </div>
         </div>
@@ -566,7 +638,8 @@ class HtmlReporter {
   // ===== MÉTODOS AUXILIARES PARA PROCESAR EL AST =====
 
   extraerInformacionTorneo(ast) {
-    if (!ast || !ast.hijos) return { nombre: "N/A", equipos: 0, sede: "No especificada" };
+    if (!ast || !ast.hijos)
+      return { nombre: "N/A", equipos: 0, sede: "No especificada" };
 
     let infoTorneo = { nombre: "N/A", equipos: 0, sede: "No especificada" };
 
@@ -612,15 +685,15 @@ class HtmlReporter {
 
   extraerFases(ast) {
     if (!ast) return [];
-    
+
     let fases = [];
-    
+
     const buscarFases = (nodo) => {
       if (nodo.tipo === "FASE" && nodo.valor) {
-        if (!fases.some(f => f.nombre === nodo.valor)) {
+        if (!fases.some((f) => f.nombre === nodo.valor)) {
           fases.push({
             nombre: nodo.valor,
-            partidos: []
+            partidos: [],
           });
         }
       }
@@ -628,7 +701,7 @@ class HtmlReporter {
         nodo.hijos.forEach(buscarFases);
       }
     };
-    
+
     buscarFases(ast);
     return fases;
   }
@@ -651,7 +724,7 @@ class HtmlReporter {
           equipo2: "N/A",
           resultado: "N/A",
           ganador: null,
-          goleadores: []
+          goleadores: [],
         };
 
         // Extraer equipos del valor del partido
@@ -665,7 +738,7 @@ class HtmlReporter {
 
         // Crear un ID único para el partido para evitar duplicados
         const partidoId = `${partido.fase}-${partido.equipo1}-${partido.equipo2}`;
-        
+
         if (!partidosProcessed.has(partidoId)) {
           partidosProcessed.add(partidoId);
 
@@ -689,33 +762,46 @@ class HtmlReporter {
 
   procesarHijosPartido(hijos, partido) {
     if (!hijos || !Array.isArray(hijos)) return;
-    
-    hijos.forEach(hijo => {
+
+    hijos.forEach((hijo) => {
       if (hijo.tipo === "LISTA" && hijo.hijos) {
         // Procesar lista de detalles
         this.procesarHijosPartido(hijo.hijos, partido);
-      } else if (hijo.tipo === "ATRIBUTO" && hijo.valor === "resultado" && hijo.hijos && hijo.hijos[0]) {
+      } else if (
+        hijo.tipo === "ATRIBUTO" &&
+        hijo.valor === "resultado" &&
+        hijo.hijos &&
+        hijo.hijos[0]
+      ) {
         partido.resultado = hijo.hijos[0].valor.replace(/"/g, "");
         partido.ganador = this.determinarGanador(
           partido.equipo1,
           partido.equipo2,
           partido.resultado
         );
-      } else if (hijo.tipo === "LISTA" && hijo.valor === "goleadores" && hijo.hijos) {
+      } else if (
+        hijo.tipo === "LISTA" &&
+        hijo.valor === "goleadores" &&
+        hijo.hijos
+      ) {
         // Procesar lista de goleadores
         this.procesarListaGoleadores(hijo.hijos, partido);
       } else if (hijo.tipo === "GOLEADOR" && hijo.valor) {
         // Goleador directo (sin lista padre)
         let goleador = {
           nombre: hijo.valor.replace(/"/g, ""),
-          minuto: "N/A"
+          minuto: "N/A",
         };
-        
+
         if (hijo.hijos) {
           this.buscarMinutoGoleador(hijo.hijos, goleador);
         }
-        
-        if (goleador.nombre && goleador.nombre !== "N/A" && goleador.nombre.trim()) {
+
+        if (
+          goleador.nombre &&
+          goleador.nombre !== "N/A" &&
+          goleador.nombre.trim()
+        ) {
           partido.goleadores.push(goleador);
         }
       }
@@ -724,24 +810,28 @@ class HtmlReporter {
 
   procesarListaGoleadores(hijosGoleadores, partido) {
     if (!hijosGoleadores || !Array.isArray(hijosGoleadores)) return;
-    
-    hijosGoleadores.forEach(hijoGoleador => {
+
+    hijosGoleadores.forEach((hijoGoleador) => {
       if (hijoGoleador.tipo === "LISTA" && hijoGoleador.hijos) {
         // Es una lista interna de goleadores
         this.procesarListaGoleadores(hijoGoleador.hijos, partido);
       } else if (hijoGoleador.tipo === "GOLEADOR" && hijoGoleador.valor) {
         let goleador = {
           nombre: hijoGoleador.valor.replace(/"/g, ""),
-          minuto: "N/A"
+          minuto: "N/A",
         };
-        
+
         // Buscar minuto en los hijos del goleador
         if (hijoGoleador.hijos && Array.isArray(hijoGoleador.hijos)) {
           this.buscarMinutoGoleador(hijoGoleador.hijos, goleador);
         }
-        
+
         // Solo agregar si tiene nombre válido
-        if (goleador.nombre && goleador.nombre !== "N/A" && goleador.nombre.trim()) {
+        if (
+          goleador.nombre &&
+          goleador.nombre !== "N/A" &&
+          goleador.nombre.trim()
+        ) {
           partido.goleadores.push(goleador);
         }
       }
@@ -750,11 +840,16 @@ class HtmlReporter {
 
   buscarMinutoGoleador(hijos, goleador) {
     if (!hijos || !Array.isArray(hijos)) return;
-    
-    hijos.forEach(hijo => {
+
+    hijos.forEach((hijo) => {
       if (hijo.tipo === "LISTA" && hijo.hijos) {
         this.buscarMinutoGoleador(hijo.hijos, goleador);
-      } else if (hijo.tipo === "ATRIBUTO" && hijo.valor === "minuto" && hijo.hijos && hijo.hijos[0]) {
+      } else if (
+        hijo.tipo === "ATRIBUTO" &&
+        hijo.valor === "minuto" &&
+        hijo.hijos &&
+        hijo.hijos[0]
+      ) {
         goleador.minuto = hijo.hijos[0].valor;
       }
     });
@@ -783,8 +878,12 @@ class HtmlReporter {
         // Buscar minuto en los hijos del goleador
         if (nodo.hijos) {
           const buscarMinuto = (hijoGoleador) => {
-            if (hijoGoleador.tipo === "ATRIBUTO" && hijoGoleador.valor === "minuto" && 
-                hijoGoleador.hijos && hijoGoleador.hijos[0]) {
+            if (
+              hijoGoleador.tipo === "ATRIBUTO" &&
+              hijoGoleador.valor === "minuto" &&
+              hijoGoleador.hijos &&
+              hijoGoleador.hijos[0]
+            ) {
               minutoGol = hijoGoleador.hijos[0].valor;
               return true;
             }
@@ -798,13 +897,16 @@ class HtmlReporter {
 
         // Crear ID único para evitar duplicados del mismo gol
         const goleadorId = `${nombreGoleador}-${minutoGol}-${faseActual}`;
-        
+
         if (!goleadoresProcessados.has(goleadorId)) {
           goleadoresProcessados.add(goleadorId);
 
           // Determinar equipo del goleador
-          const equipoGoleador = equipoActual || this.determinarEquipoDelGoleador(nombreGoleador, ast) || "Desconocido";
-          
+          const equipoGoleador =
+            equipoActual ||
+            this.determinarEquipoDelGoleador(nombreGoleador, ast) ||
+            "Desconocido";
+
           if (goleadores.has(nombreGoleador)) {
             const goleadorExistente = goleadores.get(nombreGoleador);
             goleadorExistente.goles++;
@@ -817,7 +919,7 @@ class HtmlReporter {
               jugador: nombreGoleador,
               equipo: equipoGoleador,
               goles: 1,
-              minutos: [minutoGol + "'"]
+              minutos: [minutoGol + "'"],
             });
           }
         }
@@ -825,19 +927,25 @@ class HtmlReporter {
 
       // Recorrer hijos manteniendo contexto
       if (nodo.hijos) {
-        nodo.hijos.forEach(hijo => buscarGoleadores(hijo, equipoActual, faseActual));
+        nodo.hijos.forEach((hijo) =>
+          buscarGoleadores(hijo, equipoActual, faseActual)
+        );
       }
     };
 
     buscarGoleadores(ast);
-    
+
     // Convertir Map a Array y ordenar
     return Array.from(goleadores.values()).sort((a, b) => b.goles - a.goles);
   }
 
   determinarCampeon(partidos) {
-    const partidoFinal = partidos.find(p => p.fase === "final");
-    if (partidoFinal && partidoFinal.ganador && partidoFinal.ganador !== "Empate") {
+    const partidoFinal = partidos.find((p) => p.fase === "final");
+    if (
+      partidoFinal &&
+      partidoFinal.ganador &&
+      partidoFinal.ganador !== "Empate"
+    ) {
       return partidoFinal.ganador;
     }
     return "Por determinar";
@@ -849,10 +957,10 @@ class HtmlReporter {
     }
 
     let html = "";
-    
+
     // Agrupar partidos por fase
     const partidosPorFase = {};
-    partidos.forEach(partido => {
+    partidos.forEach((partido) => {
       if (!partidosPorFase[partido.fase]) {
         partidosPorFase[partido.fase] = [];
       }
@@ -867,18 +975,20 @@ class HtmlReporter {
       return indexA - indexB;
     });
 
-    fasesOrdenadas.forEach(nombreFase => {
+    fasesOrdenadas.forEach((nombreFase) => {
       const partidosFase = partidosPorFase[nombreFase];
-      
+
       html += `
         <div class="fase">
           <div class="fase-title">${this.formatearFase(nombreFase)}</div>
       `;
-      
-      partidosFase.forEach(partido => {
-        const equipoGanadorClass1 = partido.ganador === partido.equipo1 ? " winner" : "";
-        const equipoGanadorClass2 = partido.ganador === partido.equipo2 ? " winner" : "";
-        
+
+      partidosFase.forEach((partido) => {
+        const equipoGanadorClass1 =
+          partido.ganador === partido.equipo1 ? " winner" : "";
+        const equipoGanadorClass2 =
+          partido.ganador === partido.equipo2 ? " winner" : "";
+
         html += `
           <div class="match">
             <div class="teams">
@@ -888,14 +998,14 @@ class HtmlReporter {
             </div>
             <div class="result">${partido.resultado}</div>
         `;
-        
+
         if (partido.goleadores.length > 0) {
           html += `
             <div class="scorers">
               <div class="scorers-title">Goleadores:</div>
           `;
-          
-          partido.goleadores.forEach(goleador => {
+
+          partido.goleadores.forEach((goleador) => {
             html += `
               <div class="scorer">
                 <span class="scorer-name">${goleador.nombre}</span>
@@ -903,13 +1013,13 @@ class HtmlReporter {
               </div>
             `;
           });
-          
+
           html += `</div>`;
         }
-        
+
         html += `</div>`;
       });
-      
+
       html += `</div>`;
     });
 
@@ -1010,6 +1120,9 @@ class HtmlReporter {
         stats1.partidosJugados++;
         stats2.partidosJugados++;
 
+        // Ambos equipos participaron en esta fase
+        const faseNombre = partido.fase;
+
         // Parsear resultado
         const resultado = partido.resultado.split("-");
         if (resultado.length === 2) {
@@ -1024,11 +1137,23 @@ class HtmlReporter {
           if (goles1 > goles2) {
             stats1.ganados++;
             stats2.perdidos++;
-            stats1.faseAlcanzada = this.determinarFaseAlcanzada(partido.fase, true);
+            // El ganador avanza a la siguiente fase
+            stats1.faseAlcanzada = this.determinarFaseAlcanzada(
+              partido.fase,
+              true
+            );
+            // El perdedor queda en la fase actual
+            stats2.faseAlcanzada = this.formatearFase(faseNombre);
           } else if (goles2 > goles1) {
             stats2.ganados++;
             stats1.perdidos++;
-            stats2.faseAlcanzada = this.determinarFaseAlcanzada(partido.fase, true);
+            // El ganador avanza a la siguiente fase
+            stats2.faseAlcanzada = this.determinarFaseAlcanzada(
+              partido.fase,
+              true
+            );
+            // El perdedor queda en la fase actual
+            stats1.faseAlcanzada = this.formatearFase(faseNombre);
           }
         }
       }
@@ -1039,7 +1164,9 @@ class HtmlReporter {
       stats.diferencia = stats.golesFavor - stats.golesContra;
     });
 
-    return Array.from(equiposInfo.values()).sort((a, b) => b.ganados - a.ganados);
+    return Array.from(equiposInfo.values()).sort(
+      (a, b) => b.ganados - a.ganados
+    );
   }
 
   // ===== MÉTODOS AUXILIARES ADICIONALES =====
@@ -1051,14 +1178,20 @@ class HtmlReporter {
   generarResumenFases(ast) {
     const fases = this.extraerFases(ast);
     if (fases.length === 0) {
-      return '<p>No se encontraron fases en el torneo.</p>';
+      return "<p>No se encontraron fases en el torneo.</p>";
     }
-    
-    return fases.map(fase => `
+
+    return fases
+      .map(
+        (fase) => `
       <div class="phases-info">
-        <strong>${this.formatearFase(fase.nombre)}:</strong> Fase de eliminación directa
+        <strong>${this.formatearFase(
+          fase.nombre
+        )}:</strong> Fase de eliminación directa
       </div>
-    `).join('');
+    `
+      )
+      .join("");
   }
 
   determinarGanador(equipo1, equipo2, resultado) {

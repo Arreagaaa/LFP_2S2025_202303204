@@ -121,8 +121,39 @@ class Lexer {
     }
   }
 
+  // Helpers para clasificar caracteres (evitan el uso de expresiones regulares)
+  isWhitespace(ch) {
+    if (!ch) return false;
+    return (
+      ch === " " ||
+      ch === "\t" ||
+      ch === "\n" ||
+      ch === "\r" ||
+      ch === "\f" ||
+      ch === "\v"
+    );
+  }
+
+  isDigit(ch) {
+    if (!ch || ch.length !== 1) return false;
+    return ch >= "0" && ch <= "9";
+  }
+
+  isLetter(ch) {
+    if (!ch || ch.length !== 1) return false;
+    return (ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z");
+  }
+
+  isIdentifierStart(ch) {
+    return this.isLetter(ch) || ch === "_" || ch === "$";
+  }
+
+  isIdentifierPart(ch) {
+    return this.isIdentifierStart(ch) || this.isDigit(ch);
+  }
+
   omitirEspacios() {
-    while (this.caracterActual() && /\s/.test(this.caracterActual())) {
+    while (this.caracterActual() && this.isWhitespace(this.caracterActual())) {
       this.avanzar();
     }
   }
@@ -132,7 +163,7 @@ class Lexer {
     let lineaInicio = this.linea;
     let columnaInicio = this.columna;
 
-    while (this.caracterActual() && /\d/.test(this.caracterActual())) {
+    while (this.caracterActual() && this.isDigit(this.caracterActual())) {
       numero += this.caracterActual();
       this.avanzar();
     }
@@ -141,11 +172,11 @@ class Lexer {
     if (
       this.caracterActual() === "." &&
       this.siguienteCaracter() &&
-      /\d/.test(this.siguienteCaracter())
+      this.isDigit(this.siguienteCaracter())
     ) {
       numero += this.caracterActual();
       this.avanzar();
-      while (this.caracterActual() && /\d/.test(this.caracterActual())) {
+      while (this.caracterActual() && this.isDigit(this.caracterActual())) {
         numero += this.caracterActual();
         this.avanzar();
       }
@@ -203,7 +234,7 @@ class Lexer {
 
     while (
       this.caracterActual() &&
-      /[a-zA-Z0-9_$]/.test(this.caracterActual())
+      this.isIdentifierPart(this.caracterActual())
     ) {
       identificador += this.caracterActual();
       this.avanzar();
@@ -287,13 +318,13 @@ class Lexer {
       const columnaActual = this.columna;
 
       // Espacios en blanco
-      if (/\s/.test(char)) {
+      if (this.isWhitespace(char)) {
         this.omitirEspacios();
         continue;
       }
 
       // Números
-      if (/\d/.test(char)) {
+      if (this.isDigit(char)) {
         this.leerNumero();
         continue;
       }
@@ -305,7 +336,7 @@ class Lexer {
       }
 
       // Identificadores y palabras reservadas
-      if (/[a-zA-Z_$]/.test(char)) {
+      if (this.isIdentifierStart(char)) {
         this.leerIdentificador();
         continue;
       }
@@ -381,4 +412,12 @@ class Lexer {
   }
 }
 
-module.exports = Lexer;
+// Exportación para Node.js
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = Lexer;
+}
+
+// Exportación para navegador
+if (typeof window !== "undefined") {
+  window.Lexer = Lexer;
+}

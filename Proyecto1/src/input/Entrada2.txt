@@ -1,0 +1,106 @@
+TORNEO { &&&&
+    nombre: "LaLiga Copa de España", @@@@@@
+    equipos: 10, _____
+    sede: "España" &&&
+};
+
+EQUIPOS { %%%%
+    equipo: "Real Madrid" [
+        jugador: "Thibaut Courtois" [posicion: "PORTERO", numero: 1, edad: 32],
+        jugador: "Dani Carvajal" [posicion: "DEFENSA", numero: 2, edad: 32],+++++
+        jugador: "Luka Modric" [posicion: "MEDIOCAMPO", numero: 10, edad: 39],
+        jugador: "Vinícius Júnior" [posicion: "DELANTERO", numero: 7, edad: 25]|||||
+    ];
+    equipo: "FC Barcelona" [
+        jugador: "Marc-André ter Stegen" [posicion: "PORTERO", numero: 1, edad: 33],^^^^
+        jugador: "Ronald Araújo" [posicion: "DEFENSA", numero: 4, edad: 26], %%%
+        jugador: "Frenkie de Jong" [posicion: "MEDIOCAMPO", numero: 21, edad: 28],
+        jugador: "Robert Lewandowski" [posicion: "DELANTERO", numero: 9, edad: 37] #####
+    ];
+    equipo: "Atlético de Madrid" [ $$$$$ 
+        jugador: "Jan Oblak" [posicion: "PORTERO", numero: 13, edad: 32], $$$$
+        jugador: "José María Giménez" [posicion: "DEFENSA", numero: 2, edad: 30],
+        jugador: "Koke" [posicion: "MEDIOCAMPO", numero: 6, edad: 33],
+        jugador: "Álvaro Morata" [posicion: "DELANTERO", numero: 19, edad: 32]####
+    ]; >)
+    equipo: "Sevilla FC" [
+        jugador: "Yassine Bounou" [posicion: "PORTERO", numero: 13, edad: 34],
+        jugador: "Jesús Navas" [posicion: "DEFENSA", numero: 16, edad: 39], &&&&
+        jugador: "Ivan Rakitić" [posicion: "MEDIOCAMPO", numero: 10, edad: 37], 
+        jugador: "Youssef En-Nesyri" [posicion: "DELANTERO", numero: 15, edad: 28] >c
+    ];
+    equipo: "Real Betis" [
+        jugador: "Claudio Bravo" [posicion: "PORTERO", numero: 1, edad: 41], 
+        jugador: "Germán Pezzella" [posicion: "DEFENSA", numero: 6, edad: 33], ?)
+        jugador: "Guido Rodríguez" [posicion: "MEDIOCAMPO", numero: 5, edad: 31],
+        jugador: "Borja Iglesias" [posicion: "DELANTERO", numero: 9, edad: 32] !M!
+    ];
+    equipo: "Villarreal CF" [ ÇÇÇÇÇ
+        jugador: "Pepe Reina" [posicion: "PORTERO", numero: 1, edad: 43], |`J`|
+        jugador: "Pau Torres" [posicion: "DEFENSA", numero: 4, edad: 28], |À|
+        jugador: "Dani Parejo" [posicion: "MEDIOCAMPO", numero: 10, edad: 36], |`V`|
+        jugador: "Gerard Moreno" [posicion: "DELANTERO", numero: 7, edad: 33] |À|
+    ]; |´S´|
+    equipo: "Valencia CF" [ |´C´|
+        jugador: "Giorgi Mamardashvili" [posicion: "PORTERO", numero: 25, edad: 24], |´R´|
+        jugador: "José Gayà" [posicion: "DEFENSA", numero: 14, edad: 30], |´Ì´|
+        jugador: "Hugo Guillamón" [posicion: "MEDIOCAMPO", numero: 6, edad: 25], |´P´|
+        jugador: "Hugo Duro" [posicion: "DELANTERO", numero: 9, edad: 26] |´T´|
+    ]; ÇÇÇÇÇ
+    equipo: "Athletic Club" [
+        jugador: "Unai Simón" [posicion: "PORTERO", numero: 1, edad: 28], ´´´´´´
+        jugador: "Iñigo Martínez" [posicion: "DEFENSA", numero: 4, edad: 34], ñññññ
+        jugador: "Oihan Sancet" [posicion: "MEDIOCAMPO", numero: 8, edad: 25], ``````
+        jugador: "Iñaki Williams" [posicion: "DELANTERO", numero: 9, edad: 31] 
+    ];
+    equipo: "Real Sociedad" [
+        jugador: "Álex Remiro" [posicion: "PORTERO", numero: 1, edad: 30],
+        jugador: "Robin Le Normand" [posicion: "DEFENSA", numero: 24, edad: 28], ÇÇÇÇÇÇ
+        jugador: "Mikel Merino" [posicion: "MEDIOCAMPO", numero: 8, edad: 29],
+        jugador: "Mikel Oyarzabal" [posicion: "DELANTERO", numero: 10, edad: 28] ^^^^^^
+    ];
+    equipo: "Celta de Vigo" [
+        jugador: "Iván Villar" [posicion: "PORTERO", numero: 13, edad: 27],
+        jugador: "Hugo Mallo" [posicion: "DEFENSA", numero: 2, edad: 34], ^^^^
+        jugador: "Fran Beltrán" [posicion: "MEDIOCAMPO", numero: 8, edad: 26],
+        jugador: "Iago Aspas" [posicion: "DELANTERO", numero: 10, edad: 38] ´´´´´´
+    ];
+}; ÇÇÇÇÇ
+
+ELIMINACION {
+    cuartos: [
+        partido: "Real Betis" vs "Villarreal CF" [ !!!!!
+            resultado: "3-2",
+            goleadores: [
+                goleador: "Borja Iglesias" [minuto: 10],
+                goleador: "Gerard Moreno" [minuto: 40] ####
+            ]
+        ],
+        partido: "Valencia CF" vs "Athletic Club" [
+            resultado: "2-0",
+            goleadores: [
+                goleador: "Hugo Duro" [minuto: 15], %%%%
+                goleador: "Iñaki Williams" [minuto: 60]
+            ]
+        ]
+    ];
+    semifinal: [
+        partido: "Real Sociedad" vs "Celta de Vigo" [
+            resultado: "1-1",
+            goleadores: [
+                goleador: "Mikel Oyarzabal" [minuto: 20], #####
+                goleador: "Iago Aspas" [minuto: 55]
+            ]
+        ]
+    ];
+    final: [
+        partido: "Real Madrid" vs "Atlético de Madrid" [
+            resultado: "2-0",
+            goleadores: [
+                goleador: "Vinícius Júnior" [minuto: 35], $$$$
+                goleador: "Álvaro Morata" [minuto: 70]
+            ] ||||| ?????
+        ]&&&
+    ]; !!!!
+};
+#

@@ -946,4 +946,12 @@ class Parser {
   }
 }
 
-module.exports = Parser;
+// Exportación para Node.js
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = Parser;
+}
+
+// Exportación para navegador
+if (typeof window !== "undefined") {
+  window.Parser = Parser;
+}

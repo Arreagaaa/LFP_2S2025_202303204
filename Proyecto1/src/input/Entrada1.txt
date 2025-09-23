@@ -1,0 +1,60 @@
+TORNEO { @ 
+    nombre: "Premier League Mini Cup", &=%
+    equipos: 5,
+    sede: "Inglaterra" ^^^
+};
+_______
+EQUIPOS {
+    equipo: "Manchester United" [ $
+        jugador: "David de Gea" [posicion: "PORTERO", numero: 1, edad: 32],
+        jugador: "Harry Maguire" [posicion: "DEFENSA", numero: 5, edad: 30],
+        jugador: "Bruno Fernandes" [posicion: "MEDIOCAMPO", numero: 8, edad: 30],
+        jugador: "Marcus Rashford" [posicion: "DELANTERO", numero: 10, edad: 27] ^^
+    ]; $$$
+    equipo: "Liverpool" [
+        jugador: "Alisson Becker" [posicion: "PORTERO", numero: 1, edad: 30],
+        jugador: "Virgil van Dijk" [posicion: "DEFENSA", numero: 4, edad: 32],
+        jugador: "Alexis Mac Allister" [posicion: "MEDIOCAMPO", numero: 10, edad: 27], %%%
+        jugador: "Mohamed Salah" [posicion: "DELANTERO", numero: 11, edad: 33]
+    ];
+    equipo: "Chelsea" [
+        jugador: "Kepa Arrizabalaga" [posicion: "PORTERO", numero: 1, edad: 28],
+        jugador: "Thiago Silva" [posicion: "DEFENSA", numero: 6, edad: 39],
+        jugador: "Enzo Fernández" [posicion: "MEDIOCAMPO", numero: 8, edad: 25], ++++
+        jugador: "Raheem Sterling" [posicion: "DELANTERO", numero: 7, edad: 30]
+    ];&
+    equipo: "Arsenal" [
+        jugador: "Aaron Ramsdale" [posicion: "PORTERO", numero: 1, edad: 25], /
+        jugador: "William Saliba" [posicion: "DEFENSA", numero: 2, edad: 23],
+        jugador: "Martin Ødegaard" [posicion: "MEDIOCAMPO", numero: 8, edad: 26], ?
+        jugador: "Gabriel Jesus" [posicion: "DELANTERO", numero: 9, edad: 28]
+    ];^
+    equipo: "Manchester City" [
+        jugador: "Ederson Moraes" [posicion: "PORTERO", numero: 31, edad: 30],
+        jugador: "Rúben Dias" [posicion: "DEFENSA", numero: 3, edad: 27],
+        jugador: "Kevin De Bruyne" [posicion: "MEDIOCAMPO", numero: 17, edad: 34],
+        jugador: "Erling Haaland" [posicion: "DELANTERO", numero: 9, edad: 25] ))))))
+    ] !!!!
+};
+\
+ELIMINACION {
+    semifinal: [
+        partido: "Manchester United" vs "Liverpool" [ !!!
+            resultado: "2-1",
+            goleadores: [ ^^^
+                goleador: "Marcus Rashford" [minuto: 15], \\\
+                goleador: "Mohamed Salah" [minuto: 30],
+                goleador: "Bruno Fernandes" [minuto: 40]
+            ] &##
+        ]
+    ];
+    final: [
+        partido: "Manchester United" vs "Chelsea" [
+            resultado: "1-0",
+            goleadores: [
+                goleador: "Marcus Rashford" [minuto: 22] ###
+            ]
+        ]
+    ]; *******
+};
+#

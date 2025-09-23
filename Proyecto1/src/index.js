@@ -26,22 +26,9 @@ class AnalizadorTourneyJS {
   mostrarMenu() {
     console.log("\n=== ANALIZADOR TOURNEYJS ===");
     console.log("1. Cargar archivo .txt");
-    console.log("2. Ejecutar analisis lexico (Lexer)");
-    console.log("3. Ejecutar analisis sintactico (Parser)");
     console.log("4. Analisis completo (Lexer + Parser)");
-    console.log("5. Mostrar tokens generados");
-    console.log("6. Mostrar arbol sintactico");
-    console.log("7. Mostrar errores encontrados");
-    console.log("8. Mostrar estadisticas del analisis");
-    console.log("9. Mostrar contenido del archivo actual");
-    console.log("--- REPORTES HTML ---");
-    console.log("10. Generar reporte de errores lexicos (HTML)");
-    console.log("11. Generar reporte de tokens extraidos (HTML)");
-    console.log("12. Generar reporte de bracket de eliminacion");
-    console.log("13. Generar reporte de estadisticas por equipo");
-    console.log("14. Generar reporte de goleadores");
-    console.log("15. Generar reporte de informacion general");
-    console.log("16. Generar diagrama Graphviz del torneo");
+    console.log("5. Mostrar Arbol Sintactico (imprimir en consola)");
+    console.log("6. Exportar Arbol Sintactico a JSON (src/output/ast.json)");
     console.log("17. Generar todos los reportes");
     console.log("0. Salir");
     console.log("================================");
@@ -53,7 +40,7 @@ class AnalizadorTourneyJS {
       output: process.stdout,
     });
 
-    rl.question("Seleccione una opcion (0-17): ", (respuesta) => {
+    rl.question("Seleccione una opcion (0, 1, 4, 17): ", (respuesta) => {
       rl.close();
       callback(parseInt(respuesta));
     });
@@ -96,7 +83,7 @@ class AnalizadorTourneyJS {
     const archivos = this.listarArchivosEntrada();
     if (archivos.length === 0) {
       console.log(
-        "Coloque archivos .tourney en la carpeta input/ para analizarlos."
+        "Coloque archivos .txt en la carpeta input/ para analizarlos."
       );
       return;
     }
@@ -649,50 +636,14 @@ class AnalizadorTourneyJS {
         case 1:
           this.cargarArchivo();
           break;
-        case 2:
-          this.ejecutarLexer();
-          break;
-        case 3:
-          this.ejecutarParser();
-          break;
         case 4:
           this.analisisCompleto();
           break;
         case 5:
-          this.mostrarTokens();
-          break;
-        case 6:
           this.mostrarArbolSintactico();
           break;
-        case 7:
-          this.mostrarErrores();
-          break;
-        case 8:
-          this.mostrarEstadisticas();
-          break;
-        case 9:
-          this.mostrarContenidoArchivo();
-          break;
-        case 10:
-          this.generarReporteErroresHtml();
-          break;
-        case 11:
-          this.generarReporteTokensHtml();
-          break;
-        case 12:
-          this.generarReporteBracket();
-          break;
-        case 13:
-          this.generarReporteEstadisticasEquipos();
-          break;
-        case 14:
-          this.generarReporteGoleadores();
-          break;
-        case 15:
-          this.generarReporteInformacionGeneral();
-          break;
-        case 16:
-          this.generarDiagramaGraphviz();
+        case 6:
+          this.exportarArbolJson();
           break;
         case 17:
           this.generarTodosLosReportes();
@@ -702,10 +653,39 @@ class AnalizadorTourneyJS {
           process.exit(0);
           break;
         default:
-          console.log("Opcion no valida. Intente de nuevo.");
+          console.log(
+            "Opcion no valida. Solo se permiten opciones 0, 1, 4 y 17."
+          );
           this.continuarMenu();
       }
     });
+  }
+
+  // Exportar el AST a un archivo JSON en la carpeta output/
+  exportarArbolJson() {
+    if (!this.arbolSintactico) {
+      console.log(
+        "No hay arbol sintactico para exportar. Ejecute primero el analisis sintactico."
+      );
+      this.continuarMenu();
+      return;
+    }
+
+    try {
+      const outputDir = path.join(__dirname, "output");
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+      }
+
+      const rutaSalida = path.join(outputDir, "ast.json");
+      fs.writeFileSync(rutaSalida, JSON.stringify(this.arbolSintactico, null, 2), "utf8");
+      console.log("AST exportado exitosamente:");
+      console.log(`Archivo: ${rutaSalida}`);
+    } catch (error) {
+      console.log("Error al exportar AST:", error.message);
+    }
+
+    this.continuarMenu();
   }
 }
 
