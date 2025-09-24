@@ -9,6 +9,7 @@ EQUIPOS {
         jugador: "Wojciech Szczesny" [posicion: "PORTERO", numero: 1, edad: 35],
         jugador: "Danilo" [posicion: "DEFENSA", numero: 6, edad: 34],
         jugador: "Adrien Rabiot" [posicion: "MEDIOCAMPO", numero: 25, edad: 30],
+        jugador: "Wojciech Szczesny" [posicion: "PORTERO", numero: 1, edad: 35],
         jugador: "Dusan Vlahovic" [posicion: "DELANTERO", numero: 9, edad: 27]
     ],
     equipo: "AC Milan" [

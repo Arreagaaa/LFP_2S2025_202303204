@@ -272,8 +272,43 @@ class TourneyJSInterface {
       this.resultsArea.style.display = "block";
 
       const stats = this.generateStatistics();
+
+      // Validar jugadores repetidos
+      const validacionJugadores = this.validarJugadoresRepetidos();
+      let alertaJugadores = "";
+
+      if (validacionJugadores.hayRepetidos) {
+        alertaJugadores = `
+          <div style="background: #fef3c7; border: 2px solid #f59e0b; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 5px solid #f59e0b;">
+            <h4 style="color: #92400e; margin: 0 0 10px 0; display: flex; align-items: center;">
+               Jugadores Repetidos Detectados
+            </h4>
+            <p style="color: #92400e; margin: 10px 0;">Se encontraron jugadores repetidos en los siguientes equipos:</p>
+            ${validacionJugadores.equiposConRepetidos
+              .map(
+                (equipo) => `
+              <div style="background: #fffbeb; border: 1px solid #f59e0b; padding: 15px; margin: 10px 0; border-radius: 5px;">
+                <strong style="color: #92400e;">Equipo: ${
+                  equipo.equipo
+                }</strong><br>
+                <span style="color: #78716c;">Jugadores repetidos: ${equipo.jugadoresRepetidos.join(
+                  ", "
+                )}</span><br>
+                <span style="color: #78716c; font-size: 0.9em;">Total: ${
+                  equipo.totalJugadores
+                } jugadores → ${equipo.jugadoresUnicos} únicos</span>
+              </div>
+            `
+              )
+              .join("")}
+            <p style="color: #92400e; margin-top: 15px; font-weight: 500;">En el análisis solo se tomará en cuenta cada jugador una vez por equipo.</p>
+          </div>
+        `;
+      }
+
       this.resultsArea.innerHTML = `
         <h3>Resultados del Análisis</h3>
+        ${alertaJugadores}
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
           ${stats
             .map(
@@ -1203,8 +1238,29 @@ class TourneyJSInterface {
                 ${equipos
                   .map(
                     (equipo) => `
-                    <tr>
-                        <td class="team-name">${equipo.nombre}</td>
+                    <tr ${
+                      equipo.tieneJugadoresRepetidos
+                        ? 'style="background: #fef3c7;"'
+                        : ""
+                    }>
+                        <td class="team-name">
+                          ${equipo.nombre}
+                          ${
+                            equipo.tieneJugadoresRepetidos
+                              ? ' <span title="Este equipo tiene jugadores repetidos" style="color: #b45309;">&#9888;</span>'
+                              : ""
+                          }
+                        </td>
+                        <td class="team-name">
+                          ${equipo.jugadoresUnicos || 0}
+                          ${
+                            equipo.jugadoresOriginales &&
+                            equipo.jugadoresOriginales !==
+                              equipo.jugadoresUnicos
+                              ? ` <span title="Jugadores originales: ${equipo.jugadoresOriginales}" style="color: #6b7280; font-size: 0.9em;">(Originales: ${equipo.jugadoresOriginales})</span>`
+                              : ""
+                          }
+                        </td>
                         <td>${equipo.partidosJugados || 0}</td>
                         <td class="positive">${equipo.ganados || 0}</td>
                         <td class="negative">${equipo.perdidos || 0}</td>
@@ -1748,11 +1804,12 @@ class TourneyJSInterface {
   calcularEstadisticasEquipos() {
     const partidos = this.extraerPartidos();
     const equiposInfo = new Map();
+    const validacionJugadores = this.validarJugadoresRepetidos();
 
     // Obtener todos los equipos del AST primero
     const todosLosEquipos = this.obtenerTodosLosEquipos();
     todosLosEquipos.forEach((equipo) => {
-      equiposInfo.set(equipo, {
+      const infoEquipo = {
         nombre: equipo,
         partidosJugados: 0,
         ganados: 0,
@@ -1761,8 +1818,19 @@ class TourneyJSInterface {
         golesContra: 0,
         diferencia: 0,
         faseAlcanzada: "No participó",
-      });
+      };
     });
+
+    // Agregar información de validación de jugadores
+    if (
+      validacionJugadores.equiposValidos &&
+      validacionJugadores.equiposValidos.has(equipo)
+    ) {
+      const datosEquipo = validacionJugadores.equiposValidos.get(equipo);
+      (infoEquipo.jugadoresUnicos = datosEquipo.jugadoresUnicos), length;
+      infoEquipo.jugadoresOriginales = datosEquipo.jugadoresOriginales.length;
+      infoEquipo.tieneJugadoresRepetidos = datosEquipo.tieneJugadoresRepetidos;
+    }
 
     // Calcular estadísticas
     partidos.forEach((partido) => {
@@ -1913,13 +1981,28 @@ class TourneyJSInterface {
   }
 
   contarJugadores() {
-    let count = 0;
+    if (!this.ast) return 0;
+
+    let jugadoresUnicos = new Set();
+    let equipoActual = null;
+
     const buscarJugadores = (nodo) => {
-      if (nodo.tipo === "JUGADOR") count++;
-      if (nodo.hijos) nodo.hijos.forEach(buscarJugadores);
+      if (nodo.tipo === "EQUIPO" && nodo.valor) {
+        equipoActual = nodo.valor.replace(/"/g, "");
+      }
+      if (nodo.tipo === "JUGADOR" && nodo.valor) {
+        const nombreJugador = nodo.valor.replace(/"/g, "");
+        const claveJugador = `${equipoActual}:${nombreJugador}`;
+        jugadoresUnicos.add(claveJugador);
+      }
+
+      if (nodo.hijos) {
+        nodo.hijos.forEach(buscarJugadores);
+      }
     };
-    if (this.ast) buscarJugadores(this.ast);
-    return count;
+
+    buscarJugadores(this.ast);
+    return jugadoresUnicos.size;
   }
 
   calcularEdadPromedio() {
@@ -1989,6 +2072,67 @@ class TourneyJSInterface {
 
     buscarJugadorEnEquipos(this.ast);
     return equipoEncontrado;
+  }
+
+  validarJugadoresRepetidos() {
+    if (!this.ast) return { hayRepetidos: false, equiposConRepetidos: [] };
+
+    let equiposConRepetidos = [];
+    let equiposValidos = new Map();
+    let hayRepetidos = false;
+
+    const buscarEquipos = (nodo) => {
+      if (nodo.tipo === "EQUIPO" && nodo.valor) {
+        const nombreEquipo = nodo.valor.replace(/"/g, "");
+        let jugadoresEquipo = [];
+        let jugadoresRepetidos = [];
+        let jugadoresUnicos = new Set();
+
+        const buscarJugadores = (equipoNodo) => {
+          if (equipoNodo.tipo === "JUGADOR" && equipoNodo.valor) {
+            const nombreJugador = equipoNodo.valor.replace(/"/g, "");
+            jugadoresEquipo.push(nombreJugador);
+
+            if (jugadoresUnicos.has(nombreJugador)) {
+              if (!jugadoresRepetidos.includes(nombreJugador)) {
+                jugadoresRepetidos.push(nombreJugador);
+              }
+            } else {
+              jugadoresUnicos.add(nombreJugador);
+            }
+          }
+          if (equipoNodo.hijos) {
+            equipoNodo.hijos.forEach(buscarJugadores);
+          }
+        };
+
+        buscarJugadores(nodo);
+
+        if (jugadoresRepetidos.length > 0) {
+          hayRepetidos = true;
+          equiposConRepetidos.push({
+            equipo: nombreEquipo,
+            jugadoresRepetidos: jugadoresRepetidos,
+            totalJugadores: jugadoresEquipo.length,
+            jugadoresUnicos: jugadoresUnicos.size,
+          });
+        }
+
+        equiposValidos.set(nombreEquipo, {
+          jugadoresOriginales: jugadoresEquipo,
+          jugadoresUnicos: Array.from(jugadoresUnicos),
+          tieneJugadoresRepetidos: jugadoresRepetidos.length > 0,
+        });
+      }
+
+      if (nodo.hijos) {
+        nodo.hijos.forEach(buscarEquipos);
+      }
+    };
+
+    buscarEquipos(this.ast);
+
+    return { hayRepetidos, equiposConRepetidos, equiposValidos };
   }
 
   obtenerTodosLosEquipos() {
