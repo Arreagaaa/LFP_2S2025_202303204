@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { Lexer } from "./lexer/Lexer.js";
+import { Parser } from "./parser/Parser.js";
+import { Translator } from "./translator/Translator.js";
 import { ReportGenerator } from "./reports/ReportGenerator.js";
 
 const app = express();
@@ -11,9 +13,7 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-/**
- * Ruta principal
- */
+// Ruta principal
 app.get("/", (req, res) => {
   res.json({
     message: "JavaBridge Backend API",
@@ -26,11 +26,7 @@ app.get("/", (req, res) => {
   });
 });
 
-/**
- * Análisis léxico
- * POST /api/analyze
- * Body: { code: string }
- */
+// Analisis completo: Lexico + Sintactico + Traduccion - POST /api/analyze - Body: { code: string }
 app.post("/api/analyze", (req, res) => {
   try {
     const { code } = req.body;
@@ -42,18 +38,54 @@ app.post("/api/analyze", (req, res) => {
       });
     }
 
-    // Crear analizador léxico
+    // FASE 1: Analisis lexico
     const lexer = new Lexer(code);
-    const result = lexer.analyze();
+    const lexResult = lexer.analyze();
+
+    // Si hay errores lexicos, detener aqui
+    if (lexResult.errors.length > 0) {
+      return res.json({
+        success: false,
+        phase: "lexical",
+        tokens: lexResult.tokens,
+        lexicalErrors: lexResult.errors,
+        syntaxErrors: [],
+        pythonCode: null,
+      });
+    }
+
+    // FASE 2: Analisis sintactico
+    const parser = new Parser(lexResult.tokens);
+    const parseResult = parser.parse();
+
+    // Si hay errores sintacticos, detener aqui
+    if (!parseResult.success || parseResult.errors.length > 0) {
+      return res.json({
+        success: false,
+        phase: "syntax",
+        tokens: lexResult.tokens,
+        lexicalErrors: [],
+        syntaxErrors: parseResult.errors,
+        symbolTable: parseResult.symbolTable,
+        pythonCode: null,
+      });
+    }
+
+    // FASE 3: Traduccion a Python
+    const translator = new Translator(parseResult.ast);
+    const pythonCode = translator.translate();
 
     res.json({
       success: true,
-      tokens: result.tokens,
-      errors: result.errors,
-      hasErrors: result.errors.length > 0,
+      phase: "complete",
+      tokens: lexResult.tokens,
+      lexicalErrors: [],
+      syntaxErrors: [],
+      symbolTable: parseResult.symbolTable,
+      pythonCode: pythonCode,
     });
   } catch (error) {
-    console.error("Error en análisis:", error);
+    console.error("Error en analisis:", error);
     res.status(500).json({
       success: false,
       error: "Error interno del servidor",
@@ -62,11 +94,7 @@ app.post("/api/analyze", (req, res) => {
   }
 });
 
-/**
- * Generar reporte HTML de tokens
- * POST /api/report/tokens
- * Body: { tokens: array }
- */
+// Generar reporte HTML de tokens - POST /api/report/tokens - Body: { tokens: array }
 app.post("/api/report/tokens", (req, res) => {
   try {
     const { tokens } = req.body;
@@ -92,11 +120,7 @@ app.post("/api/report/tokens", (req, res) => {
   }
 });
 
-/**
- * Generar reporte HTML de errores léxicos
- * POST /api/report/errors
- * Body: { errors: array }
- */
+// Generar reporte HTML de errores lexicos - POST /api/report/errors - Body: { errors: array }
 app.post("/api/report/errors", (req, res) => {
   try {
     const { errors } = req.body;
@@ -122,9 +146,33 @@ app.post("/api/report/errors", (req, res) => {
   }
 });
 
-/**
- * Health check
- */
+// Generar reporte HTML de errores sintacticos - POST /api/report/syntax - Body: { errors: array }
+app.post("/api/report/syntax", (req, res) => {
+  try {
+    const { errors } = req.body;
+
+    if (!errors || !Array.isArray(errors)) {
+      return res.status(400).json({
+        success: false,
+        error: "No se proporcionaron errores sintácticos",
+      });
+    }
+
+    const html = ReportGenerator.generateSyntaxErrorReport(errors);
+
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.send(html);
+  } catch (error) {
+    console.error("Error generando reporte:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error generando reporte",
+      details: error.message,
+    });
+  }
+});
+
+// Health check
 app.get("/health", (req, res) => {
   res.json({
     status: "OK",

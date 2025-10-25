@@ -1,11 +1,7 @@
-/**
- * Generador de Reportes HTML
- */
+// Generador de Reportes HTML
 export class ReportGenerator {
     
-    /**
-     * Genera reporte HTML de tokens
-     */
+    // Genera reporte HTML de tokens
     static generateTokenReport(tokens) {
         const validTokens = tokens.filter(t => t.type !== 'EOF');
         
@@ -198,9 +194,7 @@ export class ReportGenerator {
         return html;
     }
 
-    /**
-     * Genera reporte HTML de errores léxicos
-     */
+    // Genera reporte HTML de errores lexicos
     static generateLexicalErrorReport(errors) {
         let html = `
 <!DOCTYPE html>
@@ -387,9 +381,165 @@ export class ReportGenerator {
         return html;
     }
 
-    /**
-     * Determina la clase CSS según el tipo de token
-     */
+    // Genera reporte HTML de errores sintacticos
+    static generateSyntaxErrorReport(errors) {
+        let html = `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Errores Sintácticos - JavaBridge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #fffbf0;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-card h3 {
+            color: #fa709a;
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        .stat-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .content {
+            padding: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th {
+            background: #fa709a;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        tr:hover {
+            background: #fffbf0;
+        }
+        .error-msg {
+            color: #c62828;
+            font-weight: 500;
+        }
+        .footer {
+            background: #fffbf0;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚠️ Errores Sintácticos</h1>
+            <p>Se encontraron errores de estructura en el código</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <h3>${errors.length}</h3>
+                <p>Errores Sintácticos</p>
+            </div>
+        </div>
+        
+        <div class="content">
+            <h2>Listado de Errores</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Línea</th>
+                        <th>Columna</th>
+                        <th>Descripción del Error</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        errors.forEach((error, index) => {
+            html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${error.line}</td>
+                        <td>${error.column}</td>
+                        <td class="error-msg">${this.escapeHtml(error.message)}</td>
+                    </tr>
+            `;
+        });
+
+        html += `
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <p>JavaBridge - Traductor Java a Python | Proyecto 2 LFP</p>
+            <p>Generado el ${new Date().toLocaleString('es-GT')}</p>
+        </div>
+    </div>
+</body>
+</html>
+        `;
+
+        return html;
+    }
+
+    // Determina la clase CSS segun el tipo de token
     static getTokenClass(type) {
         const keywords = ['PUBLIC', 'CLASS', 'STATIC', 'VOID', 'MAIN', 'STRING', 'ARGS', 
                          'INT', 'DOUBLE', 'CHAR', 'BOOLEAN', 'TRUE', 'FALSE', 
@@ -404,9 +554,7 @@ export class ReportGenerator {
         return 'type-symbol';
     }
 
-    /**
-     * Escapa caracteres HTML
-     */
+    // Escapa caracteres HTML
     static escapeHtml(text) {
         const map = {
             '&': '&amp;',
