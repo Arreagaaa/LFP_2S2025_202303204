@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import fs from "fs";
+import path from "path";
 import { Lexer } from "./lexer/Lexer.js";
 import { Parser } from "./parser/Parser.js";
 import { Translator } from "./translator/Translator.js";
@@ -7,6 +9,12 @@ import { ReportGenerator } from "./reports/ReportGenerator.js";
 
 const app = express();
 const PORT = 3000;
+
+// Crear directorio de reportes si no existe
+const reportsDir = path.join(process.cwd(), "reportes");
+if (!fs.existsSync(reportsDir)) {
+  fs.mkdirSync(reportsDir, { recursive: true });
+}
 
 // Middlewares
 app.use(cors());
@@ -108,6 +116,13 @@ app.post("/api/report/tokens", (req, res) => {
 
     const html = ReportGenerator.generateTokenReport(tokens, lexicalErrors);
 
+    // Guardar reporte en archivo
+    const fileName = `reporte_tokens_${Date.now()}.html`;
+    const filePath = path.join(reportsDir, fileName);
+    fs.writeFileSync(filePath, html, "utf8");
+
+    console.log(`Reporte de tokens guardado: ${filePath}`);
+
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.send(html);
   } catch (error) {
@@ -134,6 +149,13 @@ app.post("/api/report/errors", (req, res) => {
 
     const html = ReportGenerator.generateLexicalErrorReport(errors);
 
+    // Guardar reporte en archivo
+    const fileName = `reporte_errores_lexicos_${Date.now()}.html`;
+    const filePath = path.join(reportsDir, fileName);
+    fs.writeFileSync(filePath, html, "utf8");
+
+    console.log(`Reporte de errores lexicos guardado: ${filePath}`);
+
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.send(html);
   } catch (error) {
@@ -159,6 +181,13 @@ app.post("/api/report/syntax", (req, res) => {
     }
 
     const html = ReportGenerator.generateSyntaxErrorReport(errors);
+
+    // Guardar reporte en archivo
+    const fileName = `reporte_errores_sintacticos_${Date.now()}.html`;
+    const filePath = path.join(reportsDir, fileName);
+    fs.writeFileSync(filePath, html, "utf8");
+
+    console.log(`Reporte de errores sintacticos guardado: ${filePath}`);
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.send(html);

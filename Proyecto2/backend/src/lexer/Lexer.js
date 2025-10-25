@@ -485,10 +485,13 @@ export class Lexer {
   // Estado S18: Reconocimiento de COMENTARIOS DE LINEA
   #S18() {
     // Consumir hasta el fin de linea
-    while ((this.#next_char = this.#input[this.#pos_char]) !== "\n" && this.#next_char !== undefined) {
+    while (
+      (this.#next_char = this.#input[this.#pos_char]) !== "\n" &&
+      this.#next_char !== undefined
+    ) {
       this.#addCharToBuffer(this.#next_char);
     }
-    
+
     // Retornar token COMMENT con el contenido completo
     return this.#createToken(TokenType.COMMENT);
   }
@@ -504,7 +507,7 @@ export class Lexer {
       // Posible fin de comentario: '*/'
       if (this.#next_char === "*") {
         const nextPos = this.#pos_char + 1;
-        
+
         // Mira el siguiente carácter
         if (nextPos < this.#input.length && this.#input[nextPos] === "/") {
           // Encontramos el fin del comentario
@@ -513,7 +516,7 @@ export class Lexer {
           // Fin del comentario de bloque - retornar token
           return this.#createToken(TokenType.COMMENT);
         }
-        
+
         // No era '/', solo agregamos el * y seguimos
         this.#addCharToBuffer(this.#next_char);
         continue;

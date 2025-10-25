@@ -18,11 +18,11 @@ export class Translator {
   // Extraer comentarios de los tokens
   #extractComments(tokens) {
     return tokens
-      .filter(t => t.type === "COMMENT")
-      .map(t => ({
+      .filter((t) => t.type === "COMMENT")
+      .map((t) => ({
         line: t.line,
         value: t.value,
-        isBlock: t.value.startsWith("/*")
+        isBlock: t.value.startsWith("/*"),
       }));
   }
 
@@ -60,12 +60,12 @@ export class Translator {
   #translateMain(mainNode) {
     // Insertar todos los comentarios al inicio del código
     if (this.#comments.length > 0) {
-      this.#comments.forEach(c => {
+      this.#comments.forEach((c) => {
         this.#pythonCode.push(this.#translateComment(c.value));
       });
       this.#pythonCode.push(""); // Línea en blanco después de comentarios
     }
-    
+
     // En Python no hay main explicito, directamente ejecutamos el codigo
     mainNode.statements.forEach((stmt) => {
       this.#translateStatement(stmt);

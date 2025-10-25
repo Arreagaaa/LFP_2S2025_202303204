@@ -18,7 +18,10 @@ export class Parser {
       column: 0,
     };
     // Saltar comentarios al inicio
-    while (this.#currentToken.type === "COMMENT" && this.#currentPos < this.#tokens.length - 1) {
+    while (
+      this.#currentToken.type === "COMMENT" &&
+      this.#currentPos < this.#tokens.length - 1
+    ) {
       this.#currentPos++;
       this.#currentToken = this.#tokens[this.#currentPos];
     }
@@ -43,7 +46,10 @@ export class Parser {
       this.#currentPos++;
       this.#currentToken = this.#tokens[this.#currentPos];
       // Saltar comentarios automáticamente durante el parsing
-      while (this.#currentToken.type === "COMMENT" && this.#currentPos < this.#tokens.length - 1) {
+      while (
+        this.#currentToken.type === "COMMENT" &&
+        this.#currentPos < this.#tokens.length - 1
+      ) {
         this.#currentPos++;
         this.#currentToken = this.#tokens[this.#currentPos];
       }
@@ -189,10 +195,7 @@ export class Parser {
 
     // Verificar args (puede ser KEYWORD o IDENTIFIER)
     const argsName = this.#currentToken;
-    if (
-      !this.#checkValue("args") &&
-      this.#currentToken.type !== "IDENTIFIER"
-    ) {
+    if (!this.#checkValue("args") && this.#currentToken.type !== "IDENTIFIER") {
       this.#addError("Se esperaba el nombre del parametro (ej: args)");
     } else {
       this.#advance(); // Consumir args
@@ -651,7 +654,7 @@ export class Parser {
   // <print_statement> ::= "System" "." "out" "." "println" "(" <expresion> ")" ";"
   #parsePrintStatement() {
     const startLine = this.#currentToken.line;
-    
+
     this.#expectValue("System", "Se esperaba 'System'");
     this.#expect("DOT", "Se esperaba '.' despues de 'System'");
     this.#expectValue("out", "Se esperaba 'out' despues de 'System.'");
