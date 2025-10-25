@@ -130,8 +130,8 @@ export class ReportGenerator {
 <body>
     <div class="container">
         <div class="header">
-            <h1>📋 Reporte de Tokens</h1>
-            <p>Análisis Léxico Exitoso</p>
+            <h1>Reporte de Tokens</h1>
+            <p>Analisis Lexico Exitoso</p>
         </div>
         
         <div class="stats">
@@ -326,7 +326,7 @@ export class ReportGenerator {
 <body>
     <div class="container">
         <div class="header">
-            <h1>❌ Errores Léxicos</h1>
+            <h1>Errores Lexicos</h1>
             <p>Se encontraron caracteres no reconocidos</p>
         </div>
         
@@ -486,8 +486,8 @@ export class ReportGenerator {
 <body>
     <div class="container">
         <div class="header">
-            <h1>⚠️ Errores Sintácticos</h1>
-            <p>Se encontraron errores de estructura en el código</p>
+            <h1>Errores Sintacticos</h1>
+            <p>Se encontraron errores de estructura en el codigo</p>
         </div>
         
         <div class="stats">

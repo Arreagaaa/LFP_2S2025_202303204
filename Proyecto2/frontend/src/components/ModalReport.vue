@@ -96,7 +96,7 @@ export default {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      alert('✅ Reporte descargado correctamente');
+      alert('Reporte descargado correctamente');
     }
   }
 }

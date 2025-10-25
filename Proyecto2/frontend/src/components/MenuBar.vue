@@ -95,6 +95,13 @@
             >
               <span>Ver Errores</span>
             </button>
+            <div class="border-t border-slate-800"></div>
+            <button
+              @click="handleAction('simularEjecucion')"
+              class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
+            >
+              <span>Simular Ejecucion</span>
+            </button>
           </div>
         </div>
 
