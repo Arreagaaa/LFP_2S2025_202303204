@@ -72,7 +72,7 @@ app.post("/api/analyze", (req, res) => {
     }
 
     // FASE 3: Traduccion a Python
-    const translator = new Translator(parseResult.ast);
+    const translator = new Translator(parseResult.ast, lexResult.tokens);
     const pythonCode = translator.translate();
 
     res.json({
@@ -97,7 +97,7 @@ app.post("/api/analyze", (req, res) => {
 // Generar reporte HTML de tokens - POST /api/report/tokens - Body: { tokens: array }
 app.post("/api/report/tokens", (req, res) => {
   try {
-    const { tokens } = req.body;
+    const { tokens, lexicalErrors = [] } = req.body;
 
     if (!tokens || !Array.isArray(tokens)) {
       return res.status(400).json({
@@ -106,7 +106,7 @@ app.post("/api/report/tokens", (req, res) => {
       });
     }
 
-    const html = ReportGenerator.generateTokenReport(tokens);
+    const html = ReportGenerator.generateTokenReport(tokens, lexicalErrors);
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.send(html);

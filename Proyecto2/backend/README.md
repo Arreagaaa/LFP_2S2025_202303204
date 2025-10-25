@@ -2,14 +2,14 @@
 
 Backend del traductor Java a Python con análisis léxico y sintáctico manual.
 
-## 🚀 Instalación
+## Instalación
 
 ```bash
 cd backend
 npm install
 ```
 
-## ▶️ Ejecución
+## Ejecución
 
 ### Modo normal
 ```bash
@@ -23,7 +23,7 @@ npm run dev
 
 El servidor estará disponible en `http://localhost:3000`
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### POST /api/analyze
 Analiza código Java y retorna tokens y errores léxicos.
@@ -69,7 +69,7 @@ Genera reporte HTML de errores léxicos.
 
 **Response:** HTML
 
-## 🏗️ Estructura
+## Estructura
 
 ```
 backend/
@@ -84,7 +84,7 @@ backend/
 └── README.md
 ```
 
-## 🔍 Analizador Léxico
+## Analizador Léxico
 
 Implementación manual de un AFD sin uso de expresiones regulares:
 
@@ -92,12 +92,12 @@ Implementación manual de un AFD sin uso de expresiones regulares:
 - **Transiciones**: Basadas en comparación de caracteres
 - **Tokens reconocidos**: Palabras reservadas, identificadores, números, cadenas, símbolos
 
-## 📊 Reportes
+## Reportes
 
 - **Reporte de Tokens**: Tabla HTML con todos los tokens reconocidos
 - **Reporte de Errores**: Lista HTML de errores léxicos encontrados
 
-## 🛠️ Tecnologías
+## Tecnologías
 
 - Node.js
 - Express.js

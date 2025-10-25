@@ -1,13 +1,21 @@
 <template>
   <Transition name="modal">
-    <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center p-4" @click.self="close">
+    <div
+      v-if="show"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      @click.self="close"
+    >
       <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
-      
+
       <!-- Modal -->
-      <div class="relative bg-white rounded-lg shadow-2xl w-full max-w-6xl max-h-[90vh] flex flex-col">
+      <div
+        class="relative bg-white rounded-lg shadow-2xl w-full max-w-6xl max-h-[90vh] flex flex-col"
+      >
         <!-- Header -->
-        <div class="flex items-center justify-between p-4 border-b bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-t-lg">
+        <div
+          class="flex items-center justify-between p-4 border-b bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-t-lg"
+        >
           <h2 class="text-xl font-bold">{{ title }}</h2>
           <button
             @click="close"
@@ -25,18 +33,22 @@
             class="w-full h-full min-h-[600px] border-0"
             sandbox="allow-same-origin"
           ></iframe>
-          <div v-else class="flex items-center justify-center h-full text-gray-400">
+          <div
+            v-else
+            class="flex items-center justify-center h-full text-gray-400"
+          >
             <p>No hay contenido para mostrar</p>
           </div>
         </div>
 
         <!-- Footer -->
-        <div class="flex items-center justify-end gap-2 p-4 border-t bg-gray-50 rounded-b-lg">
+        <div
+          class="flex items-center justify-end gap-2 p-4 border-t bg-gray-50 rounded-b-lg"
+        >
           <button
             @click="downloadReport"
             class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition flex items-center gap-2"
           >
-            <span>💾</span>
             <span>Descargar HTML</span>
           </button>
           <button
@@ -53,42 +65,42 @@
 
 <script>
 export default {
-  name: 'ModalReport',
+  name: "ModalReport",
   props: {
     show: {
       type: Boolean,
-      default: false
+      default: false,
     },
     title: {
       type: String,
-      default: 'Reporte'
+      default: "Reporte",
     },
     htmlContent: {
       type: String,
-      default: ''
+      default: "",
     },
     filename: {
       type: String,
-      default: 'reporte.html'
-    }
+      default: "reporte.html",
+    },
   },
-  emits: ['close'],
+  emits: ["close"],
   methods: {
     close() {
-      this.$emit('close');
+      this.$emit("close");
     },
     downloadReport() {
       if (!this.htmlContent) {
-        alert('No hay contenido para descargar');
+        alert("No hay contenido para descargar");
         return;
       }
 
       // Crear blob con el HTML
-      const blob = new Blob([this.htmlContent], { type: 'text/html' });
+      const blob = new Blob([this.htmlContent], { type: "text/html" });
       const url = URL.createObjectURL(blob);
 
       // Crear enlace temporal y descargar
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
       a.download = this.filename;
       document.body.appendChild(a);
@@ -96,10 +108,10 @@ export default {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      alert('Reporte descargado correctamente');
-    }
-  }
-}
+      alert("Reporte descargado correctamente");
+    },
+  },
+};
 </script>
 
 <style scoped>

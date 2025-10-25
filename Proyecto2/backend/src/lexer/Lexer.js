@@ -1,5 +1,5 @@
-import { Token, LexicalError, TokenType } from './Token.js';
-import { CharacterUtils } from '../utils/CharacterUtils.js';
+import { Token, LexicalError, TokenType } from "./Token.js";
+import { CharacterUtils } from "../utils/CharacterUtils.js";
 
 // Analizador Lexico basado en AFD con estados
 export class Lexer {
@@ -163,7 +163,6 @@ export class Lexer {
         this.#initBuffer(this.#next_char);
         const result = this.#S17();
         if (result) return result;
-        continue; // Los comentarios no retornan token
       }
 
       // δ(=, S0) = S21
@@ -276,7 +275,9 @@ export class Lexer {
   // Estado S1: Reconocimiento de IDENTIFICADORES y PALABRAS RESERVADAS
   #S1() {
     while (
-      CharacterUtils.isAlphanumeric((this.#next_char = this.#input[this.#pos_char]))
+      CharacterUtils.isAlphanumeric(
+        (this.#next_char = this.#input[this.#pos_char])
+      )
     ) {
       this.#addCharToBuffer(this.#next_char);
     }
@@ -289,7 +290,9 @@ export class Lexer {
 
   // Estado S4: Reconocimiento de NUMEROS ENTEROS y DECIMALES
   #S4() {
-    while (CharacterUtils.isDigit((this.#next_char = this.#input[this.#pos_char]))) {
+    while (
+      CharacterUtils.isDigit((this.#next_char = this.#input[this.#pos_char]))
+    ) {
       this.#addCharToBuffer(this.#next_char);
     }
 
@@ -306,7 +309,9 @@ export class Lexer {
   // Estado S5: Reconocimiento de NUMEROS DECIMALES
   #S5() {
     // Debe haber al menos un digito despues del punto decimal
-    if (!CharacterUtils.isDigit((this.#next_char = this.#input[this.#pos_char]))) {
+    if (
+      !CharacterUtils.isDigit((this.#next_char = this.#input[this.#pos_char]))
+    ) {
       this.#addError(
         "Se esperaba al menos un digito despues del punto decimal"
       );
@@ -318,7 +323,9 @@ export class Lexer {
 
   // Estado S6: Continuacion del reconocimiento de NUMEROS DECIMALES
   #S6() {
-    while (CharacterUtils.isDigit((this.#next_char = this.#input[this.#pos_char]))) {
+    while (
+      CharacterUtils.isDigit((this.#next_char = this.#input[this.#pos_char]))
+    ) {
       this.#addCharToBuffer(this.#next_char);
     }
 
@@ -463,15 +470,13 @@ export class Lexer {
     // δ(/, S17) = S18(comentario de línea)
     if (this.#next_char === "/") {
       this.#addCharToBuffer(this.#next_char);
-      this.#S18();
-      return null; // Los comentarios no retornan token
+      return this.#S18();
     }
 
     // δ(*, S17) = S19(comentario de bloque)
     if (this.#next_char === "*") {
       this.#addCharToBuffer(this.#next_char);
-      this.#S19();
-      return null; // Los comentarios no retornan token
+      return this.#S19();
     }
 
     return this.#createToken(TokenType.DIVIDE);
@@ -480,10 +485,12 @@ export class Lexer {
   // Estado S18: Reconocimiento de COMENTARIOS DE LINEA
   #S18() {
     // Consumir hasta el fin de linea
-    while ((this.#next_char = this.#input[this.#pos_char]) !== "\n") {
-      this.#char_col++;
-      this.#pos_char++;
+    while ((this.#next_char = this.#input[this.#pos_char]) !== "\n" && this.#next_char !== undefined) {
+      this.#addCharToBuffer(this.#next_char);
     }
+    
+    // Retornar token COMMENT con el contenido completo
+    return this.#createToken(TokenType.COMMENT);
   }
 
   // Estado S19: Reconocimiento de COMENTARIOS DE BLOQUE(/* */)
@@ -496,41 +503,40 @@ export class Lexer {
 
       // Posible fin de comentario: '*/'
       if (this.#next_char === "*") {
-        this.#char_col++;
-        this.#pos_char++;
-
-        // Mira el siguiente carácter sin salirte del rango
-        if (
-          this.#pos_char < this.#input.length &&
-          this.#input[this.#pos_char] === "/"
-        ) {
-          this.#char_col++;
-          this.#pos_char++;
-          return; // Fin del comentario de bloque
+        const nextPos = this.#pos_char + 1;
+        
+        // Mira el siguiente carácter
+        if (nextPos < this.#input.length && this.#input[nextPos] === "/") {
+          // Encontramos el fin del comentario
+          this.#addCharToBuffer("*");
+          this.#addCharToBuffer("/");
+          // Fin del comentario de bloque - retornar token
+          return this.#createToken(TokenType.COMMENT);
         }
-
-        // No era '/', seguimos dentro del comentario
+        
+        // No era '/', solo agregamos el * y seguimos
+        this.#addCharToBuffer(this.#next_char);
         continue;
       }
 
       // Manejo de fin de línea
       if (this.#next_char === "\n") {
+        this.#addCharToBuffer(this.#next_char);
         this.#char_line++;
-        this.#char_col = 1;
-        this.#pos_char++;
+        this.#char_col = 0; // Se incrementará en addCharToBuffer
         continue;
       }
 
-      // Ignorar retornos de carro
+      // Ignorar retornos de carro (pero no afectar posición)
       if (this.#next_char === "\r") {
         this.#pos_char++;
         continue;
       }
 
-      this.#char_col++;
-      this.#pos_char++;
+      this.#addCharToBuffer(this.#next_char);
     }
 
+    // Error: comentario de bloque no cerrado
     this.#errors.push(
       new LexicalError(
         "/*",
@@ -539,7 +545,7 @@ export class Lexer {
         "Comentario de bloque no cerrado"
       )
     );
-    return;
+    return null;
   }
 
   // Estado S21: Reconocimiento de ASSIGN(=) y EQUAL(==)

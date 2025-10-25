@@ -1,19 +1,27 @@
 // Analizador Sintactico Descendente Recursivo Manual
 export class Parser {
   // Propiedades privadas
-  #tokens;       // Array de tokens del lexer
-  #currentPos;   // Posicion actual en el array
+  #tokens; // Array de tokens del lexer
+  #currentPos; // Posicion actual en el array
   #currentToken; // Token que se esta analizando
-  #errors;       // Errores sintacticos encontrados
-  #symbolTable;  // Tabla de simbolos (variables declaradas)
+  #errors; // Errores sintacticos encontrados
+  #symbolTable; // Tabla de simbolos (variables declaradas)
 
   constructor(tokens) {
-    // Filtrar comentarios (no son parte de la sintaxis)
-    this.#tokens = tokens.filter(
-      (t) => t.type !== "COMMENT_LINE" && t.type !== "COMMENT_BLOCK"
-    );
+    // NO filtrar comentarios - los necesitamos para la traducción
+    this.#tokens = tokens;
     this.#currentPos = 0;
-    this.#currentToken = this.#tokens[0] || { type: "EOF", value: "", line: 0, column: 0 };
+    this.#currentToken = this.#tokens[0] || {
+      type: "EOF",
+      value: "",
+      line: 0,
+      column: 0,
+    };
+    // Saltar comentarios al inicio
+    while (this.#currentToken.type === "COMMENT" && this.#currentPos < this.#tokens.length - 1) {
+      this.#currentPos++;
+      this.#currentToken = this.#tokens[this.#currentPos];
+    }
     this.#errors = [];
     this.#symbolTable = new Map(); // identifier -> { type, line, column }
   }
@@ -25,7 +33,7 @@ export class Parser {
       column: this.#currentToken.column,
       token: this.#currentToken.value || this.#currentToken.type,
       expected: message,
-      description: message
+      description: message,
     });
   }
 
@@ -34,6 +42,11 @@ export class Parser {
     if (this.#currentPos < this.#tokens.length - 1) {
       this.#currentPos++;
       this.#currentToken = this.#tokens[this.#currentPos];
+      // Saltar comentarios automáticamente durante el parsing
+      while (this.#currentToken.type === "COMMENT" && this.#currentPos < this.#tokens.length - 1) {
+        this.#currentPos++;
+        this.#currentToken = this.#tokens[this.#currentPos];
+      }
     } else {
       this.#currentToken = { type: "EOF", value: "", line: 0, column: 0 };
     }
@@ -100,11 +113,13 @@ export class Parser {
       return {
         ast: ast,
         errors: this.#errors,
-        symbolTable: Array.from(this.#symbolTable.entries()).map(([name, info]) => ({
-          name,
-          ...info
-        })),
-        success: this.#errors.length === 0
+        symbolTable: Array.from(this.#symbolTable.entries()).map(
+          ([name, info]) => ({
+            name,
+            ...info,
+          })
+        ),
+        success: this.#errors.length === 0,
       };
     } catch (error) {
       this.#addError(`Error inesperado durante el analisis: ${error.message}`);
@@ -112,7 +127,7 @@ export class Parser {
         ast: null,
         errors: this.#errors,
         symbolTable: [],
-        success: false
+        success: false,
       };
     }
   }
@@ -128,7 +143,10 @@ export class Parser {
     this.#expectValue("public", "Se esperaba 'public' al inicio de la clase");
     this.#expectValue("class", "Se esperaba 'class' despues de 'public'");
 
-    const className = this.#expect("IDENTIFIER", "Se esperaba el nombre de la clase");
+    const className = this.#expect(
+      "IDENTIFIER",
+      "Se esperaba el nombre de la clase"
+    );
 
     this.#expect("LBRACE", "Se esperaba '{' despues del nombre de la clase");
 
@@ -144,7 +162,7 @@ export class Parser {
     return {
       type: "Program",
       className: className?.value || "Main",
-      main: mainMethod
+      main: mainMethod,
     };
   }
 
@@ -159,11 +177,26 @@ export class Parser {
 
     this.#expect("LPAREN", "Se esperaba '(' despues de 'main'");
 
-    this.#expectValue("String", "Se esperaba 'String' en los argumentos de main");
+    // Verificar String (puede ser KEYWORD o IDENTIFIER)
+    if (!this.#checkValue("String")) {
+      this.#addError("Se esperaba 'String' en los argumentos de main");
+    } else {
+      this.#advance(); // Consumir String
+    }
+
     this.#expect("LBRACKET", "Se esperaba '[' despues de 'String'");
     this.#expect("RBRACKET", "Se esperaba ']' despues de '['");
 
-    const argsName = this.#expect("IDENTIFIER", "Se esperaba el nombre del parametro (ej: args)");
+    // Verificar args (puede ser KEYWORD o IDENTIFIER)
+    const argsName = this.#currentToken;
+    if (
+      !this.#checkValue("args") &&
+      this.#currentToken.type !== "IDENTIFIER"
+    ) {
+      this.#addError("Se esperaba el nombre del parametro (ej: args)");
+    } else {
+      this.#advance(); // Consumir args
+    }
 
     this.#expect("RPAREN", "Se esperaba ')' despues de los argumentos");
 
@@ -176,7 +209,7 @@ export class Parser {
     return {
       type: "MainMethod",
       args: argsName?.value || "args",
-      statements: statements
+      statements: statements,
     };
   }
 
@@ -228,7 +261,9 @@ export class Parser {
     }
 
     this.#addError(
-      `Sentencia no reconocida: '${this.#currentToken.value}' (tipo: ${this.#currentToken.type})`
+      `Sentencia no reconocida: '${this.#currentToken.value}' (tipo: ${
+        this.#currentToken.type
+      })`
     );
     return null;
   }
@@ -263,7 +298,7 @@ export class Parser {
       this.#symbolTable.set(identifier.value, {
         type: dataType,
         line: identifier.line,
-        column: identifier.column
+        column: identifier.column,
       });
     }
 
@@ -278,7 +313,7 @@ export class Parser {
         identifier: identifier.value,
         value: value,
         line: identifier.line,
-        column: identifier.column
+        column: identifier.column,
       };
     }
 
@@ -290,7 +325,7 @@ export class Parser {
       identifier: identifier.value,
       value: null,
       line: identifier.line,
-      column: identifier.column
+      column: identifier.column,
     };
   }
 
@@ -317,10 +352,10 @@ export class Parser {
           type: "BinaryOp",
           operator: "+",
           left: identifier,
-          right: "1"
+          right: "1",
         },
         line: line,
-        column: column
+        column: column,
       };
     }
 
@@ -333,10 +368,10 @@ export class Parser {
           type: "BinaryOp",
           operator: "-",
           left: identifier,
-          right: "1"
+          right: "1",
         },
         line: line,
-        column: column
+        column: column,
       };
     }
 
@@ -351,7 +386,7 @@ export class Parser {
       identifier: identifier,
       value: value,
       line: line,
-      column: column
+      column: column,
     };
   }
 
@@ -379,7 +414,7 @@ export class Parser {
         type: "BinaryOp",
         operator: operator,
         left: left,
-        right: right
+        right: right,
       };
     }
 
@@ -401,7 +436,7 @@ export class Parser {
         type: "BinaryOp",
         operator: operator,
         left: left,
-        right: right
+        right: right,
       };
     }
 
@@ -468,12 +503,15 @@ export class Parser {
       return expr;
     }
 
-    this.#addError(`Expresion invalida: token inesperado '${this.#currentToken.value}'`);
+    this.#addError(
+      `Expresion invalida: token inesperado '${this.#currentToken.value}'`
+    );
     return { type: "Error", value: this.#currentToken.value };
   }
 
   // <if_statement> ::= "if" "(" <expresion> ")" "{" <sentencias> "}" [ "else" "{" <sentencias> "}" ]
   #parseIfStatement() {
+    const startLine = this.#currentToken.line;
     this.#expectValue("if", "Se esperaba 'if'");
 
     this.#expect("LPAREN", "Se esperaba '(' despues de 'if'");
@@ -495,12 +533,14 @@ export class Parser {
       type: "IfStatement",
       condition: condition,
       thenBlock: thenBlock,
-      elseBlock: elseBlock
+      elseBlock: elseBlock,
+      line: startLine,
     };
   }
 
   // <for_statement> ::= "for" "(" <declaracion_for> ";" <expresion> ";" <actualizacion_for> ")" "{" <sentencias> "}"
   #parseForStatement() {
+    const startLine = this.#currentToken.line;
     this.#expectValue("for", "Se esperaba 'for'");
 
     this.#expect("LPAREN", "Se esperaba '(' despues de 'for'");
@@ -510,12 +550,18 @@ export class Parser {
 
     // Condicion: i < 10
     const condition = this.#parseExpression();
-    this.#expect("SEMICOLON", "Se esperaba ';' despues de la condicion del for");
+    this.#expect(
+      "SEMICOLON",
+      "Se esperaba ';' despues de la condicion del for"
+    );
 
     // Actualizacion: i++
     const update = this.#parseForUpdate();
 
-    this.#expect("RPAREN", "Se esperaba ')' despues de la actualizacion del for");
+    this.#expect(
+      "RPAREN",
+      "Se esperaba ')' despues de la actualizacion del for"
+    );
 
     this.#expect("LBRACE", "Se esperaba '{' al inicio del bloque for");
     const body = this.#parseStatements();
@@ -526,13 +572,17 @@ export class Parser {
       init: init,
       condition: condition,
       update: update,
-      body: body
+      body: body,
+      line: startLine,
     };
   }
 
   // <actualizacion_for> ::= IDENTIFIER "++" | IDENTIFIER "--" | IDENTIFIER "=" <expresion>
   #parseForUpdate() {
-    const identifier = this.#expect("IDENTIFIER", "Se esperaba un identificador en la actualizacion del for");
+    const identifier = this.#expect(
+      "IDENTIFIER",
+      "Se esperaba un identificador en la actualizacion del for"
+    );
 
     if (!identifier) {
       return null;
@@ -546,8 +596,8 @@ export class Parser {
           type: "BinaryOp",
           operator: "+",
           left: identifier.value,
-          right: "1"
-        }
+          right: "1",
+        },
       };
     }
 
@@ -559,8 +609,8 @@ export class Parser {
           type: "BinaryOp",
           operator: "-",
           left: identifier.value,
-          right: "1"
-        }
+          right: "1",
+        },
       };
     }
 
@@ -569,7 +619,7 @@ export class Parser {
       return {
         type: "Assignment",
         identifier: identifier.value,
-        value: value
+        value: value,
       };
     }
 
@@ -579,6 +629,7 @@ export class Parser {
 
   // <while_statement> ::= "while" "(" <expresion> ")" "{" <sentencias> "}"
   #parseWhileStatement() {
+    const startLine = this.#currentToken.line;
     this.#expectValue("while", "Se esperaba 'while'");
 
     this.#expect("LPAREN", "Se esperaba '(' despues de 'while'");
@@ -592,12 +643,15 @@ export class Parser {
     return {
       type: "WhileStatement",
       condition: condition,
-      body: body
+      body: body,
+      line: startLine,
     };
   }
 
   // <print_statement> ::= "System" "." "out" "." "println" "(" <expresion> ")" ";"
   #parsePrintStatement() {
+    const startLine = this.#currentToken.line;
+    
     this.#expectValue("System", "Se esperaba 'System'");
     this.#expect("DOT", "Se esperaba '.' despues de 'System'");
     this.#expectValue("out", "Se esperaba 'out' despues de 'System.'");
@@ -612,7 +666,8 @@ export class Parser {
 
     return {
       type: "PrintStatement",
-      expression: expression
+      expression: expression,
+      line: startLine,
     };
   }
 }

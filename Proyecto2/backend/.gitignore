@@ -1,0 +1,5 @@
+# Carpeta de reportes generados
+reportes/
+
+# Node modules
+node_modules/

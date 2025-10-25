@@ -8,25 +8,23 @@
       @traducir="handleTraducir"
       @ver-tokens="handleVerTokens"
       @ver-errores="handleVerErrores"
+      @ver-errores-sintacticos="handleVerErroresSintacticos"
       @simular-ejecucion="handleSimularEjecucion"
       @acerca-de="handleAcercaDe"
       @salir="handleSalir"
     />
 
     <div class="flex-1 flex overflow-hidden p-6 gap-6">
-      <div class="flex-1 flex flex-col bg-[#1e293b] rounded-xl shadow-2xl overflow-hidden border border-slate-700/50">
-        <Editor
-          v-model:code="javaCode"
-          :filename="currentFilename"
-        />
+      <div
+        class="flex-1 flex flex-col bg-[#1e293b] rounded-xl shadow-2xl overflow-hidden border border-slate-700/50"
+      >
+        <Editor v-model:code="javaCode" :filename="currentFilename" />
       </div>
 
-      <div class="flex-1 flex flex-col bg-[#1e293b] rounded-xl shadow-2xl overflow-hidden border border-slate-700/50">
-        <Output
-          :pythonCode="pythonCode"
-          :errors="errors"
-          :status="status"
-        />
+      <div
+        class="flex-1 flex flex-col bg-[#1e293b] rounded-xl shadow-2xl overflow-hidden border border-slate-700/50"
+      >
+        <Output :pythonCode="pythonCode" :errors="errors" :status="status" />
       </div>
     </div>
 
@@ -41,39 +39,42 @@
 </template>
 
 <script>
-import MenuBar from '../components/MenuBar.vue';
-import Editor from '../components/Editor.vue';
-import Output from '../components/Output.vue';
-import api from '../services/api.js';
+import MenuBar from "../components/MenuBar.vue";
+import Editor from "../components/Editor.vue";
+import Output from "../components/Output.vue";
+import api from "../services/api.js";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     MenuBar,
     Editor,
-    Output
+    Output,
   },
   data() {
     return {
-      javaCode: '',
-      pythonCode: '',
+      javaCode: "",
+      pythonCode: "",
       errors: [],
-      status: 'Listo',
-      currentFilename: '',
-      lastAnalysisResult: null
+      status: "Listo",
+      currentFilename: "",
+      lastAnalysisResult: null,
     };
   },
   methods: {
     // Nuevo archivo
     handleNuevo() {
-      if (this.javaCode && !confirm('Se perdera el contenido actual. Continuar?')) {
+      if (
+        this.javaCode &&
+        !confirm("Se perdera el contenido actual. Continuar?")
+      ) {
         return;
       }
-      this.javaCode = '';
-      this.pythonCode = '';
+      this.javaCode = "";
+      this.pythonCode = "";
       this.errors = [];
-      this.currentFilename = '';
-      this.status = 'Listo';
+      this.currentFilename = "";
+      this.status = "Listo";
     },
 
     // Abrir archivo
@@ -89,26 +90,26 @@ export default {
       reader.onload = (e) => {
         this.javaCode = e.target.result;
         this.currentFilename = file.name;
-        this.pythonCode = '';
+        this.pythonCode = "";
         this.errors = [];
-        this.status = 'Archivo cargado';
+        this.status = "Archivo cargado";
       };
       reader.readAsText(file);
-      event.target.value = '';
+      event.target.value = "";
     },
 
     // Guardar archivo Java
     handleGuardar() {
       if (!this.javaCode) {
-        alert('No hay contenido para guardar');
+        alert("No hay contenido para guardar");
         return;
       }
 
-      const blob = new Blob([this.javaCode], { type: 'text/plain' });
+      const blob = new Blob([this.javaCode], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = this.currentFilename || 'codigo.java';
+      a.download = this.currentFilename || "codigo.java";
       a.click();
       URL.revokeObjectURL(url);
     },
@@ -116,15 +117,17 @@ export default {
     // Guardar archivo Python
     handleGuardarPython() {
       if (!this.pythonCode) {
-        alert('No hay codigo Python para guardar. Ejecuta el analisis primero.');
+        alert(
+          "No hay codigo Python para guardar. Ejecuta el analisis primero."
+        );
         return;
       }
 
-      const blob = new Blob([this.pythonCode], { type: 'text/plain' });
+      const blob = new Blob([this.pythonCode], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      const baseName = this.currentFilename.replace('.java', '') || 'codigo';
+      const baseName = this.currentFilename.replace(".java", "") || "codigo";
       a.download = `${baseName}.py`;
       a.click();
       URL.revokeObjectURL(url);
@@ -133,13 +136,13 @@ export default {
     // Traducir codigo
     async handleTraducir() {
       if (!this.javaCode.trim()) {
-        alert('Escribe codigo Java para analizar');
+        alert("Escribe codigo Java para analizar");
         return;
       }
 
-      this.status = 'Analizando...';
+      this.status = "Analizando...";
       this.errors = [];
-      this.pythonCode = '';
+      this.pythonCode = "";
 
       try {
         const result = await api.analyze(this.javaCode);
@@ -147,77 +150,104 @@ export default {
 
         if (result.success) {
           this.pythonCode = result.pythonCode;
-          this.status = 'Traduccion exitosa';
+          this.status = "Traduccion exitosa";
         } else {
-          if (result.phase === 'lexical') {
+          if (result.phase === "lexical") {
             this.errors = result.lexicalErrors;
-            this.status = 'Errores lexicos encontrados';
-          } else if (result.phase === 'syntax') {
-            this.errors = result.syntaxErrors.map(e => ({
-              char: e.token || '',
+            this.status = "Errores lexicos encontrados";
+          } else if (result.phase === "syntax") {
+            this.errors = result.syntaxErrors.map((e) => ({
+              char: e.token || "",
               line: e.line,
               column: e.column,
-              description: e.expected || e.description
+              description: e.description || e.expected || "Error sintáctico",
             }));
-            this.status = 'Errores sintacticos encontrados';
+            this.status = "Errores sintacticos encontrados";
           }
         }
       } catch (error) {
-        console.error('Error al analizar:', error);
-        alert('Error de conexion con el servidor');
-        this.status = 'Error';
+        console.error("Error al analizar:", error);
+        alert("Error de conexion con el servidor");
+        this.status = "Error";
       }
     },
 
     // Ver reporte de tokens
     async handleVerTokens() {
       if (!this.lastAnalysisResult || !this.lastAnalysisResult.tokens) {
-        alert('Ejecuta el analisis primero');
+        alert("Ejecuta el analisis primero");
         return;
       }
 
       try {
-        const html = await api.getTokenReport(this.lastAnalysisResult.tokens);
-        const newWindow = window.open('', '_blank');
+        const html = await api.getTokenReport(
+          this.lastAnalysisResult.tokens,
+          this.lastAnalysisResult.lexicalErrors || []
+        );
+        const newWindow = window.open("", "_blank");
         newWindow.document.write(html);
         newWindow.document.close();
       } catch (error) {
-        console.error('Error al generar reporte:', error);
-        alert('Error al generar reporte de tokens');
+        console.error("Error al generar reporte:", error);
+        alert("Error al generar reporte de tokens");
       }
     },
 
     // Ver reporte de errores
     async handleVerErrores() {
       if (!this.lastAnalysisResult) {
-        alert('Ejecuta el analisis primero');
+        alert("Ejecuta el analisis primero");
         return;
       }
 
       try {
         let html;
-        if (this.lastAnalysisResult.lexicalErrors && this.lastAnalysisResult.lexicalErrors.length > 0) {
-          html = await api.getErrorReport(this.lastAnalysisResult.lexicalErrors);
-        } else if (this.lastAnalysisResult.syntaxErrors && this.lastAnalysisResult.syntaxErrors.length > 0) {
-          html = await api.getSyntaxErrorReport(this.lastAnalysisResult.syntaxErrors);
+        if (
+          this.lastAnalysisResult.lexicalErrors &&
+          this.lastAnalysisResult.lexicalErrors.length > 0
+        ) {
+          html = await api.getErrorReport(
+            this.lastAnalysisResult.lexicalErrors
+          );
         } else {
-          alert('No hay errores para mostrar');
+          alert("No hay errores léxicos para mostrar");
           return;
         }
 
-        const newWindow = window.open('', '_blank');
+        const newWindow = window.open("", "_blank");
         newWindow.document.write(html);
         newWindow.document.close();
       } catch (error) {
-        console.error('Error al generar reporte:', error);
-        alert('Error al generar reporte de errores');
+        console.error("Error al generar reporte:", error);
+        alert("Error al generar reporte de errores");
+      }
+    },
+
+    // Ver reporte de errores sintácticos
+    async handleVerErroresSintacticos() {
+      if (!this.lastAnalysisResult) {
+        alert("Ejecuta el analisis primero");
+        return;
+      }
+
+      try {
+        const syntaxErrors = this.lastAnalysisResult.syntaxErrors || [];
+        const html = await api.getSyntaxErrorReport(syntaxErrors);
+        const newWindow = window.open("", "_blank");
+        newWindow.document.write(html);
+        newWindow.document.close();
+      } catch (error) {
+        console.error("Error al generar reporte:", error);
+        alert("Error al generar reporte de errores sintácticos");
       }
     },
 
     // Simular ejecucion del codigo Python generado
     handleSimularEjecucion() {
       if (!this.pythonCode) {
-        alert('No hay codigo Python para ejecutar. Genera la traduccion primero.');
+        alert(
+          "No hay codigo Python para ejecutar. Genera la traduccion primero."
+        );
         return;
       }
 
@@ -325,7 +355,9 @@ export default {
 
             <div class="output-section">
                 <h3>Salida Simulada:</h3>
-                <div class="output-content">${this.simulateExecution(this.pythonCode)}</div>
+                <div class="output-content">${this.simulateExecution(
+                  this.pythonCode
+                )}</div>
             </div>
         </div>
     </div>
@@ -333,61 +365,63 @@ export default {
 </html>
       `;
 
-      const simWindow = window.open('', '_blank', 'width=1000,height=800');
+      const simWindow = window.open("", "_blank", "width=1000,height=800");
       simWindow.document.write(modalHTML);
       simWindow.document.close();
     },
 
     // Simula la ejecucion del codigo Python (extrae prints)
     simulateExecution(code) {
-      const lines = code.split('\n');
-      let output = '';
-      
+      const lines = code.split("\n");
+      let output = "";
+
       // Buscar todas las lineas con print()
       for (const line of lines) {
         const trimmed = line.trim();
-        if (trimmed.startsWith('print(')) {
+        if (trimmed.startsWith("print(")) {
           // Extraer contenido del print
           const match = trimmed.match(/print\((.*)\)/);
           if (match) {
             let content = match[1].trim();
             // Remover comillas si es string literal
-            if ((content.startsWith('"') && content.endsWith('"')) || 
-                (content.startsWith("'") && content.endsWith("'"))) {
+            if (
+              (content.startsWith('"') && content.endsWith('"')) ||
+              (content.startsWith("'") && content.endsWith("'"))
+            ) {
               content = content.slice(1, -1);
             }
-            output += content + '\n';
+            output += content + "\n";
           }
         }
       }
-      
-      return output || '(El codigo no genera salida visible con print)';
+
+      return output || "(El codigo no genera salida visible con print)";
     },
 
     // Escapa HTML para prevenir XSS
     escapeHtml(text) {
       const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
       };
-      return String(text).replace(/[&<>"']/g, m => map[m]);
+      return String(text).replace(/[&<>"']/g, (m) => map[m]);
     },
 
     // Acerca de
     handleAcercaDe() {
-      this.$router.push('/about');
+      this.$router.push("/about");
     },
 
     // Salir
     handleSalir() {
-      if (this.javaCode && !confirm('Seguro que deseas salir?')) {
+      if (this.javaCode && !confirm("Seguro que deseas salir?")) {
         return;
       }
       window.close();
-    }
-  }
+    },
+  },
 };
 </script>

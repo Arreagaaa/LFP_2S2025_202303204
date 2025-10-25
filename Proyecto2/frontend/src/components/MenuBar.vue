@@ -3,13 +3,24 @@
     <div class="flex items-center px-6 py-3">
       <!-- Logo -->
       <div class="flex items-center gap-3 px-2 py-1 font-bold text-lg">
-        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+        <div
+          class="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center"
+        >
+          <svg
+            class="w-5 h-5 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2.5"
+              d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+            />
           </svg>
         </div>
         <span class="text-white font-semibold">JavaBridge</span>
-        <span class="text-xs text-slate-400 font-normal ml-1">v1.0</span>
       </div>
 
       <!-- Menus -->
@@ -81,7 +92,6 @@
               class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
             >
               <span>Generar Traduccion</span>
-              <span class="ml-auto text-xs text-slate-500">F5</span>
             </button>
             <button
               @click="handleAction('verTokens')"
@@ -93,14 +103,13 @@
               @click="handleAction('verErrores')"
               class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
             >
-              <span>Ver Errores</span>
+              <span>Ver Errores Léxicos</span>
             </button>
-            <div class="border-t border-slate-800"></div>
             <button
-              @click="handleAction('simularEjecucion')"
+              @click="handleAction('verErroresSintacticos')"
               class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
             >
-              <span>Simular Ejecucion</span>
+              <span>Ver Errores Sintácticos</span>
             </button>
           </div>
         </div>
@@ -132,8 +141,18 @@
         @click="handleAction('traducir')"
         class="ml-auto px-6 py-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
       >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 10V3L4 14h7v7l9-11h-7z"
+          />
         </svg>
         <span>Analizar</span>
       </button>
@@ -143,22 +162,23 @@
 
 <script>
 export default {
-  name: 'MenuBar',
+  name: "MenuBar",
   emits: [
-    'nuevo',
-    'abrir',
-    'guardar',
-    'guardar-python',
-    'traducir',
-    'ver-tokens',
-    'ver-errores',
-    'acerca-de',
-    'salir'
+    "nuevo",
+    "abrir",
+    "guardar",
+    "guardar-python",
+    "traducir",
+    "ver-tokens",
+    "ver-errores",
+    "ver-errores-sintacticos",
+    "acerca-de",
+    "salir",
   ],
   data() {
     return {
-      openMenu: null
-    }
+      openMenu: null,
+    };
   },
   methods: {
     toggleMenu(menu) {
@@ -166,17 +186,18 @@ export default {
     },
     handleAction(action) {
       this.openMenu = null;
-      
+
       const eventMap = {
-        'nuevo': 'nuevo',
-        'abrir': 'abrir',
-        'guardar': 'guardar',
-        'guardarPython': 'guardar-python',
-        'traducir': 'traducir',
-        'verTokens': 'ver-tokens',
-        'verErrores': 'ver-errores',
-        'acercaDe': 'acerca-de',
-        'salir': 'salir'
+        nuevo: "nuevo",
+        abrir: "abrir",
+        guardar: "guardar",
+        guardarPython: "guardar-python",
+        traducir: "traducir",
+        verTokens: "ver-tokens",
+        verErrores: "ver-errores",
+        verErroresSintacticos: "ver-errores-sintacticos",
+        acercaDe: "acerca-de",
+        salir: "salir",
       };
 
       const eventName = eventMap[action];
@@ -186,17 +207,23 @@ export default {
     },
     closeMenus() {
       this.openMenu = null;
-    }
+    },
   },
   mounted() {
     // Cerrar menús al hacer clic fuera
-    document.addEventListener('click', (e) => {
-      const menus = [this.$refs.archivoMenu, this.$refs.traducirMenu, this.$refs.ayudaMenu];
-      const clickedOutside = menus.every(menu => menu && !menu.contains(e.target));
+    document.addEventListener("click", (e) => {
+      const menus = [
+        this.$refs.archivoMenu,
+        this.$refs.traducirMenu,
+        this.$refs.ayudaMenu,
+      ];
+      const clickedOutside = menus.every(
+        (menu) => menu && !menu.contains(e.target)
+      );
       if (clickedOutside) {
         this.closeMenus();
       }
     });
-  }
-}
+  },
+};
 </script>

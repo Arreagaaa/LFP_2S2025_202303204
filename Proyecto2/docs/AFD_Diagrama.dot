@@ -1,0 +1,140 @@
+// Diagrama del Autómata Finito Determinista (AFD)
+// JavaBridge - Analizador Léxico
+// Proyecto 2 - Lenguajes Formales y de Programación
+
+digraph AFD {
+    rankdir=LR;
+    size="20,16";
+    
+    // Configuración de nodos
+    node [shape = circle, style=filled, fillcolor=lightblue];
+    
+    // Estado inicial
+    node [fillcolor=lightgreen];
+    S0 [label="S0\nInicio"];
+    
+    // Estados finales (de aceptación)
+    node [shape = doublecircle, fillcolor=lightcoral];
+    S3 [label="S3\nID/RES"];
+    S4 [label="S4\nNUM_ENT"];
+    S6 [label="S6\nNUM_DEC"];
+    S8 [label="S8\nCADENA"];
+    S10 [label="S10\nCARACTER"];
+    S11 [label="S11\n{"];
+    S12 [label="S12\n}"];
+    S13 [label="S13\n("];
+    S14 [label="S14\n)"];
+    S15 [label="S15\n["];
+    S16 [label="S16\n]"];
+    S21 [label="S21\n;"];
+    S22 [label="S22\n,"];
+    S23 [label="S23\n."];
+    S24 [label="S24\n="];
+    S25 [label="S25\n=="];
+    S26 [label="S26\n+"];
+    S27 [label="S27\n++"];
+    S28 [label="S28\n-"];
+    S29 [label="S29\n--"];
+    S30 [label="S30\n*"];
+    S32 [label="S32\n>"];
+    S33 [label="S33\n>="];
+    S34 [label="S34\n<"];
+    S35 [label="S35\n<="];
+    S36 [label="S36\n!="];
+    
+    // Estados intermedios
+    node [shape = circle, fillcolor=lightyellow];
+    S1 [label="S1\nLETRA"];
+    S2 [label="S2\nALFANUM"];
+    S5 [label="S5\nPUNTO"];
+    S7 [label="S7\nCADENA_IN"];
+    S9 [label="S9\nCARAC_IN"];
+    S17 [label="S17\n/"];
+    S18 [label="S18\nCOM_LINEA"];
+    S19 [label="S19\nCOM_BLOQ"];
+    S20 [label="S20\nCOM_FIN"];
+    S31 [label="S31\n!"];
+    
+    // Estado de error
+    node [shape = circle, fillcolor=pink];
+    ERROR [label="ERROR"];
+    
+    // Transiciones desde S0 (Estado Inicial)
+    S0 -> S1 [label="[A-Za-z_]"];
+    S0 -> S4 [label="[0-9]"];
+    S0 -> S7 [label="\""];
+    S0 -> S9 [label="'"];
+    S0 -> S11 [label="{"];
+    S0 -> S12 [label="}"];
+    S0 -> S13 [label="("];
+    S0 -> S14 [label=")"];
+    S0 -> S15 [label="["];
+    S0 -> S16 [label="]"];
+    S0 -> S17 [label="/"];
+    S0 -> S21 [label=";"];
+    S0 -> S22 [label=","];
+    S0 -> S23 [label="."];
+    S0 -> S24 [label="="];
+    S0 -> S26 [label="+"];
+    S0 -> S28 [label="-"];
+    S0 -> S30 [label="*"];
+    S0 -> S31 [label="!"];
+    S0 -> S32 [label=">"];
+    S0 -> S34 [label="<"];
+    S0 -> S0 [label="[ \\t\\n\\r]"];
+    S0 -> ERROR [label="otros"];
+    
+    // Transiciones para Identificadores y Palabras Reservadas
+    S1 -> S2 [label="[A-Za-z0-9_]"];
+    S1 -> S3 [label="otros"];
+    S2 -> S2 [label="[A-Za-z0-9_]"];
+    S2 -> S3 [label="otros"];
+    
+    // Transiciones para Números
+    S4 -> S4 [label="[0-9]"];
+    S4 -> S5 [label="."];
+    S4 -> S4 [label="otros (FIN)"];
+    S5 -> S6 [label="[0-9]"];
+    S5 -> ERROR [label="otros"];
+    S6 -> S6 [label="[0-9]"];
+    S6 -> S6 [label="otros (FIN)"];
+    
+    // Transiciones para Cadenas
+    S7 -> S7 [label="[^\"\\n]"];
+    S7 -> S8 [label="\""];
+    S7 -> ERROR [label="\\n (fin de línea)"];
+    
+    // Transiciones para Caracteres
+    S9 -> S10 [label="'"];
+    S9 -> ERROR [label="otros"];
+    
+    // Transiciones para Comentarios
+    S17 -> S18 [label="/"];
+    S17 -> S19 [label="*"];
+    S17 -> S17 [label="otros (DIV)"];
+    S18 -> S18 [label="[^\\n]"];
+    S18 -> S0 [label="\\n"];
+    S19 -> S19 [label="[^*]"];
+    S19 -> S20 [label="*"];
+    S20 -> S19 [label="[^/]"];
+    S20 -> S0 [label="/"];
+    
+    // Transiciones para Operadores Dobles
+    S24 -> S25 [label="="];
+    S24 -> S24 [label="otros (=)"];
+    S26 -> S27 [label="+"];
+    S26 -> S26 [label="otros (+)"];
+    S28 -> S29 [label="-"];
+    S28 -> S28 [label="otros (-)"];
+    S31 -> S36 [label="="];
+    S31 -> ERROR [label="otros"];
+    S32 -> S33 [label="="];
+    S32 -> S32 [label="otros (>)"];
+    S34 -> S35 [label="="];
+    S34 -> S34 [label="otros (<)"];
+    
+    // Leyenda
+    label = "\nAutómata Finito Determinista - JavaBridge\nAnalizador Léxico para Subconjunto de Java\nEstudiante: Christian Javier Rivas Arreaga (202303204)\n\nLeyenda:\nVerde = Estado Inicial\nRojo = Estados de Aceptación\nAmarillo = Estados Intermedios\nRosa = Estado de Error\n";
+    labelloc = "t";
+    fontsize = 14;
+}

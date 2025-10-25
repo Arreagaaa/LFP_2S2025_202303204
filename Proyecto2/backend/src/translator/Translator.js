@@ -1,14 +1,42 @@
 // Traductor de AST Java a codigo Python
 export class Translator {
   // Propiedades privadas
-  #ast;           // Arbol Sintactico Abstracto
-  #pythonCode;    // Lineas de codigo Python generadas
-  #indentLevel;   // Nivel de indentacion actual
+  #ast; // Arbol Sintactico Abstracto
+  #tokens; // Tokens del lexer (para comentarios)
+  #comments; // Comentarios extraídos
+  #pythonCode; // Lineas de codigo Python generadas
+  #indentLevel; // Nivel de indentacion actual
 
-  constructor(ast) {
+  constructor(ast, tokens = []) {
     this.#ast = ast;
+    this.#tokens = tokens;
+    this.#comments = this.#extractComments(tokens);
     this.#pythonCode = [];
     this.#indentLevel = 0;
+  }
+
+  // Extraer comentarios de los tokens
+  #extractComments(tokens) {
+    return tokens
+      .filter(t => t.type === "COMMENT")
+      .map(t => ({
+        line: t.line,
+        value: t.value,
+        isBlock: t.value.startsWith("/*")
+      }));
+  }
+
+  // Convertir comentario Java a Python
+  #translateComment(comment) {
+    if (comment.startsWith("//")) {
+      // Comentario de línea: // texto → # texto
+      return comment.replace("//", "#");
+    } else if (comment.startsWith("/*") && comment.endsWith("*/")) {
+      // Comentario de bloque: /* ... */ → '''...'''
+      const content = comment.substring(2, comment.length - 2);
+      return `'''${content}'''`;
+    }
+    return `# ${comment}`;
   }
 
   // Traducir el AST completo a Python
@@ -22,7 +50,7 @@ export class Translator {
     this.#pythonCode.push("# Carne: 202303204");
     this.#pythonCode.push("");
 
-    // Traducir el metodo main
+    // Traducir el metodo main (incluye comentarios)
     this.#translateMain(this.#ast.main);
 
     return this.#pythonCode.join("\n");
@@ -30,6 +58,14 @@ export class Translator {
 
   // Traducir el metodo main
   #translateMain(mainNode) {
+    // Insertar todos los comentarios al inicio del código
+    if (this.#comments.length > 0) {
+      this.#comments.forEach(c => {
+        this.#pythonCode.push(this.#translateComment(c.value));
+      });
+      this.#pythonCode.push(""); // Línea en blanco después de comentarios
+    }
+    
     // En Python no hay main explicito, directamente ejecutamos el codigo
     mainNode.statements.forEach((stmt) => {
       this.#translateStatement(stmt);
@@ -58,7 +94,9 @@ export class Translator {
         this.#translatePrint(stmt);
         break;
       default:
-        this.#pythonCode.push(`${this.#getIndent()}# Sentencia no traducida: ${stmt.type}`);
+        this.#pythonCode.push(
+          `${this.#getIndent()}# Sentencia no traducida: ${stmt.type}`
+        );
     }
   }
 
@@ -170,7 +208,11 @@ export class Translator {
 
     // Analizar el update (i++, i--, i += n)
     let step = null;
-    if (node.update && node.update.value && node.update.value.type === "BinaryOp") {
+    if (
+      node.update &&
+      node.update.value &&
+      node.update.value.type === "BinaryOp"
+    ) {
       if (node.update.value.operator === "-") {
         step = "-1";
       }
@@ -178,9 +220,13 @@ export class Translator {
 
     // Generar el for de Python
     if (step) {
-      this.#pythonCode.push(`${indent}for ${varName} in range(${startValue}, ${endValue}, ${step}):`);
+      this.#pythonCode.push(
+        `${indent}for ${varName} in range(${startValue}, ${endValue}, ${step}):`
+      );
     } else {
-      this.#pythonCode.push(`${indent}for ${varName} in range(${startValue}, ${endValue}):`);
+      this.#pythonCode.push(
+        `${indent}for ${varName} in range(${startValue}, ${endValue}):`
+      );
     }
 
     // Cuerpo del for
@@ -247,9 +293,9 @@ export class Translator {
       case "double":
         return node.value;
       case "char":
-        return node.value; // Ya viene con comillas
+        return `'${node.value}'`; // Agregar comillas simples
       case "string":
-        return node.value; // Ya viene con comillas
+        return `"${node.value}"`; // Agregar comillas dobles
       case "boolean":
         // Java: true/false → Python: True/False
         return node.value === "true" ? "True" : "False";

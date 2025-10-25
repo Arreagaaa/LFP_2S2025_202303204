@@ -2,14 +2,14 @@
 
 Interfaz web para el traductor Java a Python.
 
-## 🚀 Instalación
+## Instalación
 
 ```bash
 cd frontend
 npm install
 ```
 
-## ▶️ Ejecución
+## Ejecución
 
 ### Modo desarrollo
 ```bash
@@ -23,7 +23,7 @@ La aplicación estará disponible en `http://localhost:5173`
 npm run build
 ```
 
-## 🎨 Características
+## Características
 
 - **Editor de código**: Área de texto para escribir código Java
 - **Salida Python**: Visualización del código traducido
@@ -31,20 +31,20 @@ npm run build
 - **Reportes HTML**: Visualización de tokens y errores
 - **Diseño moderno**: Tailwind CSS con gradientes y animaciones
 
-## 🧩 Componentes
+## Componentes
 
 - **MenuBar.vue**: Barra de menú con todas las opciones
 - **Editor.vue**: Editor de código Java con estadísticas
 - **Output.vue**: Visualización de código Python y errores
 - **ModalReport.vue**: Modal para mostrar reportes HTML
 
-## 🔌 Conexión con Backend
+## Conexión con Backend
 
 La aplicación se conecta al backend en `http://localhost:3000/api`
 
 Asegúrate de que el backend esté corriendo antes de usar la aplicación.
 
-## 🛠️ Tecnologías
+## Tecnologías
 
 - Vue.js 3
 - Tailwind CSS

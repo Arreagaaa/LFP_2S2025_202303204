@@ -1,0 +1,98 @@
+// Diagrama de Flujo General del Sistema
+// JavaBridge - Traductor Java a Python
+// Proyecto 2 - Lenguajes Formales y de Programación
+
+digraph FlujoProcesamiento {
+    rankdir=TB;
+    node [shape=box, style="rounded,filled", fillcolor=lightblue];
+    
+    // Nodos del proceso
+    inicio [label="INICIO\nUsuario abre aplicación", fillcolor=lightgreen, shape=ellipse];
+    cargar [label="Cargar/Escribir\nCódigo Java"];
+    traducir [label="Usuario presiona\n'Generar Traducción'"];
+    enviar [label="Enviar código al\nbackend via HTTP POST"];
+    
+    // Proceso de análisis léxico
+    lexer [label="ANÁLISIS LÉXICO\nLexer.js", fillcolor=lightyellow];
+    tokenizar [label="Tokenizar entrada\ncarácter por carácter"];
+    afd [label="Procesar con AFD\n(37 estados)", shape=diamond, fillcolor=orange];
+    errores_lex [label="¿Errores\nléxicos?", shape=diamond, fillcolor=orange];
+    reporte_lex [label="Generar reporte\nde errores léxicos", fillcolor=lightcoral];
+    tokens_ok [label="Lista de tokens\ngenerada"];
+    
+    // Proceso de análisis sintáctico
+    parser [label="ANÁLISIS SINTÁCTICO\nParser.js", fillcolor=lightyellow];
+    validar_estructura [label="Validar estructura\nde clase y main"];
+    errores_sint [label="¿Errores\nsintácticos?", shape=diamond, fillcolor=orange];
+    reporte_sint [label="Generar reporte\nde errores sintácticos", fillcolor=lightcoral];
+    ast_ok [label="Árbol de sintaxis\nabstracta (AST)"];
+    
+    // Proceso de traducción
+    traductor [label="TRADUCCIÓN\nTranslator.js", fillcolor=lightyellow];
+    convertir_tipos [label="Convertir tipos\nJava → Python"];
+    convertir_estructuras [label="Convertir estructuras\nde control"];
+    generar_python [label="Generar código\nPython"];
+    
+    // Salida
+    respuesta [label="Enviar respuesta\nal frontend", fillcolor=lightblue];
+    mostrar_python [label="Mostrar código Python\nen panel de salida", fillcolor=lightgreen];
+    mostrar_errores [label="Mostrar reportes\nde errores", fillcolor=lightcoral];
+    fin [label="FIN\nProceso completado", fillcolor=lightgreen, shape=ellipse];
+    
+    // Reportes adicionales
+    ver_tokens [label="Usuario selecciona\n'Ver Tokens'"];
+    reporte_tokens [label="Generar reporte HTML\nde tokens", fillcolor=lightgreen];
+    simular [label="Usuario selecciona\n'Simular Ejecución'"];
+    extraer_prints [label="Extraer print()\ndel código Python"];
+    mostrar_salida [label="Mostrar salida\nsimulada", fillcolor=lightgreen];
+    
+    // Flujo principal
+    inicio -> cargar;
+    cargar -> traducir;
+    traducir -> enviar;
+    enviar -> lexer;
+    
+    // Análisis léxico
+    lexer -> tokenizar;
+    tokenizar -> afd;
+    afd -> errores_lex;
+    errores_lex -> reporte_lex [label="SÍ"];
+    errores_lex -> tokens_ok [label="NO"];
+    reporte_lex -> respuesta;
+    
+    // Análisis sintáctico
+    tokens_ok -> parser;
+    parser -> validar_estructura;
+    validar_estructura -> errores_sint;
+    errores_sint -> reporte_sint [label="SÍ"];
+    errores_sint -> ast_ok [label="NO"];
+    reporte_sint -> respuesta;
+    
+    // Traducción
+    ast_ok -> traductor;
+    traductor -> convertir_tipos;
+    convertir_tipos -> convertir_estructuras;
+    convertir_estructuras -> generar_python;
+    generar_python -> respuesta;
+    
+    // Respuesta
+    respuesta -> mostrar_python [label="Éxito"];
+    respuesta -> mostrar_errores [label="Error"];
+    mostrar_python -> fin;
+    mostrar_errores -> fin;
+    
+    // Flujos adicionales
+    mostrar_python -> ver_tokens [style=dashed, label="opcional"];
+    ver_tokens -> reporte_tokens;
+    reporte_tokens -> fin;
+    
+    mostrar_python -> simular [style=dashed, label="opcional"];
+    simular -> extraer_prints;
+    extraer_prints -> mostrar_salida;
+    mostrar_salida -> fin;
+    
+    // Leyenda
+    label = "\nDiagrama de Flujo General - JavaBridge\nProceso de Traducción Java → Python\nEstudiante: Christian Javier Rivas Arreaga (202303204)\n\nLeyenda:\nVerde = Inicio/Fin/Éxito\nAzul = Proceso\nAmarillo = Análisis (Lexer/Parser/Traductor)\nNaranja = Decisión\nRojo = Error\nLínea punteada = Flujo opcional\n";
+    labelloc = "t";
+    fontsize = 14;
+}
