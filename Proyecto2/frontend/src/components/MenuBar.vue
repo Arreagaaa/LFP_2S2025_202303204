@@ -1,60 +1,63 @@
 <template>
-  <div class="bg-gradient-to-r from-slate-800 via-blue-900 to-slate-800 border-b-2 border-blue-700 shadow-xl">
-    <div class="flex items-center px-3 py-2">
+  <div class="bg-[#1e293b] border-b border-slate-700/50 shadow-xl">
+    <div class="flex items-center px-6 py-3">
       <!-- Logo -->
-      <div class="flex items-center gap-2 px-3 py-2 font-bold text-blue-400 text-lg">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-        </svg>
-        <span class="text-white">JavaBridge</span>
+      <div class="flex items-center gap-3 px-2 py-1 font-bold text-lg">
+        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+          </svg>
+        </div>
+        <span class="text-white font-semibold">JavaBridge</span>
+        <span class="text-xs text-slate-400 font-normal ml-1">v1.0</span>
       </div>
 
       <!-- Menus -->
-      <div class="flex-1 flex items-center gap-1">
+      <div class="flex-1 flex items-center gap-2 ml-4">
         <!-- ARCHIVO -->
         <div class="relative" ref="archivoMenu">
           <button
             @click="toggleMenu('archivo')"
-            class="px-4 py-2 hover:bg-blue-800/50 rounded text-sm font-medium transition text-white"
+            class="px-4 py-2 hover:bg-slate-700/50 rounded-lg text-sm font-medium transition text-slate-200"
           >
             Archivo
           </button>
           <div
             v-if="openMenu === 'archivo'"
-            class="absolute top-full left-0 mt-1 bg-slate-800 border border-blue-600 rounded shadow-2xl min-w-[220px] z-50 fade-in"
+            class="absolute top-full left-0 mt-2 bg-[#0f172a] border border-slate-700 rounded-lg shadow-2xl min-w-[220px] z-50 fade-in overflow-hidden"
           >
             <button
               @click="handleAction('nuevo')"
-              class="w-full text-left px-4 py-2 hover:bg-blue-700/30 text-sm flex items-center gap-3 text-white"
+              class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
             >
               <span>Nuevo</span>
-              <span class="ml-auto text-xs text-gray-400">Ctrl+N</span>
+              <span class="ml-auto text-xs text-slate-500">Ctrl+N</span>
             </button>
             <button
               @click="handleAction('abrir')"
-              class="w-full text-left px-4 py-2 hover:bg-blue-700/30 text-sm flex items-center gap-3 text-white"
+              class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
             >
               <span>Abrir</span>
-              <span class="ml-auto text-xs text-gray-400">Ctrl+O</span>
+              <span class="ml-auto text-xs text-slate-500">Ctrl+O</span>
             </button>
-            <div class="border-t border-blue-700/50"></div>
+            <div class="border-t border-slate-800"></div>
             <button
               @click="handleAction('guardar')"
-              class="w-full text-left px-4 py-2 hover:bg-blue-700/30 text-sm flex items-center gap-3 text-white"
+              class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
             >
               <span>Guardar</span>
-              <span class="ml-auto text-xs text-gray-400">Ctrl+S</span>
+              <span class="ml-auto text-xs text-slate-500">Ctrl+S</span>
             </button>
             <button
               @click="handleAction('guardarPython')"
-              class="w-full text-left px-4 py-2 hover:bg-blue-700/30 text-sm flex items-center gap-3 text-white"
+              class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
             >
               <span>Guardar Python como...</span>
             </button>
-            <div class="border-t border-blue-700/50"></div>
+            <div class="border-t border-slate-800"></div>
             <button
               @click="handleAction('salir')"
-              class="w-full text-left px-4 py-2 hover:bg-red-700/30 text-sm flex items-center gap-3 text-red-400"
+              class="w-full text-left px-4 py-3 hover:bg-red-950 text-sm flex items-center gap-3 text-red-400 transition"
             >
               <span>Salir</span>
             </button>
@@ -65,30 +68,30 @@
         <div class="relative" ref="traducirMenu">
           <button
             @click="toggleMenu('traducir')"
-            class="px-4 py-2 hover:bg-blue-800/50 rounded text-sm font-medium transition text-white"
+            class="px-4 py-2 hover:bg-slate-700/50 rounded-lg text-sm font-medium transition text-slate-200"
           >
             Traducir
           </button>
           <div
             v-if="openMenu === 'traducir'"
-            class="absolute top-full left-0 mt-1 bg-slate-800 border border-blue-600 rounded shadow-2xl min-w-[220px] z-50 fade-in"
+            class="absolute top-full left-0 mt-2 bg-[#0f172a] border border-slate-700 rounded-lg shadow-2xl min-w-[220px] z-50 fade-in overflow-hidden"
           >
             <button
               @click="handleAction('traducir')"
-              class="w-full text-left px-4 py-2 hover:bg-blue-700/30 text-sm flex items-center gap-3 text-white"
+              class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
             >
               <span>Generar Traduccion</span>
-              <span class="ml-auto text-xs text-gray-400">F5</span>
+              <span class="ml-auto text-xs text-slate-500">F5</span>
             </button>
             <button
               @click="handleAction('verTokens')"
-              class="w-full text-left px-4 py-2 hover:bg-blue-700/30 text-sm flex items-center gap-3 text-white"
+              class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
             >
               <span>Ver Tokens</span>
             </button>
             <button
               @click="handleAction('verErrores')"
-              class="w-full text-left px-4 py-2 hover:bg-blue-700/30 text-sm flex items-center gap-3 text-white"
+              class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
             >
               <span>Ver Errores</span>
             </button>
@@ -99,17 +102,17 @@
         <div class="relative" ref="ayudaMenu">
           <button
             @click="toggleMenu('ayuda')"
-            class="px-4 py-2 hover:bg-blue-800/50 rounded text-sm font-medium transition text-white"
+            class="px-4 py-2 hover:bg-slate-700/50 rounded-lg text-sm font-medium transition text-slate-200"
           >
             Ayuda
           </button>
           <div
             v-if="openMenu === 'ayuda'"
-            class="absolute top-full left-0 mt-1 bg-slate-800 border border-blue-600 rounded shadow-2xl min-w-[200px] z-50 fade-in"
+            class="absolute top-full left-0 mt-2 bg-[#0f172a] border border-slate-700 rounded-lg shadow-2xl min-w-[200px] z-50 fade-in overflow-hidden"
           >
             <button
               @click="handleAction('acercaDe')"
-              class="w-full text-left px-4 py-2 hover:bg-blue-700/30 text-sm flex items-center gap-3 text-white"
+              class="w-full text-left px-4 py-3 hover:bg-slate-800 text-sm flex items-center gap-3 text-slate-200 transition"
             >
               <span>Acerca de</span>
             </button>
@@ -120,10 +123,10 @@
       <!-- Boton de Analizar (destacado) -->
       <button
         @click="handleAction('traducir')"
-        class="ml-auto px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-blue-900 transition shadow-lg flex items-center gap-2 border border-blue-500"
+        class="ml-auto px-6 py-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
         </svg>
         <span>Analizar</span>
       </button>

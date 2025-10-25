@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen flex flex-col bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+  <div class="h-screen flex flex-col bg-[#0f172a]">
     <MenuBar
       @nuevo="handleNuevo"
       @abrir="handleAbrir"
@@ -12,15 +12,15 @@
       @salir="handleSalir"
     />
 
-    <div class="flex-1 flex overflow-hidden p-4 gap-4">
-      <div class="flex-1 flex flex-col bg-white rounded-lg shadow-2xl overflow-hidden">
+    <div class="flex-1 flex overflow-hidden p-6 gap-6">
+      <div class="flex-1 flex flex-col bg-[#1e293b] rounded-xl shadow-2xl overflow-hidden border border-slate-700/50">
         <Editor
           v-model:code="javaCode"
           :filename="currentFilename"
         />
       </div>
 
-      <div class="flex-1 flex flex-col bg-white rounded-lg shadow-2xl overflow-hidden">
+      <div class="flex-1 flex flex-col bg-[#1e293b] rounded-xl shadow-2xl overflow-hidden border border-slate-700/50">
         <Output
           :pythonCode="pythonCode"
           :errors="errors"
