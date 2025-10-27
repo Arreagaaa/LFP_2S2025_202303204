@@ -67,9 +67,11 @@ export class Translator {
     }
 
     // En Python no hay main explicito, directamente ejecutamos el codigo
-    mainNode.statements.forEach((stmt) => {
-      this.#translateStatement(stmt);
-    });
+    if (mainNode.statements && Array.isArray(mainNode.statements)) {
+      mainNode.statements.forEach((stmt) => {
+        this.#translateStatement(stmt);
+      });
+    }
   }
 
   // Traducir una sentencia generica
@@ -161,7 +163,7 @@ export class Translator {
 
     // Bloque then
     this.#indentLevel++;
-    if (node.thenBlock.length === 0) {
+    if (!node.thenBlock || !Array.isArray(node.thenBlock) || node.thenBlock.length === 0) {
       this.#pythonCode.push(`${this.#getIndent()}pass`);
     } else {
       node.thenBlock.forEach((stmt) => this.#translateStatement(stmt));
@@ -172,7 +174,7 @@ export class Translator {
     if (node.elseBlock) {
       this.#pythonCode.push(`${indent}else:`);
       this.#indentLevel++;
-      if (node.elseBlock.length === 0) {
+      if (!Array.isArray(node.elseBlock) || node.elseBlock.length === 0) {
         this.#pythonCode.push(`${this.#getIndent()}pass`);
       } else {
         node.elseBlock.forEach((stmt) => this.#translateStatement(stmt));
@@ -250,7 +252,7 @@ export class Translator {
 
     // Cuerpo del for
     this.#indentLevel++;
-    if (node.body.length === 0) {
+    if (!node.body || !Array.isArray(node.body) || node.body.length === 0) {
       this.#pythonCode.push(`${this.#getIndent()}pass`);
     } else {
       node.body.forEach((stmt) => this.#translateStatement(stmt));
@@ -269,7 +271,7 @@ export class Translator {
 
     // Cuerpo del while
     this.#indentLevel++;
-    if (node.body.length === 0) {
+    if (!node.body || !Array.isArray(node.body) || node.body.length === 0) {
       this.#pythonCode.push(`${this.#getIndent()}pass`);
     } else {
       node.body.forEach((stmt) => this.#translateStatement(stmt));
