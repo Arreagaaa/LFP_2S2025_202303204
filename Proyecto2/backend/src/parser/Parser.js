@@ -512,7 +512,8 @@ export class Parser {
     return { type: "Error", value: this.#currentToken.value };
   }
 
-  // <if_statement> ::= "if" "(" <expresion> ")" "{" <sentencias> "}" [ "else" ( "{" <sentencias> "}" ]
+  // <if_statement> ::= "if" "(" <expresion> ")" "{" <sentencias> "}" [ <else_if_chain> ] [ "else" "{" <sentencias> "}" ]
+  // <else_if_chain> ::= "else" "if" "(" <expresion> ")" "{" <sentencias> "}" [ <else_if_chain> ]
   #parseIfStatement() {
     const startLine = this.#currentToken.line;
     this.#expectValue("if", "Se esperaba 'if'");
@@ -525,6 +526,7 @@ export class Parser {
     const thenBlock = this.#parseStatements();
     this.#expect("RBRACE", "Se esperaba '}' al final del bloque if");
 
+    // Parsear bloque else final (opcional)
     let elseBlock = null;
     if (this.#matchValue("else")) {
       this.#expect("LBRACE", "Se esperaba '{' despues de 'else'");

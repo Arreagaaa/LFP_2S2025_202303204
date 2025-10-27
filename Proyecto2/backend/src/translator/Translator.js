@@ -150,9 +150,9 @@ export class Translator {
     this.#pythonCode.push(`${indent}${node.identifier} = ${value}`);
   }
 
-  // Traducir if-else
-  // Java: if (x > 0) { ... } else { ... }
-  // Python: if x > 0:\n    ...
+  // Traducir if-else-elif
+  // Java: if (x > 0) { ... } else if (x == 0) { ... } else { ... }
+  // Python: if x > 0:\n    ...\nelif x == 0:\n    ...\nelse:\n    ...
   #translateIf(node) {
     const indent = this.#getIndent();
     const condition = this.#translateExpression(node.condition);
@@ -191,8 +191,10 @@ export class Translator {
     const varName = node.init.identifier;
     const startValue = this.#translateExpression(node.init.value);
 
-    // Analizar la condicion (asumimos i < N)
+    // Analizar la condicion (asumimos i < N, i <= N, i > N, i >= N)
     let endValue = "0";
+    let isReverse = false;
+
     if (node.condition.type === "BinaryOp") {
       if (node.condition.operator === "<") {
         endValue = this.#translateExpression(node.condition.right);
@@ -203,27 +205,44 @@ export class Translator {
       } else if (node.condition.operator === ">") {
         // Orden inverso
         endValue = this.#translateExpression(node.condition.right);
+        isReverse = true;
+      } else if (node.condition.operator === ">=") {
+        // Orden inverso con inclusión
+        const limit = this.#translateExpression(node.condition.right);
+        endValue = `${limit} - 1`;
+        isReverse = true;
       }
     }
 
     // Analizar el update (i++, i--, i += n)
     let step = null;
-    if (
-      node.update &&
-      node.update.value &&
-      node.update.value.type === "BinaryOp"
-    ) {
-      if (node.update.value.operator === "-") {
-        step = "-1";
+    if (node.update && node.update.value) {
+      if (node.update.value.type === "BinaryOp") {
+        if (node.update.value.operator === "-") {
+          step = "-1";
+          isReverse = true;
+        } else if (node.update.value.operator === "+") {
+          const stepValue = this.#translateExpression(node.update.value.right);
+          if (stepValue !== "1") {
+            step = stepValue;
+          }
+        }
       }
     }
 
-    // Generar el for de Python
-    if (step) {
+    // Generar el for de Python con range()
+    if (isReverse && step === null) {
+      // Bucle inverso sin step explícito
+      this.#pythonCode.push(
+        `${indent}for ${varName} in range(${startValue}, ${endValue}, -1):`
+      );
+    } else if (step) {
+      // Bucle con step personalizado
       this.#pythonCode.push(
         `${indent}for ${varName} in range(${startValue}, ${endValue}, ${step}):`
       );
     } else {
+      // Bucle normal
       this.#pythonCode.push(
         `${indent}for ${varName} in range(${startValue}, ${endValue}):`
       );
@@ -280,9 +299,29 @@ export class Translator {
         return expr.value;
       case "BinaryOp":
         return this.#translateBinaryOp(expr);
+      case "UnaryOp":
+        return this.#translateUnaryOp(expr);
+      case "GroupedExpression":
+        return `(${this.#translateExpression(expr.expression)})`;
       default:
         return "None";
     }
+  }
+
+  // Traducir operador unario (!, -, +)
+  #translateUnaryOp(node) {
+    const operand = this.#translateExpression(node.operand);
+
+    // Traducir operadores unarios de Java a Python
+    if (node.operator === "!") {
+      return `not ${operand}`;
+    } else if (node.operator === "-") {
+      return `-${operand}`;
+    } else if (node.operator === "+") {
+      return `+${operand}`;
+    }
+
+    return operand;
   }
 
   // Traducir un literal
@@ -293,9 +332,25 @@ export class Translator {
       case "double":
         return node.value;
       case "char":
-        return `'${node.value}'`; // Agregar comillas simples
+        // En Python, los caracteres son strings de un solo carácter
+        // Escapar caracteres especiales si es necesario
+        const charValue = node.value
+          .replace(/\\/g, "\\\\")
+          .replace(/'/g, "\\'")
+          .replace(/"/g, '\\"')
+          .replace(/\n/g, "\\n")
+          .replace(/\t/g, "\\t")
+          .replace(/\r/g, "\\r");
+        return `'${charValue}'`;
       case "string":
-        return `"${node.value}"`; // Agregar comillas dobles
+        // Escapar caracteres especiales en strings
+        const strValue = node.value
+          .replace(/\\/g, "\\\\")
+          .replace(/"/g, '\\"')
+          .replace(/\n/g, "\\n")
+          .replace(/\t/g, "\\t")
+          .replace(/\r/g, "\\r");
+        return `"${strValue}"`;
       case "boolean":
         // Java: true/false → Python: True/False
         return node.value === "true" ? "True" : "False";
@@ -310,8 +365,12 @@ export class Translator {
     const right = this.#translateExpression(node.right);
     const operator = node.operator;
 
-    // Operadores que cambian de Java a Python
-    if (operator === "==") {
+    // Operadores lógicos que cambian de Java a Python
+    if (operator === "&&") {
+      return `${left} and ${right}`;
+    } else if (operator === "||") {
+      return `${left} or ${right}`;
+    } else if (operator === "==") {
       return `${left} == ${right}`;
     } else if (operator === "!=") {
       return `${left} != ${right}`;
