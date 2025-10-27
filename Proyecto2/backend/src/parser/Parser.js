@@ -401,12 +401,12 @@ export class Parser {
     while (
       this.#check("PLUS") ||
       this.#check("MINUS") ||
-      this.#check("EQ") ||
-      this.#check("NEQ") ||
-      this.#check("GT") ||
-      this.#check("LT") ||
-      this.#check("GTE") ||
-      this.#check("LTE")
+      this.#check("EQUAL") ||
+      this.#check("NOT_EQUAL") ||
+      this.#check("GREATER") ||
+      this.#check("LESS") ||
+      this.#check("GREATER_EQUAL") ||
+      this.#check("LESS_EQUAL")
     ) {
       const operator = this.#currentToken.value;
       this.#advance();
@@ -455,7 +455,7 @@ export class Parser {
       return { type: "Literal", valueType: "int", value: value };
     }
 
-    if (this.#check("DOUBLE")) {
+    if (this.#check("DECIMAL")) {
       const value = this.#currentToken.value;
       this.#advance();
       return { type: "Literal", valueType: "double", value: value };
@@ -512,7 +512,7 @@ export class Parser {
     return { type: "Error", value: this.#currentToken.value };
   }
 
-  // <if_statement> ::= "if" "(" <expresion> ")" "{" <sentencias> "}" [ "else" "{" <sentencias> "}" ]
+  // <if_statement> ::= "if" "(" <expresion> ")" "{" <sentencias> "}" [ "else" ( "{" <sentencias> "}" ]
   #parseIfStatement() {
     const startLine = this.#currentToken.line;
     this.#expectValue("if", "Se esperaba 'if'");
