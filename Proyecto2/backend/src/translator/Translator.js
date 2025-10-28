@@ -163,7 +163,11 @@ export class Translator {
 
     // Bloque then
     this.#indentLevel++;
-    if (!node.thenBlock || !Array.isArray(node.thenBlock) || node.thenBlock.length === 0) {
+    if (
+      !node.thenBlock ||
+      !Array.isArray(node.thenBlock) ||
+      node.thenBlock.length === 0
+    ) {
       this.#pythonCode.push(`${this.#getIndent()}pass`);
     } else {
       node.thenBlock.forEach((stmt) => this.#translateStatement(stmt));
@@ -221,30 +225,38 @@ export class Translator {
     if (node.update && node.update.value) {
       if (node.update.value.type === "BinaryOp") {
         if (node.update.value.operator === "-") {
-          step = "-1";
+          // Es un decremento (i-- o i -= n)
+          const rightValue = this.#translateExpression(node.update.value.right);
+          if (rightValue === "1") {
+            step = "-1";
+          } else {
+            step = `-${rightValue}`;
+          }
           isReverse = true;
         } else if (node.update.value.operator === "+") {
-          const stepValue = this.#translateExpression(node.update.value.right);
-          if (stepValue !== "1") {
-            step = stepValue;
+          // Es un incremento (i++ o i += n)
+          const rightValue = this.#translateExpression(node.update.value.right);
+          if (rightValue !== "1") {
+            step = rightValue;
           }
+          // Si es "1", dejamos step = null para usar el comportamiento por defecto
         }
       }
     }
 
     // Generar el for de Python con range()
     if (isReverse && step === null) {
-      // Bucle inverso sin step explícito
+      // Bucle inverso sin step explícito (debe ser -1)
       this.#pythonCode.push(
         `${indent}for ${varName} in range(${startValue}, ${endValue}, -1):`
       );
-    } else if (step) {
-      // Bucle con step personalizado
+    } else if (step !== null && step !== "None") {
+      // Bucle con step personalizado (solo si step es válido)
       this.#pythonCode.push(
         `${indent}for ${varName} in range(${startValue}, ${endValue}, ${step}):`
       );
     } else {
-      // Bucle normal
+      // Bucle normal (incremento de 1 por defecto)
       this.#pythonCode.push(
         `${indent}for ${varName} in range(${startValue}, ${endValue}):`
       );

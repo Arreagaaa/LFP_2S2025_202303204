@@ -354,8 +354,8 @@ export class Parser {
         value: {
           type: "BinaryOp",
           operator: "+",
-          left: identifier,
-          right: "1",
+          left: { type: "Identifier", value: identifier },
+          right: { type: "Literal", valueType: "int", value: "1" },
         },
         line: line,
         column: column,
@@ -370,8 +370,8 @@ export class Parser {
         value: {
           type: "BinaryOp",
           operator: "-",
-          left: identifier,
-          right: "1",
+          left: { type: "Identifier", value: identifier },
+          right: { type: "Literal", valueType: "int", value: "1" },
         },
         line: line,
         column: column,
@@ -538,6 +538,7 @@ export class Parser {
       type: "IfStatement",
       condition: condition,
       thenBlock: thenBlock,
+      elseIfChain: elseIfChain,
       elseBlock: elseBlock,
       line: startLine,
     };
@@ -600,8 +601,8 @@ export class Parser {
         value: {
           type: "BinaryOp",
           operator: "+",
-          left: identifier.value,
-          right: "1",
+          left: { type: "Identifier", value: identifier.value },
+          right: { type: "Literal", valueType: "int", value: "1" },
         },
       };
     }
@@ -613,8 +614,8 @@ export class Parser {
         value: {
           type: "BinaryOp",
           operator: "-",
-          left: identifier.value,
-          right: "1",
+          left: { type: "Identifier", value: identifier.value },
+          right: { type: "Literal", valueType: "int", value: "1" },
         },
       };
     }
