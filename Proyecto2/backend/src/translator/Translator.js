@@ -174,6 +174,28 @@ export class Translator {
     }
     this.#indentLevel--;
 
+    // Bloques else if (opcional)
+    if (node.elseIfChain && node.elseIfChain.length > 0) {
+      node.elseIfChain.forEach((elseIfNode) => {
+        const elifCondition = this.#translateExpression(elseIfNode.condition);
+        this.#pythonCode.push(`${indent}elif ${elifCondition}:`);
+
+        this.#indentLevel++;
+        if (
+          !elseIfNode.thenBlock ||
+          !Array.isArray(elseIfNode.thenBlock) ||
+          elseIfNode.thenBlock.length === 0
+        ) {
+          this.#pythonCode.push(`${this.#getIndent()}pass`);
+        } else {
+          elseIfNode.thenBlock.forEach((stmt) =>
+            this.#translateStatement(stmt)
+          );
+        }
+        this.#indentLevel--;
+      });
+    }
+
     // Bloque else (opcional)
     if (node.elseBlock) {
       this.#pythonCode.push(`${indent}else:`);

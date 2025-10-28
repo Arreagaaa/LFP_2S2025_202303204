@@ -526,6 +526,36 @@ export class Parser {
     const thenBlock = this.#parseStatements();
     this.#expect("RBRACE", "Se esperaba '}' al final del bloque if");
 
+    // Parsear cadena de else if (opcional)
+    const elseIfChain = [];
+    while (this.#checkValue("else")) {
+      const elsePos = this.#currentPos;
+      this.#advance();
+
+      if (this.#checkValue("if")) {
+        this.#advance();
+        this.#expect("LPAREN", "Se esperaba '(' despues de 'else if'");
+        const elseIfCondition = this.#parseExpression();
+        this.#expect("RPAREN", "Se esperaba ')' despues de la condicion");
+
+        this.#expect(
+          "LBRACE",
+          "Se esperaba '{' despues de la condicion del else if"
+        );
+        const elseIfBlock = this.#parseStatements();
+        this.#expect("RBRACE", "Se esperaba '}' al final del bloque else if");
+
+        elseIfChain.push({
+          condition: elseIfCondition,
+          block: elseIfBlock,
+        });
+      } else {
+        this.#currentPos = elsePos;
+        this.#currentToken = this.#tokens[this.#currentPos];
+        break; // No es un else if, salir del bucle
+      }
+    }
+
     // Parsear bloque else final (opcional)
     let elseBlock = null;
     if (this.#matchValue("else")) {
@@ -538,6 +568,7 @@ export class Parser {
       type: "IfStatement",
       condition: condition,
       thenBlock: thenBlock,
+      elseIfChain: elseIfChain,
       elseIfChain: elseIfChain,
       elseBlock: elseBlock,
       line: startLine,
